@@ -19,6 +19,7 @@
     "@sanity/client": "^7.23.2",
     "@sanity/color-input": "^6.0.16",
     "@sanity/image-url": "^2.1.1",
+    "@sanity/orderable-document-list": "^2.0.14",
     "@sanity/vision": "^6.5.0",
     "framer-motion": "^12.42.2",
     "next": "16.2.10",

@@ -1,10 +1,12 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
+import { orderRankField } from "@sanity/orderable-document-list";
 
 export const project = defineType({
   name: "project",
   title: "Project",
   type: "document",
   fields: [
+    orderRankField({ type: "project" }),
     defineField({
       name: "title",
       title: "Project title",
@@ -28,10 +30,9 @@ export const project = defineType({
     }),
     defineField({
       name: "order",
-      title: "Order",
-      description: "Lower numbers appear first on the Work page. (1 = first)",
+      title: "Order (legacy — use drag-to-reorder in the Projects list instead)",
       type: "number",
-      initialValue: 99,
+      hidden: true,
     }),
     defineField({
       name: "client",
@@ -189,16 +190,24 @@ export const project = defineType({
         }),
         defineArrayMember({
           name: "logoList",
-          title: "Name / logo list",
+          title: "Name list (with optional links)",
           type: "object",
           fields: [
             defineField({ name: "heading", title: "Heading (e.g. 'Featured guests')", type: "string" }),
             defineField({
-              name: "items",
+              name: "people",
               title: "Names",
               type: "array",
-              of: [{ type: "string" }],
-              options: { layout: "tags" },
+              of: [
+                {
+                  type: "object",
+                  fields: [
+                    defineField({ name: "name", title: "Name", type: "string" }),
+                    defineField({ name: "url", title: "Link (optional — e.g. their episode)", type: "url" }),
+                  ],
+                  preview: { select: { title: "name", subtitle: "url" } },
+                },
+              ],
             }),
           ],
           preview: {

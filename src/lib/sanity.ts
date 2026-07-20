@@ -29,7 +29,7 @@ export type Theme = {
 };
 
 export const DEFAULT_THEME: Theme = {
-  background: "#F5EFE3",
+  background: "#FDFCF9",
   ink: "#09201B",
   accent: "#EB3D00",
   accent2: "#F9B122",
@@ -65,7 +65,6 @@ export async function getSettings(): Promise<SiteSettings> {
       heroLine:
         "I lead brand creative for consumer brands, from first brief to final asset: identity, campaigns, packaging, retail, and motion.",
       email: "nicoleavritch@gmail.com",
-      phone: "+1 (860) 877-5619",
             socials: [{ label: "LinkedIn", url: "#" }, { label: "Instagram", url: "#" }],
       theme: DEFAULT_THEME,
     };
@@ -124,7 +123,7 @@ export type Block =
   | { _type: "imageGrid"; _key: string; images?: SanityImageSource[]; columns?: number }
   | { _type: "videoEmbed"; _key: string; url?: string; caption?: string }
   | { _type: "statsRow"; _key: string; stats?: { value?: string; label?: string }[] }
-  | { _type: "logoList"; _key: string; heading?: string; items?: string[] };
+  | { _type: "logoList"; _key: string; heading?: string; items?: string[]; people?: { name?: string; url?: string }[] };
 
 const cardFields = `_id, title, "slug": slug.current, client, year, tags, featured, heroImage, intro`;
 
@@ -156,8 +155,12 @@ const mockProjects: ProjectFull[] = [
       {
         _type: "logoList",
         _key: "l1",
-        heading: "Featured guests",
-        items: ["Puno", "Zipeng Zhu", "Taylor Rae Roman", "Jeffery Marsh", "Alicia Sinclair"],
+        heading: "Featured guests — listen in",
+        people: [
+          { name: "Puno", url: "#" },
+          { name: "Zipeng Zhu", url: "#" },
+          { name: "Jeffery Marsh", url: "#" },
+        ],
       },
       {
         _type: "textSection",
@@ -186,7 +189,7 @@ export async function getProjects(): Promise<ProjectCard[]> {
   if (MOCK) return mockProjects;
   try {
     return await client.fetch(
-      `*[_type == "project" && defined(slug.current)] | order(order asc, _createdAt asc){${cardFields}}`,
+      `*[_type == "project" && defined(slug.current)] | order(orderRank asc, order asc, _createdAt asc){${cardFields}}`,
       {},
       { next: { revalidate: 60 } }
     );

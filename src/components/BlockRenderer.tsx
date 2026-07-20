@@ -107,21 +107,38 @@ export default function BlockRenderer({ blocks }: { blocks: Block[] }) {
               </Reveal>
             );
           }
-          case "logoList":
+          case "logoList": {
+            const people =
+              block.people && block.people.length > 0
+                ? block.people
+                : (block.items || []).map((name) => ({ name, url: undefined }));
             return (
               <Reveal key={block._key}>
                 <div className="mx-auto max-w-3xl">
                   {block.heading && <p className="label mb-4 opacity-50">{block.heading}</p>}
                   <div className="flex flex-wrap gap-x-8 gap-y-3">
-                    {block.items?.map((item, i) => (
-                      <span key={i} className="display text-2xl transition-colors hover:text-accent md:text-3xl">
-                        {item}
-                      </span>
-                    ))}
+                    {people.map((person, i) =>
+                      person.url ? (
+                        <a
+                          key={i}
+                          href={person.url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="display text-2xl underline decoration-2 underline-offset-8 transition-colors hover:text-accent md:text-3xl"
+                        >
+                          {person.name} <span className="text-accent">↗</span>
+                        </a>
+                      ) : (
+                        <span key={i} className="display text-2xl md:text-3xl">
+                          {person.name}
+                        </span>
+                      )
+                    )}
                   </div>
                 </div>
               </Reveal>
             );
+          }
           default:
             return null;
         }

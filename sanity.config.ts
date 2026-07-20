@@ -3,6 +3,7 @@
 import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
 import { colorInput } from "@sanity/color-input";
+import { orderableDocumentListDeskItem } from "@sanity/orderable-document-list";
 import { projectId, dataset } from "./src/sanity/env";
 import { schemaTypes } from "./src/sanity/schemaTypes";
 
@@ -14,17 +15,16 @@ export default defineConfig({
   basePath: "/studio",
   plugins: [
     structureTool({
-      structure: (S) =>
+      structure: (S, context) =>
         S.list()
           .title("Content")
           .items([
-            S.listItem()
-              .title("✦ Projects")
-              .child(
-                S.documentTypeList("project")
-                  .title("Projects")
-                  .defaultOrdering([{ field: "order", direction: "asc" }])
-              ),
+            orderableDocumentListDeskItem({
+              type: "project",
+              title: "✦ Projects (drag to reorder)",
+              S,
+              context,
+            }),
             S.divider(),
             S.listItem()
               .title("About Page")

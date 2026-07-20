@@ -25,8 +25,9 @@ export default function SmartImage({
   const isGif = ref.endsWith("-gif");
 
   const src = isGif ? urlFor(image).url() : urlFor(image).width(Math.min(w, maxWidth)).fit("max").quality(85).url();
+  const veryTall = h > w * 2; // e.g. long stacked strips — cap so they don't swallow the page
 
-  return (
+  const img = (
     <Image
       src={src}
       alt={alt}
@@ -35,7 +36,9 @@ export default function SmartImage({
       sizes={sizes}
       priority={priority}
       unoptimized={isGif}
-      className={`h-auto w-full ${className}`}
+      className={veryTall ? "h-auto w-auto max-h-[82vh]" : `h-auto w-full ${className}`}
     />
   );
+
+  return veryTall ? <div className="flex justify-center">{img}</div> : img;
 }

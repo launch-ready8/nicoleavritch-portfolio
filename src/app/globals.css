@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #faf7f0;
+  --background: #FDFCF9;
   --ink: #10201c;
   --accent: #eb3d00;
   --accent2: #f9b122;
@@ -46,23 +46,26 @@ body {
 }
 
 .label {
-  font-family: var(--font-plex-mono), monospace;
+  font-family: var(--font-body), sans-serif;
+  font-weight: 500;
   text-transform: uppercase;
-  font-size: 0.68rem;
-  letter-spacing: 0.16em;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
 }
 .mono-label {
-  font-family: var(--font-plex-mono), monospace;
+  font-family: var(--font-body), sans-serif;
+  font-weight: 500;
   text-transform: uppercase;
-  font-size: 0.68rem;
-  letter-spacing: 0.16em;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
 }
 
 .num {
-  font-family: var(--font-plex-mono), monospace;
-  font-size: 0.65rem;
-  letter-spacing: 0.08em;
-  opacity: 0.5;
+  font-family: var(--font-body), sans-serif;
+  font-weight: 500;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  opacity: 0.55;
 }
 
 /* quiet text link */
@@ -144,8 +147,10 @@ body {
   transition: color 0.2s ease, padding-left 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .work-row:hover {
-  color: var(--accent);
+  background: var(--row-c, var(--accent));
+  color: var(--ink);
   padding-left: 0.75rem;
+  padding-right: 0.5rem;
 }
 
 /* nav links: readable size, still understated */

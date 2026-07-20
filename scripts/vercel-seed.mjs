@@ -16,7 +16,7 @@ import path from "node:path";
  * editing in the Studio, do NOT bump SEED_VERSION — make content changes in
  * the Studio instead. Only bump for a deliberate full reset.
  */
-const SEED_VERSION = 3; // bump to force a reseed on next deploy (see warning above)
+const SEED_VERSION = 4; // bump to force a reseed on next deploy (see warning above)
 
 const IS_VERCEL = !!process.env.VERCEL;
 const token = process.env.SANITY_TOKEN;
@@ -147,10 +147,9 @@ async function main() {
     tagline: seed.siteSettings.tagline,
     heroLine: seed.siteSettings.heroLine,
     email: seed.siteSettings.email,
-    phone: seed.siteSettings.phone,
     socials: seed.siteSettings.socials.map((s, i) => ({ ...s, _key: `social-${i}` })),
     fontPairing: "editorial",
-    colorBackground: color("#FAF7EF"),
+    colorBackground: color("#FDFCF9"),
     colorInk: color("#09201B"),
     colorAccent: color("#EB3D00"),
     colorAccent2: color("#F9B122"),
@@ -182,7 +181,7 @@ async function main() {
   function convertExtraBlock(b, slug, i) {
     if (b.type === "statsRow")
       return { _type: "statsRow", _key: `${slug}-extra-${i}`, stats: b.stats.map((s, j) => ({ ...s, _key: `${slug}-stat-${i}-${j}` })) };
-    if (b.type === "logoList") return { _type: "logoList", _key: `${slug}-extra-${i}`, heading: b.heading, items: b.items };
+    if (b.type === "logoList") return { _type: "logoList", _key: `${slug}-extra-${i}`, heading: b.heading, people: (b.people || (b.items || []).map((n) => ({ name: n }))).map((x, j) => ({ ...x, _key: `${slug}-person-${i}-${j}` })) };
     if (b.type === "textSection") return { _type: "textSection", _key: `${slug}-extra-${i}`, heading: b.heading, body: b.body };
     if (b.type === "sectionHeader") return { _type: "sectionHeader", _key: `${slug}-extra-${i}`, kicker: b.kicker, heading: b.heading };
     return null;
@@ -230,10 +229,23 @@ async function main() {
           images: lead.slice(i, i + 6).map((r, j) => ({ ...r, _key: `${p.slug}-pdfimg-${i}-${j}` })),
         });
       }
-      (p.extraBlocksAfter || []).forEach((b, i) => {
+      for (let i = 0; i < (p.extraBlocksAfter || []).length; i++) {
+        const b = p.extraBlocksAfter[i];
+        if (b.type === "imageUrls") {
+          for (let j = 0; j < (b.urls || []).length; j++) {
+            try {
+              const ref = await uploadFromUrl(b.urls[j], `${p.slug}-extraurl-${i}-${j}.jpg`);
+              blocks.push({ _type: "fullBleedImage", _key: `${p.slug}-exturl-${i}-${j}`, image: ref, caption: b.caption });
+            } catch (e) {
+              console.warn(`[seed] imageUrls ${p.slug}: ${e.message}`);
+            }
+          }
+          continue;
+        }
         const cb = convertExtraBlock(b, p.slug, 100 + i);
         if (cb) blocks.push(cb);
-      });
+      }
+      if (p.skipScrapedGallery) scraped = [];
       for (let i = 0; i < scraped.length; i += 6) {
         blocks.push({
           _type: "imageGrid", _key: `${p.slug}-grid-${i}`, columns: 2,
@@ -248,6 +260,7 @@ async function main() {
         slug: { _type: "slug", current: p.slug },
         featured: !!p.featured,
         order: p.order,
+        orderRank: `0|${String.fromCharCode(96 + p.order)}00000:`,
         client: p.client,
         year: p.year,
         role: p.role,

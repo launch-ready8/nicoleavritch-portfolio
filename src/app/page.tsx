@@ -101,15 +101,25 @@ export default async function Home() {
         <section className="mx-auto max-w-[1500px] px-5 pb-24 md:px-10">
           <p className="label mb-5 opacity-50">More projects</p>
           <div className="border-t rule">
-            {rest.map((p, i) => (
-              <Link key={p._id} href={`/work/${p.slug}`} className="work-row flex items-baseline justify-between py-3.5">
-                <span className="flex items-baseline gap-4">
-                  <span className="num">{String(i + featured.length + 1).padStart(2, "0")}</span>
-                  <span className="text-lg md:text-2xl">{p.title}</span>
-                </span>
-                <span className="label opacity-50">{p.tags?.[0]}</span>
-              </Link>
-            ))}
+            {rest.map((p, i) => {
+              const rowTones = ["#ECDFAB", "#F9B122", "#FFD9C7", "#DDEBE3"];
+              return (
+                <Link
+                  key={p._id}
+                  href={`/work/${p.slug}`}
+                  className="work-row flex items-baseline justify-between py-3.5"
+                  style={{ "--row-c": rowTones[i % 4] } as React.CSSProperties}
+                >
+                  <span className="flex items-baseline gap-4">
+                    <span className="num text-accent opacity-100">
+                      {String(i + featured.length + 1).padStart(2, "0")}
+                    </span>
+                    <span className="text-lg md:text-2xl">{p.title}</span>
+                  </span>
+                  <span className="label opacity-50">{p.tags?.[0]}</span>
+                </Link>
+              );
+            })}
           </div>
           <div className="mt-8">
             <Link href="/work" className="stamp-btn">

@@ -5,7 +5,6 @@
     "tagline": "Creative Director & Senior Designer",
     "heroLine": "I lead brand creative for consumer brands, from first brief to final asset: identity, campaigns, packaging, retail, and motion.",
     "email": "nicoleavritch@gmail.com",
-    "phone": "+1 (860) 877-5619",
     "socials": [
       {
         "label": "LinkedIn",
@@ -14,7 +13,7 @@
     ]
   },
   "about": {
-    "headline": "Catch me directing photo shoots where the talent has four legs or watching Gilmore Girls or something silly like that.",
+    "headline": "Catch me directing photo shoots where the talent has four legs or watching Gilmore Girls.",
     "bio": "I'm Nicole, a designer with nine years in consumer brands and a focus on health, wellness, and lifestyle.\n\nI work across the full creative arc, from strategy to production to final asset. At Independent Pet Partners I'm the only designer in house, so I lead everything from 360 campaigns to the systems behind them: brand guidelines, a loyalty program, and a credentialing program that keeps 75 locations consistent.\n\nThe work I care about most sits between marketing and design: taking what a brand knows about its audience and turning it into creative that moves people.",
     "experience": [
       {
@@ -24,16 +23,16 @@
         "summary": "Sole in-house designer for a multi-location pet wellness retailer. Brand creative end to end: campaigns, email, social, packaging, web, signage, merch."
       },
       {
+        "company": "Freelance",
+        "role": "Creative Director",
+        "dates": "2017 – Present",
+        "summary": "Brand identities, social systems, and motion for startups including Loop, Straight Shot Post Production, and Neon Cheetah."
+      },
+      {
         "company": "Let's Talk, Peaches",
         "role": "Co-Founder & Designer",
         "dates": "2020 – 2023",
         "summary": "Co-founded a podcast brand. Designed the identity, template system, and website. 40K+ streams."
-      },
-      {
-        "company": "Freelance",
-        "role": "Designer",
-        "dates": "2017 – Present",
-        "summary": "Brand identities, social systems, and motion for startups including Loop, Straight Shot Post Production, and Neon Cheetah."
       },
       {
         "company": "Ubbi",
@@ -74,21 +73,29 @@
         "Art Direction"
       ],
       "featured": true,
-      "order": 1,
+      "order": 2,
       "intro": "I co-founded the podcast and designed all of it: the identity, the episode template system, and the website. The show grew past 40,000 streams.",
       "extraBlocks": [
         {
           "type": "logoList",
-          "heading": "Featured guests",
-          "items": [
-            "Puno",
-            "Zipeng Zhu",
-            "Taylor Rae Roman",
-            "Jeffery Marsh",
-            "Alicia Sinclair"
+          "heading": "Featured guests — listen in",
+          "people": [
+            {
+              "name": "Puno",
+              "url": "https://podcasts.apple.com/us/podcast/lets-talk-creatives-business-and-female/id1523122912?i=1000564475608"
+            },
+            {
+              "name": "Zipeng Zhu",
+              "url": "https://podcasts.apple.com/us/podcast/lets-talk-taking-risks-living-boldly-learning-to-lead/id1523122912?i=1000548082274"
+            },
+            {
+              "name": "Jeffery Marsh",
+              "url": "https://podcasts.apple.com/us/podcast/lets-talk-radical-self-acceptance-spirituality-with/id1523122912?i=1000557882134"
+            }
           ]
         }
-      ]
+      ],
+      "skipScrapedGallery": true
     },
     {
       "oldSlug": "independent-pet-partners",
@@ -103,7 +110,7 @@
         "Retail"
       ],
       "featured": true,
-      "order": 2,
+      "order": 1,
       "intro": "Independent Pet Partners is a multi-brand pet wellness retailer. As the only designer in house, I lead brand creative across campaigns, email, social, packaging, web, signage, and merch.",
       "extraBlocks": [
         {
@@ -137,13 +144,21 @@
         {
           "type": "sectionHeader",
           "kicker": "Beyond campaigns",
-          "heading": "Systems, not one-offs"
+          "heading": "Brand systems"
         },
         {
           "type": "textSection",
           "body": "I build the systems that keep the brand consistent: company-wide guidelines, the loyalty program identity, a multi-level credentialing program, and the wireframes for a full website redesign.\n\nThe Roosevelt house brand I helped design won a Graphis Silver award (Design Annual 2021) for its packaging."
+        },
+        {
+          "type": "imageUrls",
+          "urls": [
+            "https://graphis-assets.s3.amazonaws.com/uploads/cfe/entry/4649bc6a-2480-4be2-9d12-5d04b2f61a0f/roosevelt-comp-26lb-6up-v3.jpg"
+          ],
+          "caption": "Roosevelt packaging — Graphis Silver, Design Annual 2021"
         }
-      ]
+      ],
+      "skipScrapedGallery": true
     },
     {
       "oldSlug": "loop",
@@ -205,7 +220,8 @@
       ],
       "featured": false,
       "order": 6,
-      "intro": "Ubbi is a baby and lifestyle brand. I worked across product and marketing: new product development, packaging, social, stop motion, and advertising."
+      "intro": "Ubbi is a baby and lifestyle brand. I worked across product and marketing: new product development, packaging, social, stop motion, and advertising.",
+      "skipScrapedGallery": true
     },
     {
       "oldSlug": "zig",

@@ -38,6 +38,13 @@ export default function Nav({ siteTitle, email }: { siteTitle: string; email?: s
           )}
         </div>
       </nav>
+      {/* four-color brand stripe */}
+      <div className="flex h-[4px]" aria-hidden>
+        <span className="w-1/4 bg-accent" />
+        <span className="w-1/4 bg-accent2" />
+        <span className="w-1/4" style={{ background: "#1B7754" }} />
+        <span className="w-1/4 bg-ink" />
+      </div>
     </header>
   );
 }
