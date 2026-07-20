@@ -147,3 +147,12 @@ body {
   color: var(--accent);
   padding-left: 0.75rem;
 }
+
+/* nav links: readable size, still understated */
+.nav-link {
+  font-family: var(--font-body), sans-serif;
+  text-transform: uppercase;
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  font-weight: 500;
+}

@@ -1,7 +1,7 @@
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getProject, getProjects, urlFor } from "@/lib/sanity";
+import { getProject, getProjects } from "@/lib/sanity";
+import SmartImage from "@/components/SmartImage";
 import BlockRenderer from "@/components/BlockRenderer";
 import Reveal from "@/components/Reveal";
 import WordReveal from "@/components/WordReveal";
@@ -62,15 +62,8 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       {project.heroImage && (
         <div className="mx-auto max-w-[1500px] px-5 md:px-10">
           <Reveal>
-            <div className="img-zoom relative aspect-[16/9] w-full overflow-hidden">
-              <Image
-                src={urlFor(project.heroImage).width(2200).fit("max").url()}
-                alt={project.title}
-                fill
-                priority
-                sizes="95vw"
-                className="object-cover"
-              />
+            <div className="img-zoom overflow-hidden">
+              <SmartImage image={project.heroImage} alt={project.title} sizes="95vw" maxWidth={2200} priority />
             </div>
           </Reveal>
         </div>

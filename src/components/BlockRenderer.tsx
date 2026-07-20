@@ -1,6 +1,6 @@
-import Image from "next/image";
-import { urlFor, type Block } from "@/lib/sanity";
+import { type Block } from "@/lib/sanity";
 import Reveal from "@/components/Reveal";
+import SmartImage from "@/components/SmartImage";
 
 function videoSrc(url: string): { embed?: string; mp4?: string } {
   const yt = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/);
@@ -35,36 +35,21 @@ export default function BlockRenderer({ blocks }: { blocks: Block[] }) {
             return block.image ? (
               <Reveal key={block._key}>
                 <figure>
-                  <div className="img-zoom relative aspect-[16/9] w-full overflow-hidden">
-                    <Image
-                      src={urlFor(block.image).width(2000).fit("max").url()}
-                      alt={block.caption || ""}
-                      fill
-                      sizes="95vw"
-                      className="object-cover"
-                    />
-                  </div>
+                  <SmartImage image={block.image} alt={block.caption || ""} sizes="95vw" maxWidth={2000} />
                   {block.caption && <figcaption className="label mt-2 opacity-50">{block.caption}</figcaption>}
                 </figure>
               </Reveal>
             ) : null;
           case "imageGrid": {
+            // masonry: images keep their native aspect ratio, no cropping
             const cols =
-              block.columns === 3 ? "md:grid-cols-3" : block.columns === 4 ? "md:grid-cols-4" : "md:grid-cols-2";
+              block.columns === 3 ? "md:columns-3" : block.columns === 4 ? "md:columns-4" : "md:columns-2";
             return (
-              <div key={block._key} className={`grid grid-cols-1 gap-4 md:gap-6 ${cols}`}>
+              <div key={block._key} className={`columns-1 gap-5 md:gap-6 ${cols}`}>
                 {block.images?.map((img, i) => (
-                  <Reveal key={i} delay={(i % (block.columns || 2)) * 0.08}>
-                    <div className="img-zoom relative aspect-square w-full overflow-hidden">
-                      <Image
-                        src={urlFor(img).width(1000).fit("max").url()}
-                        alt=""
-                        fill
-                        sizes="(min-width: 768px) 45vw, 95vw"
-                        className="object-cover"
-                      />
-                    </div>
-                  </Reveal>
+                  <div key={i} className="img-zoom mb-5 break-inside-avoid overflow-hidden md:mb-6">
+                    <SmartImage image={img} sizes="(min-width: 768px) 45vw, 95vw" maxWidth={1200} />
+                  </div>
                 ))}
               </div>
             );

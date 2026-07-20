@@ -42,12 +42,13 @@ export type SiteSettings = {
   tagline?: string;
   heroLine?: string;
   email?: string;
+  phone?: string;
   socials?: { label: string; url: string }[];
   theme: Theme;
 };
 
 const settingsQuery = `*[_type == "siteSettings"][0]{
-  siteTitle, tagline, heroLine, email, socials,
+  siteTitle, tagline, heroLine, email, phone, socials,
   "background": colorBackground.hex,
   "ink": colorInk.hex,
   "accent": colorAccent.hex,
@@ -60,11 +61,12 @@ export async function getSettings(): Promise<SiteSettings> {
   if (process.env.MOCK_CONTENT === "1")
     return {
       siteTitle: "Nicole Avritch",
-      tagline: "Senior Designer & Brand Strategist",
+      tagline: "Creative Director & Senior Designer",
       heroLine:
-        "Nine years leading visual identity, creative campaigns, and marketing design — from strategic brief to final asset.",
+        "I lead brand creative for consumer brands, from first brief to final asset: identity, campaigns, packaging, retail, and motion.",
       email: "nicoleavritch@gmail.com",
-      socials: [{ label: "LinkedIn", url: "#" }, { label: "Instagram", url: "#" }],
+      phone: "+1 (860) 877-5619",
+            socials: [{ label: "LinkedIn", url: "#" }, { label: "Instagram", url: "#" }],
       theme: DEFAULT_THEME,
     };
   try {
@@ -74,6 +76,7 @@ export async function getSettings(): Promise<SiteSettings> {
       tagline: s?.tagline || "Senior Designer & Brand Strategist",
       heroLine: s?.heroLine || undefined,
       email: s?.email || undefined,
+      phone: s?.phone || undefined,
       socials: s?.socials || [],
       theme: {
         background: s?.background || DEFAULT_THEME.background,
@@ -218,7 +221,7 @@ export type About = {
 export async function getAbout(): Promise<About | null> {
   if (MOCK)
     return {
-      headline: "When I'm not designing, you can catch me behind a podcast mic, hand-lettering everything in sight, and directing photoshoots where the talent has four legs.",
+      headline: "Off the clock you can catch me directing photoshoots where the talent has four legs, drawing letterforms by hand, and starting more creative projects than I can finish.",
       bio: "I'm Nicole — a Senior Designer and Brand Strategist with nine years of experience.\n\nMy background is in consumer brands, with a growing focus on health, wellness, and lifestyle.",
       experience: [
         { company: "Independent Pet Partners", role: "Senior Designer", dates: "2019 – Present", summary: "Sole in-house designer." },

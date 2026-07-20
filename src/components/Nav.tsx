@@ -16,7 +16,7 @@ export default function Nav({ siteTitle, email }: { siteTitle: string; email?: s
   return (
     <header className="sticky top-0 z-50 bg-bg/85 backdrop-blur-sm">
       <nav className="mx-auto flex max-w-[1500px] items-center justify-between px-5 py-4 md:px-10">
-        <Link href="/" className="label transition-colors hover:text-accent">
+        <Link href="/" className="nav-link transition-colors hover:text-accent">
           {links[0].label}
         </Link>
         <div className="flex items-center gap-7 md:gap-10">
@@ -24,7 +24,7 @@ export default function Nav({ siteTitle, email }: { siteTitle: string; email?: s
             <Link
               key={l.href}
               href={l.href}
-              className={`label transition-colors hover:text-accent ${
+              className={`nav-link transition-colors hover:text-accent ${
                 pathname?.startsWith(l.href) ? "text-accent" : ""
               }`}
             >
@@ -32,7 +32,7 @@ export default function Nav({ siteTitle, email }: { siteTitle: string; email?: s
             </Link>
           ))}
           {email && (
-            <a href={`mailto:${email}`} className="label hidden transition-colors hover:text-accent md:inline">
+            <a href={`mailto:${email}`} className="nav-link hidden transition-colors hover:text-accent md:inline">
               Contact
             </a>
           )}

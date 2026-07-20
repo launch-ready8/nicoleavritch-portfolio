@@ -39,6 +39,12 @@ export const siteSettings = defineType({
       group: "identity",
     }),
     defineField({
+      name: "phone",
+      title: "Phone (optional)",
+      type: "string",
+      group: "identity",
+    }),
+    defineField({
       name: "socials",
       title: "Social links",
       type: "array",
