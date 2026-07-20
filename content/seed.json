@@ -1,0 +1,235 @@
+{
+  "voiceNote": "Voice guide: first person, confident, warm, plain-spoken. Short sentences. Real numbers only — never invent results. Lead with the thinking, land on the craft. Copy stays close to Nicole's own writing.",
+  "siteSettings": {
+    "siteTitle": "Nicole Avritch",
+    "tagline": "Senior Designer & Brand Strategist",
+    "heroLine": "Nine years leading visual identity, creative campaigns, and marketing design — from strategic brief to final asset. Consumer brands, with a soft spot for health, wellness, and lifestyle.",
+    "email": "nicoleavritch@gmail.com",
+    "socials": [
+      { "label": "LinkedIn", "url": "https://www.linkedin.com/in/nicole-avritch-586533114/" }
+    ]
+  },
+  "about": {
+    "headline": "I work across the full creative arc — from strategic brief to production to final asset.",
+    "bio": "I'm Nicole — a Senior Designer and Brand Strategist with nine years of experience leading visual identity, creative campaigns, and marketing design.\n\nMy background is in consumer brands, with a growing focus on health, wellness, and lifestyle. I've been the sole in-house designer for a multi-location pet-wellness retailer, co-founded and designed a podcast brand that grew past 40,000 streams, and built brand systems that hold up across everything from packaging to a 75-location credentialing program.\n\nThe work I love most sits at the bridge between marketing and design: taking what a brand knows about its audience and turning it into creative that actually moves people — then sweating the details all the way to the shelf, the feed, or the screen.",
+    "experience": [
+      {
+        "company": "Independent Pet Partners",
+        "role": "Senior Designer",
+        "dates": "2019 – Present",
+        "summary": "Sole in-house designer for a multi-location pet-wellness retailer — brand creative end-to-end across campaigns, email, social, packaging, web, signage, and merch."
+      },
+      {
+        "company": "Let's Talk, Peaches",
+        "role": "Co-Founder & Designer",
+        "dates": "2020 – 2023",
+        "summary": "Co-founded a podcast brand; designed the full visual identity, template system, and website. Grew to 40K+ streams."
+      },
+      {
+        "company": "Freelance",
+        "role": "Designer",
+        "dates": "2017 – Present",
+        "summary": "Brand identities, logos, social systems, and motion for startups including Loop, Straight Shot Post Production, and Neon Cheetah."
+      },
+      {
+        "company": "Ubbi",
+        "role": "Designer",
+        "dates": "2018 – 2019",
+        "summary": "In-house designer across the full product and marketing ecosystem — packaging, social, stop motion, advertising, and new product development."
+      }
+    ],
+    "skills": [
+      "Brand Systems & Guidelines",
+      "Campaign Design",
+      "Art Direction",
+      "Packaging Design",
+      "Email Design",
+      "Social Content",
+      "Wireframing / UX",
+      "Illustration",
+      "Motion & Brand Video",
+      "Photography Art Direction"
+    ],
+    "recognition": [
+      "Graphis Design Award, Silver (2021) — Roosevelt brand identity & packaging",
+      "BFA Graphic Design, Maryland Institute College of Art (MICA)"
+    ]
+  },
+  "projects": [
+    {
+      "oldSlug": "lets-talk-peaches",
+      "slug": "lets-talk-peaches",
+      "title": "Let's Talk, Peaches",
+      "client": "Let's Talk, Peaches",
+      "year": "2020 – 2023",
+      "role": "Co-Founder, Brand & Design",
+      "tags": ["Podcast Brand", "Visual Identity", "Art Direction"],
+      "featured": true,
+      "order": 1,
+      "intro": "I co-founded Let's Talk, Peaches and designed the whole thing — the visual identity, a graphic template system that kept every episode on-brand, and the website. Along the way I art-directed episode graphics for some genuinely brilliant guests, and the show grew past 40,000 streams.",
+      "extraBlocks": [
+        {
+          "type": "statsRow",
+          "stats": [
+            { "value": "40K+", "label": "streams" },
+            { "value": "3", "label": "years on air" },
+            { "value": "5", "label": "featured guests" }
+          ]
+        },
+        {
+          "type": "logoList",
+          "heading": "Featured guests",
+          "items": ["Puno", "Zipeng Zhu", "Taylor Rae Roman", "Jeffery Marsh", "Alicia Sinclair"]
+        }
+      ]
+    },
+    {
+      "oldSlug": "independent-pet-partners",
+      "slug": "independent-pet-partners",
+      "title": "Independent Pet Partners",
+      "client": "Independent Pet Partners",
+      "year": "2019 – Present",
+      "role": "Senior Designer (sole in-house)",
+      "tags": ["Brand Campaigns", "360° Campaign", "Email & Retail"],
+      "featured": true,
+      "order": 2,
+      "intro": "Independent Pet Partners is a multi-brand, holistic pet-wellness retailer operating across the US. As the sole in-house designer, I own brand creative end-to-end — digital campaigns, email, social, packaging, web, signage, and merch — averaging 40 emails and 10 campaigns a month.",
+      "extraBlocks": [
+        {
+          "type": "textSection",
+          "heading": "Ask Us Anything",
+          "body": "I art-directed a full 360° brand campaign from brief to production: built the mood boards, contributed to the shot list, and directed video and photography teams on set — dog talent included. The campaign delivered a multi-cut brand video (:30 / :15 / :06) running across Meta and Instagram, plus a proprietary image library shot in our own stores that replaced stock photography across every channel."
+        },
+        {
+          "type": "statsRow",
+          "stats": [
+            { "value": "40", "label": "emails per month" },
+            { "value": "10", "label": "campaigns per month" },
+            { "value": "75", "label": "locations on one brand system" },
+            { "value": "3", "label": "campaign video cuts" }
+          ]
+        },
+        {
+          "type": "textSection",
+          "heading": "Systems, not one-offs",
+          "body": "Beyond campaigns, I build the scaffolding that keeps a multi-brand retailer consistent: company-wide brand guidelines, a loyalty program identity, and a multi-level credentialing program enabling consistent brand expression across 75 locations. I also designed the wireframes and page mockups for a full website redesign, handing improved UX to the dev team.\n\nThe Roosevelt house brand — identity, packaging, and window displays — earned a Graphis Design Award (Silver, 2021)."
+        }
+      ]
+    },
+    {
+      "oldSlug": "ubbi",
+      "slug": "ubbi",
+      "title": "Ubbi",
+      "client": "Ubbi",
+      "year": "2018 – 2019",
+      "role": "In-House Designer",
+      "tags": ["Packaging", "Product", "Stop Motion"],
+      "featured": false,
+      "order": 3,
+      "intro": "Ubbi is a baby and lifestyle brand. As an in-house designer I worked across the full product and marketing ecosystem — new product development, packaging design, social content, stop-motion production, and advertising. It's where I learned how design works as both a commercial and storytelling tool inside a product-led brand."
+    },
+    {
+      "oldSlug": "loop",
+      "slug": "loop",
+      "title": "Loop",
+      "client": "Loop",
+      "year": "Freelance",
+      "tags": ["Brand Identity", "Social System", "Motion"],
+      "featured": false,
+      "order": 4,
+      "role": "Freelance Designer",
+      "intro": "Loop is an app that helps people manage personal challenges and anxieties through live audio experiences. I established the brand identity for Loop's social presence, then built a set of templates and motion assets so the team could keep publishing without losing the thread."
+    },
+    {
+      "oldSlug": "loyal-companion",
+      "slug": "neon-cheetah",
+      "title": "Neon Cheetah",
+      "client": "Neon Cheetah",
+      "year": "Freelance",
+      "role": "Freelance Designer",
+      "tags": ["Brand Identity", "Editorial"],
+      "featured": false,
+      "order": 5,
+      "intro": "Neon Cheetah is a fashion blog committed to helping readers find confidence — their inner cheetah — through inspiration and fashion expression. With that mission in mind, I developed a brand identity bold enough to keep up with it."
+    },
+    {
+      "oldSlug": "extra-goodness",
+      "slug": "cookie-dough-confections",
+      "title": "Cookie Dough Confections",
+      "client": "Cookie Dough Confections",
+      "year": "2017",
+      "role": "Design Intern",
+      "tags": ["Packaging", "Retail"],
+      "featured": false,
+      "order": 6,
+      "intro": "The summer of 2017 I interned at Cookie Dough Confections, an edible cookie dough shop in NYC. Over two months I designed holiday packaging, a partnership label, and retail materials that had to look as good as the dough tasted."
+    },
+    {
+      "oldSlug": "get-your-together",
+      "slug": "get-your-together",
+      "title": "Get Your ____ Together",
+      "client": "Self-initiated",
+      "role": "Designer & Author",
+      "tags": ["Book Design", "Print", "Participatory"],
+      "featured": false,
+      "order": 7,
+      "intro": "A 150-page, hand-bound, participatory book designed to help people lead more fulfilling lives. Readers flip, rip, spin, and write in the book to uncover its contents — a design that only finishes when someone actually uses it."
+    },
+    {
+      "oldSlug": "empress-capital",
+      "slug": "custom-lettering",
+      "title": "Custom Lettering",
+      "client": "Various",
+      "role": "Letterer",
+      "tags": ["Handlettering", "Illustration"],
+      "featured": false,
+      "order": 8,
+      "intro": "I have a special place in my heart for handlettering — experimenting with different pens, brushes, and styles. There's something about the personal touch it brings to a project that no typeface quite replaces."
+    },
+    {
+      "oldSlug": "urban-outfitters",
+      "slug": "urban-outfitters",
+      "title": "Urban Outfitters",
+      "client": "Urban Outfitters",
+      "year": "2018",
+      "role": "Product Designer",
+      "tags": ["Product Design", "Apparel & Goods"],
+      "featured": false,
+      "order": 9,
+      "intro": "Product design iterations for Urban Outfitters' fall 2018 season, designed under both femme and bohemian style directions."
+    },
+    {
+      "oldSlug": "party-depot",
+      "slug": "party-depot",
+      "title": "Party Depot",
+      "client": "Party Depot",
+      "role": "Brand Designer",
+      "tags": ["Rebrand", "Retail"],
+      "featured": false,
+      "order": 10,
+      "intro": "While rebranding Party Depot, I was determined to kick the cliché party-store aesthetic. The new identity expresses the excitement of hosting while staying organized, bold, and modern."
+    },
+    {
+      "oldSlug": "zig",
+      "slug": "motion",
+      "title": "Motion",
+      "client": "Various",
+      "role": "Motion Designer",
+      "tags": ["Motion", "After Effects"],
+      "featured": false,
+      "order": 11,
+      "intro": "A few of my favorite motion pieces, most cut in After Effects — stop motion, logo animation, a lyric video, and quote animations."
+    },
+    {
+      "oldSlug": "cup-shop",
+      "slug": "cup-shop",
+      "title": "Cup Shop",
+      "client": "Self-initiated",
+      "role": "Designer",
+      "tags": ["Visual System", "Retail", "Print"],
+      "featured": false,
+      "order": 12,
+      "intro": "Cup Shop is a collection of ready-for-retail coffee mugs, each inspired by a different kind of coffee lover, presented through a visual system of posters, a lookbook, and a website."
+    }
+  ]
+}
