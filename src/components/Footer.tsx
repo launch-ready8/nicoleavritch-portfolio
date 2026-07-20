@@ -31,7 +31,7 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
               href={`mailto:${settings.email}`}
               className="block break-all text-3xl leading-snug underline underline-offset-8 transition-opacity hover:opacity-70 md:text-6xl"
             >
-              {settings.email}
+              {settings.email.replace("@", " [at] ")}
             </a>
           )}
           <Doodle name="peach" className="mt-5 h-10 w-10" strokeWidth={5} delay={0.5} />

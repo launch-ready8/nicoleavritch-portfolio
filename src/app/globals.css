@@ -148,9 +148,14 @@ body {
 }
 .work-row:hover {
   background: var(--row-c, var(--accent));
-  color: var(--ink);
+  color: var(--row-t, var(--ink));
   padding-left: 0.75rem;
   padding-right: 0.5rem;
+}
+.work-row:hover .num,
+.work-row:hover .label {
+  color: inherit;
+  opacity: 0.85;
 }
 
 /* nav links: readable size, still understated */

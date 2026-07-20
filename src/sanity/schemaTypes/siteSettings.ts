@@ -48,6 +48,15 @@ export const siteSettings = defineType({
       group: "identity",
     }),
     defineField({
+      name: "tickerItems",
+      title: "Scrolling ticker words (homepage)",
+      description: "The words in the moving strip on the homepage, e.g. 'Brand identity', 'Campaigns'. Press Enter after each.",
+      type: "array",
+      of: [{ type: "string" }],
+      options: { layout: "tags" },
+      group: "identity",
+    }),
+    defineField({
       name: "socials",
       title: "Social links",
       type: "array",

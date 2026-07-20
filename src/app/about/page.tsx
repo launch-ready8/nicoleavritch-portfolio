@@ -60,7 +60,7 @@ export default async function AboutPage() {
             <h2 className="display mb-4 text-3xl md:text-4xl">Contact</h2>
             {settings.email && (
               <a href={`mailto:${settings.email}`} className="text-link block text-lg">
-                {settings.email}
+                {settings.email.replace("@", " [at] ")}
               </a>
             )}
             {settings.phone && <p className="mt-1 text-lg">{settings.phone}</p>}

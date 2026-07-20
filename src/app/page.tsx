@@ -22,7 +22,7 @@ export default async function Home() {
         <h1 className="display relative">
           <span className="block text-right text-[19vw] leading-[0.88] md:text-[14vw]">{first}</span>
           <span className="relative block text-[19vw] leading-[0.88] md:text-[14vw]">
-            {last}—
+            {last}
             <Doodle
               name="scribble"
               className="absolute left-[18%] top-[6%] h-[72%] w-[26%] text-accent"
@@ -52,14 +52,11 @@ export default async function Home() {
       )}
 
       <Ticker
-        items={[
-          "Brand identity",
-          "Creative direction",
-          "Campaigns",
-          "Packaging",
-          "Retail",
-          "Motion",
-        ]}
+        items={
+          settings.tickerItems?.length
+            ? settings.tickerItems
+            : ["Brand identity", "Creative direction", "Campaigns", "Packaging", "Retail", "Motion"]
+        }
       />
 
       {/* FEATURED — restrained scale, side by side on desktop */}
@@ -102,13 +99,18 @@ export default async function Home() {
           <p className="label mb-5 opacity-50">More projects</p>
           <div className="border-t rule">
             {rest.map((p, i) => {
-              const rowTones = ["#ECDFAB", "#F9B122", "#FFD9C7", "#DDEBE3"];
+              const rowTones = [
+                { c: "#EB3D00", t: "#FDFCF9" },
+                { c: "#F9B122", t: "#09201B" },
+                { c: "#1B7754", t: "#FDFCF9" },
+                { c: "#ECDFAB", t: "#09201B" },
+              ];
               return (
                 <Link
                   key={p._id}
                   href={`/work/${p.slug}`}
                   className="work-row flex items-baseline justify-between py-3.5"
-                  style={{ "--row-c": rowTones[i % 4] } as React.CSSProperties}
+                  style={{ "--row-c": rowTones[i % 4].c, "--row-t": rowTones[i % 4].t } as React.CSSProperties}
                 >
                   <span className="flex items-baseline gap-4">
                     <span className="num text-accent opacity-100">

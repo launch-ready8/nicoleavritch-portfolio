@@ -47,12 +47,13 @@ export type SiteSettings = {
   heroLine?: string;
   email?: string;
   phone?: string;
+  tickerItems?: string[];
   socials?: { label: string; url: string }[];
   theme: Theme;
 };
 
 const settingsQuery = `*[_type == "siteSettings"][0]{
-  siteTitle, tagline, heroLine, email, phone, socials,
+  siteTitle, tagline, heroLine, email, phone, tickerItems, socials,
   "background": coalesce(colorBackground.hex, colorBackground),
   "ink": coalesce(colorInk.hex, colorInk),
   "accent": coalesce(colorAccent.hex, colorAccent),
@@ -83,6 +84,7 @@ export async function getSettings(): Promise<SiteSettings> {
       heroLine: s?.heroLine || undefined,
       email: s?.email || undefined,
       phone: s?.phone || undefined,
+      tickerItems: s?.tickerItems || [],
       socials: s?.socials || [],
       theme: {
         background: s?.background || DEFAULT_THEME.background,
