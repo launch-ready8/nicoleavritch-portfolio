@@ -10,13 +10,14 @@ export const metadata = { title: "About — Nicole Avritch" };
 
 export default async function AboutPage() {
   const [about, settings] = await Promise.all([getAbout(), getSettings()]);
+  const L = settings.labels || {};
   const positioning = (settings.tagline || "Creative Director & Senior Designer").split(/\s*&\s*/);
 
   return (
     <div id="top" className="mx-auto max-w-[1500px] px-5 pt-8 md:px-10">
       {/* Playful opener */}
       <section className="mx-auto max-w-3xl py-10 md:py-14">
-        <p className="label mb-5 opacity-50">Get to know me</p>
+        <p className="label mb-5 opacity-50">{L.getToKnowMe || "Get to know me"}</p>
         <div className="relative">
           {about?.headline && <WordReveal text={about.headline} className="text-3xl leading-snug md:text-5xl" />}
           <Doodle name="paw" className="absolute -left-20 top-0 hidden h-14 w-14 text-accent md:block" strokeWidth={5} />
@@ -47,7 +48,7 @@ export default async function AboutPage() {
         </div>
         <div className="grid content-start gap-10">
           <div>
-            <h2 className="display mb-4 text-3xl md:text-4xl">About</h2>
+            <h2 className="display mb-4 text-3xl md:text-4xl">{L.aboutHeading || "About"}</h2>
             <div className="grid max-w-xl gap-4 text-base leading-relaxed md:text-lg">
               {about?.bio?.split(/\n\s*\n/).map((p, i) => (
                 <Reveal key={i} delay={i * 0.07}>
@@ -57,7 +58,7 @@ export default async function AboutPage() {
             </div>
           </div>
           <div>
-            <h2 className="display mb-4 text-3xl md:text-4xl">Contact</h2>
+            <h2 className="display mb-4 text-3xl md:text-4xl">{L.contactHeading || "Contact"}</h2>
             {settings.email && (
               <a href={`mailto:${settings.email}`} className="text-link block text-lg">
                 {settings.email.replace("@", " [at] ")}
@@ -71,7 +72,7 @@ export default async function AboutPage() {
       {/* Experience / recognition / skills */}
       <section className="grid gap-10 border-t rule py-12 md:grid-cols-3">
         <div>
-          <p className="label mb-4 opacity-40">Experience</p>
+          <p className="label mb-4 opacity-40">{L.experienceLabel || "Experience"}</p>
           <div className="grid gap-4">
             {about?.experience?.map((e, i) => (
               <div key={i}>
@@ -84,7 +85,7 @@ export default async function AboutPage() {
           </div>
         </div>
         <div>
-          <p className="label mb-4 opacity-40">Recognition & education</p>
+          <p className="label mb-4 opacity-40">{L.recognitionLabel || "Recognition & education"}</p>
           <div className="grid gap-3">
             {about?.recognition?.map((r, i) => (
               <p key={i} className="text-sm leading-relaxed">
@@ -96,15 +97,15 @@ export default async function AboutPage() {
         <div className="grid content-start gap-8">
           {about?.skills && about.skills.length > 0 && (
             <div>
-              <p className="label mb-4 opacity-40">Craft</p>
+              <p className="label mb-4 opacity-40">{L.craftLabel || "Craft"}</p>
               <p className="text-sm font-medium leading-relaxed">{about.skills.join(", ")}</p>
             </div>
           )}
           <div>
-            <p className="label mb-4 opacity-40">Software</p>
+            <p className="label mb-4 opacity-40">{L.softwareLabel || "Software"}</p>
             <p className="text-sm font-medium leading-relaxed">
-              Adobe Creative Suite, Figma, Canva, Wordpress, basic CSS/HTML, and an expanding AI toolkit (Midjourney,
-              Figma Weave, Claude, Gemini)
+              {about?.software ||
+                "Adobe Creative Suite, Figma, Canva, Wordpress, basic CSS/HTML, and an expanding AI toolkit (Midjourney, Figma Weave, Claude, Gemini)"}
             </p>
           </div>
         </div>

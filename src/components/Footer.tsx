@@ -17,6 +17,7 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
         ? { bg: "var(--ink)", text: "var(--background)" }
         : { bg: "var(--accent)", text: "var(--ink)" };
 
+  const L = settings.labels || {};
   const year = new Date().getFullYear();
 
   return (
@@ -25,7 +26,7 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
         <div className="relative">
           <Doodle name="spark" className="absolute -top-6 right-[6%] h-9 w-9" strokeWidth={6} />
           <Doodle name="paw" className="absolute -top-2 right-[16%] hidden h-9 w-9 md:block" strokeWidth={5} delay={0.3} />
-          <p className="label mb-4 opacity-60">Contact</p>
+          <p className="label mb-4 opacity-60">{L.footerContact || "Contact"}</p>
           {settings.email && (
             <a
               href={`mailto:${settings.email}`}
@@ -42,7 +43,7 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
           style={{ borderColor: "color-mix(in srgb, currentColor 30%, transparent)" }}
         >
           <a href="#top" className="label transition-opacity hover:opacity-60">
-            ↑ Back to top
+            {L.backToTop || "↑ Back to top"}
           </a>
           <div className="flex gap-6">
             {settings.socials?.map((s) => (

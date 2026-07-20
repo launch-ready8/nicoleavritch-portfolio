@@ -49,6 +49,13 @@ export const aboutPage = defineType({
       options: { layout: "tags" },
     }),
     defineField({
+      name: "software",
+      title: "Software / tools paragraph",
+      description: "The 'Software' text on the About page, e.g. 'Adobe Creative Suite, Figma, …'",
+      type: "text",
+      rows: 3,
+    }),
+    defineField({
       name: "recognition",
       title: "Awards & recognition",
       type: "array",

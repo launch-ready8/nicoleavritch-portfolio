@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getProject, getProjects } from "@/lib/sanity";
+import { getProject, getProjects, getSettings } from "@/lib/sanity";
 import SmartImage from "@/components/SmartImage";
 import BlockRenderer from "@/components/BlockRenderer";
 import Reveal from "@/components/Reveal";
@@ -22,7 +22,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const [project, all] = await Promise.all([getProject(slug), getProjects()]);
+  const [project, all, settings] = await Promise.all([getProject(slug), getProjects(), getSettings()]);
+  const L = settings.labels || {};
   if (!project) notFound();
 
   const idx = all.findIndex((p) => p.slug === slug);
@@ -35,7 +36,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       <header className="mx-auto max-w-[1500px] px-5 pt-8 md:px-10">
         <p className="label mb-6 opacity-50">
           <Link href="/work" className="transition-colors hover:text-accent">
-            ← Work
+            {L.backToWork || "← Work"}
           </Link>
           {"  "}/ {String(idx + 1).padStart(2, "0")}
         </p>
@@ -83,7 +84,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
       {next && (
         <div className="mx-auto max-w-[1500px] px-5 py-16 md:px-10 md:py-24">
-          <p className="label mb-4 opacity-50">Next project</p>
+          <p className="label mb-4 opacity-50">{L.nextProject || "Next project"}</p>
           <Link href={`/work/${next.slug}`} className="group flex items-baseline justify-between">
             <span className="display text-4xl transition-colors group-hover:text-accent md:text-7xl">
               {next.title}

@@ -1,4 +1,4 @@
-import { getProjects } from "@/lib/sanity";
+import { getProjects, getSettings } from "@/lib/sanity";
 import ScrollRow from "@/components/ScrollRow";
 
 export const revalidate = 60;
@@ -6,7 +6,8 @@ export const revalidate = 60;
 export const metadata = { title: "Work — Nicole Avritch" };
 
 export default async function WorkPage() {
-  const projects = await getProjects();
+  const [projects, settings] = await Promise.all([getProjects(), getSettings()]);
+  const L = settings.labels || {};
 
   // rows of 2 large thumbnails, sliding on scroll in alternating directions
   const rows: (typeof projects)[] = [];
@@ -15,7 +16,7 @@ export default async function WorkPage() {
   return (
     <div id="top">
       <div className="mx-auto max-w-[1500px] px-5 pt-8 md:px-10">
-        <p className="label opacity-50">Selected projects</p>
+        <p className="label opacity-50">{L.workIndexLabel || "Selected projects"}</p>
       </div>
       <section className="mt-6 grid gap-10 pb-16 md:gap-14">
         {rows.map((row, i) => (

@@ -48,12 +48,13 @@ export type SiteSettings = {
   email?: string;
   phone?: string;
   tickerItems?: string[];
+  labels?: Record<string, string | undefined>;
   socials?: { label: string; url: string }[];
   theme: Theme;
 };
 
 const settingsQuery = `*[_type == "siteSettings"][0]{
-  siteTitle, tagline, heroLine, email, phone, tickerItems, socials,
+  siteTitle, tagline, heroLine, email, phone, tickerItems, labels, socials,
   "background": coalesce(colorBackground.hex, colorBackground),
   "ink": coalesce(colorInk.hex, colorInk),
   "accent": coalesce(colorAccent.hex, colorAccent),
@@ -85,6 +86,7 @@ export async function getSettings(): Promise<SiteSettings> {
       email: s?.email || undefined,
       phone: s?.phone || undefined,
       tickerItems: s?.tickerItems || [],
+      labels: s?.labels || {},
       socials: s?.socials || [],
       theme: {
         background: s?.background || DEFAULT_THEME.background,
@@ -229,6 +231,7 @@ export async function getProject(slug: string): Promise<ProjectFull | null> {
 export type About = {
   headline?: string;
   bio?: string;
+  software?: string;
   portrait?: SanityImageSource;
   experience?: { company?: string; role?: string; dates?: string; summary?: string }[];
   skills?: string[];

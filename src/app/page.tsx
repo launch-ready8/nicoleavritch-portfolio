@@ -13,6 +13,7 @@ export default async function Home() {
   const featured = projects.filter((p) => p.featured);
   const rest = projects.filter((p) => !p.featured);
   const [first = "Nicole", last = "Avritch"] = settings.siteTitle.split(" ");
+  const L = settings.labels || {};
   const taglineParts = (settings.tagline || "Creative Director & Senior Designer").split(/\s*&\s*/);
 
   return (
@@ -61,7 +62,7 @@ export default async function Home() {
 
       {/* FEATURED — restrained scale, side by side on desktop */}
       <section className="mx-auto max-w-[1500px] px-5 py-16 md:px-10 md:py-24">
-        <p className="label mb-8 opacity-50">Selected work</p>
+        <p className="label mb-8 opacity-50">{L.selectedWork || "Selected work"}</p>
         <div className="grid gap-12 md:grid-cols-2 md:gap-10">
           {featured.map((p, i) => (
             <Reveal key={p._id} delay={i * 0.1}>
@@ -96,7 +97,7 @@ export default async function Home() {
       {/* QUIET INDEX */}
       {rest.length > 0 && (
         <section className="mx-auto max-w-[1500px] px-5 pb-24 md:px-10">
-          <p className="label mb-5 opacity-50">More projects</p>
+          <p className="label mb-5 opacity-50">{L.moreProjects || "More projects"}</p>
           <div className="border-t rule">
             {rest.map((p, i) => {
               const rowTones = [
@@ -125,7 +126,7 @@ export default async function Home() {
           </div>
           <div className="mt-8">
             <Link href="/work" className="stamp-btn">
-              See all work →
+              {L.seeAllWork || "See all work →"}
             </Link>
           </div>
         </section>

@@ -10,6 +10,7 @@ export const siteSettings = defineType({
   groups: [
     { name: "identity", title: "Your Info" },
     { name: "look", title: "Look & Feel" },
+    { name: "labels", title: "Little Labels & Buttons" },
   ],
   fields: [
     defineField({
@@ -69,6 +70,33 @@ export const siteSettings = defineType({
             defineField({ name: "url", title: "Link", type: "url" }),
           ],
         },
+      ],
+    }),
+
+    /* ---------- little labels & buttons ---------- */
+    defineField({
+      name: "labels",
+      title: "Little labels & buttons",
+      description: "The small recurring text around the site. Leave any field empty to keep the default shown in it.",
+      type: "object",
+      group: "labels",
+      options: { collapsible: true, collapsed: false },
+      fields: [
+        defineField({ name: "selectedWork", title: "Homepage: featured section label", type: "string", placeholder: "Selected work" }),
+        defineField({ name: "moreProjects", title: "Homepage: index label", type: "string", placeholder: "More projects" }),
+        defineField({ name: "seeAllWork", title: "Homepage: button to Work page", type: "string", placeholder: "See all work →" }),
+        defineField({ name: "workIndexLabel", title: "Work page: top label", type: "string", placeholder: "Selected projects" }),
+        defineField({ name: "backToWork", title: "Project page: back link", type: "string", placeholder: "← Work" }),
+        defineField({ name: "nextProject", title: "Project page: next-project label", type: "string", placeholder: "Next project" }),
+        defineField({ name: "getToKnowMe", title: "About: opener label", type: "string", placeholder: "Get to know me" }),
+        defineField({ name: "aboutHeading", title: "About: bio heading", type: "string", placeholder: "About" }),
+        defineField({ name: "contactHeading", title: "About: contact heading", type: "string", placeholder: "Contact" }),
+        defineField({ name: "experienceLabel", title: "About: experience label", type: "string", placeholder: "Experience" }),
+        defineField({ name: "recognitionLabel", title: "About: recognition label", type: "string", placeholder: "Recognition & education" }),
+        defineField({ name: "craftLabel", title: "About: craft label", type: "string", placeholder: "Craft" }),
+        defineField({ name: "softwareLabel", title: "About: software label", type: "string", placeholder: "Software" }),
+        defineField({ name: "footerContact", title: "Footer: contact label", type: "string", placeholder: "Contact" }),
+        defineField({ name: "backToTop", title: "Footer: back-to-top text", type: "string", placeholder: "↑ Back to top" }),
       ],
     }),
 
