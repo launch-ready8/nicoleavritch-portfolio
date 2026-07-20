@@ -43,9 +43,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html lang="en" style={themeStyle}>
-      <body>
+      <body className="flex min-h-screen flex-col">
         <Nav siteTitle={s.siteTitle} email={s.email} />
-        <main className="min-h-screen">{children}</main>
+        <main className="flex-1">{children}</main>
         <Footer settings={s} />
       </body>
     </html>

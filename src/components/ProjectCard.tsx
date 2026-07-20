@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { urlFor, type ProjectCard as Card } from "@/lib/sanity";
+import Star from "@/components/Star";
 
 export default function ProjectCard({
   project,
@@ -12,12 +13,12 @@ export default function ProjectCard({
   index?: number;
 }) {
   return (
-    <Link href={`/work/${project.slug}`} className="group block">
-      <div
-        className={`img-zoom relative w-full overflow-hidden border rule bg-surface ${
-          large ? "aspect-[16/10]" : "aspect-[4/3]"
-        }`}
-      >
+    <Link href={`/work/${project.slug}`} className="group frame block bg-bg transition-transform duration-300 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[6px_6px_0_var(--ink)]">
+      <div className="flex items-center justify-between border-b-2 rule px-4 py-2.5">
+        {typeof index === "number" && <span className="num">{String(index + 1).padStart(2, "0")}</span>}
+        <span className="mono-label opacity-60">{project.year || project.tags?.[0] || "—"}</span>
+      </div>
+      <div className={`img-zoom relative w-full overflow-hidden border-b-2 rule bg-surface ${large ? "aspect-[16/10]" : "aspect-[4/3]"}`}>
         {project.heroImage ? (
           <Image
             src={urlFor(project.heroImage).width(large ? 1600 : 900).fit("max").url()}
@@ -28,24 +29,18 @@ export default function ProjectCard({
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center">
-            <span className="display text-4xl opacity-20">{project.title}</span>
+            <Star className="h-16 w-16 opacity-25" spin={false} />
           </div>
         )}
-        {typeof index === "number" && (
-          <span className="mono-label absolute left-3 top-3 rounded-full border rule bg-bg px-3 py-1">
-            {String(index + 1).padStart(2, "0")}
-          </span>
-        )}
       </div>
-      <div className="mt-3 flex items-baseline justify-between gap-4">
+      <div className="px-4 py-3">
         <h3 className={`display transition-colors group-hover:text-accent ${large ? "text-3xl md:text-5xl" : "text-2xl md:text-3xl"}`}>
           {project.title}
         </h3>
-        {project.year && <span className="mono-label shrink-0 opacity-70">{project.year}</span>}
+        {project.tags && project.tags.length > 0 && (
+          <p className="mono-label mt-1.5 opacity-60">{project.tags.slice(0, 4).join(" · ")}</p>
+        )}
       </div>
-      {project.tags && project.tags.length > 0 && (
-        <p className="mono-label mt-1 opacity-60">{project.tags.slice(0, 4).join(" · ")}</p>
-      )}
     </Link>
   );
 }

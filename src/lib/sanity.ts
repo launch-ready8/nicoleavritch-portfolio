@@ -1,5 +1,5 @@
 import { createClient } from "next-sanity";
-import imageUrlBuilder from "@sanity/image-url";
+import { createImageUrlBuilder } from "@sanity/image-url";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type SanityImageSource = any;
@@ -12,7 +12,7 @@ export const client = createClient({
   useCdn: true,
 });
 
-const builder = imageUrlBuilder(client);
+const builder = createImageUrlBuilder(client);
 export const urlFor = (source: SanityImageSource) => builder.image(source);
 
 /* ---------- Theme ---------- */
@@ -103,11 +103,11 @@ export type ProjectCard = {
   tags?: string[];
   featured?: boolean;
   heroImage?: SanityImageSource;
+  intro?: string;
 };
 
 export type ProjectFull = ProjectCard & {
   role?: string;
-  intro?: string;
   credits?: string;
   blocks?: Block[];
 };
@@ -120,7 +120,7 @@ export type Block =
   | { _type: "statsRow"; _key: string; stats?: { value?: string; label?: string }[] }
   | { _type: "logoList"; _key: string; heading?: string; items?: string[] };
 
-const cardFields = `_id, title, "slug": slug.current, client, year, tags, featured, heroImage`;
+const cardFields = `_id, title, "slug": slug.current, client, year, tags, featured, heroImage, intro`;
 
 /* Local design-preview mode: `MOCK_CONTENT=1 npm run dev` renders sample
    content without needing Sanity. Never set in production. */

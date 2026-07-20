@@ -18,18 +18,21 @@ export default function Nav({ siteTitle, email }: { siteTitle: string; email?: s
   ];
 
   return (
-    <header className="sticky top-0 z-50 border-b rule bg-bg/90 backdrop-blur-sm">
-      <nav className="mx-auto flex max-w-[1600px] items-center justify-between px-5 py-4 md:px-10">
-        <Link href="/" className="mono-label font-medium hover:text-accent transition-colors">
+    <header className="sticky top-0 z-50 border-b-2 rule bg-bg/95 text-ink backdrop-blur-sm">
+      <nav className="flex items-stretch justify-between">
+        <Link
+          href="/"
+          className="mono-label flex items-center border-r-2 rule px-5 py-4 font-medium transition-colors hover:bg-ink hover:text-bg md:px-8"
+        >
           {initials}.&reg;
         </Link>
-        <div className="flex items-center gap-6 md:gap-10">
+        <div className="flex items-stretch">
           {links.map((l) => (
             <Link
               key={l.href}
               href={l.href}
-              className={`mono-label transition-colors hover:text-accent ${
-                pathname?.startsWith(l.href) ? "text-accent" : ""
+              className={`mono-label flex items-center border-l-2 rule px-5 transition-colors hover:bg-ink hover:text-bg md:px-8 ${
+                pathname?.startsWith(l.href) ? "bg-ink text-bg" : ""
               }`}
             >
               {l.label}
@@ -38,9 +41,9 @@ export default function Nav({ siteTitle, email }: { siteTitle: string; email?: s
           {email && (
             <a
               href={`mailto:${email}`}
-              className="mono-label border rule rounded-full px-4 py-2 transition-colors hover:bg-ink hover:text-bg"
+              className="mono-label flex items-center border-l-2 rule bg-accent px-5 text-ink transition-colors hover:bg-ink hover:text-bg md:px-8"
             >
-              Contact
+              Contact ↗
             </a>
           )}
         </div>
