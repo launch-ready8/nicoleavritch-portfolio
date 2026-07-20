@@ -9,7 +9,9 @@ export const client = createClient({
   projectId,
   dataset,
   apiVersion,
-  useCdn: true,
+  // Fresh reads: page-level ISR (revalidate) already caches, and fresh data
+  // matters on the first build right after seeding.
+  useCdn: false,
 });
 
 const builder = createImageUrlBuilder(client);
