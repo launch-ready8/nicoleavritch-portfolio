@@ -7,43 +7,33 @@ export default function Nav({ siteTitle, email }: { siteTitle: string; email?: s
   const pathname = usePathname();
   if (pathname?.startsWith("/studio")) return null;
 
-  const initials = siteTitle
-    .split(" ")
-    .map((w) => w[0])
-    .join(".");
-
   const links = [
+    { href: "/", label: "Home" },
     { href: "/work", label: "Work" },
     { href: "/about", label: "About" },
   ];
 
   return (
-    <header className="sticky top-0 z-50 border-b-2 rule bg-bg/95 text-ink backdrop-blur-sm">
-      <nav className="flex items-stretch justify-between">
-        <Link
-          href="/"
-          className="mono-label flex items-center border-r-2 rule px-5 py-4 font-medium transition-colors hover:bg-ink hover:text-bg md:px-8"
-        >
-          {initials}.&reg;
+    <header className="sticky top-0 z-50 bg-bg/85 backdrop-blur-sm">
+      <nav className="mx-auto flex max-w-[1500px] items-center justify-between px-5 py-4 md:px-10">
+        <Link href="/" className="label transition-colors hover:text-accent">
+          {links[0].label}
         </Link>
-        <div className="flex items-stretch">
-          {links.map((l) => (
+        <div className="flex items-center gap-7 md:gap-10">
+          {links.slice(1).map((l) => (
             <Link
               key={l.href}
               href={l.href}
-              className={`mono-label flex items-center border-l-2 rule px-5 transition-colors hover:bg-ink hover:text-bg md:px-8 ${
-                pathname?.startsWith(l.href) ? "bg-ink text-bg" : ""
+              className={`label transition-colors hover:text-accent ${
+                pathname?.startsWith(l.href) ? "text-accent" : ""
               }`}
             >
               {l.label}
             </Link>
           ))}
           {email && (
-            <a
-              href={`mailto:${email}`}
-              className="mono-label flex items-center border-l-2 rule bg-accent px-5 text-ink transition-colors hover:bg-ink hover:text-bg md:px-8"
-            >
-              Contact ↗
+            <a href={`mailto:${email}`} className="label hidden transition-colors hover:text-accent md:inline">
+              Contact
             </a>
           )}
         </div>

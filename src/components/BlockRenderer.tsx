@@ -11,33 +11,18 @@ function videoSrc(url: string): { embed?: string; mp4?: string } {
   return { embed: url };
 }
 
-function Framed({ children, caption }: { children: React.ReactNode; caption?: string }) {
-  return (
-    <figure className="frame bg-bg">
-      {children}
-      {caption && (
-        <figcaption className="mono-label border-t-2 rule px-4 py-2.5 opacity-70">{caption}</figcaption>
-      )}
-    </figure>
-  );
-}
-
 export default function BlockRenderer({ blocks }: { blocks: Block[] }) {
   return (
-    <div className="grid gap-10 md:gap-16">
+    <div className="grid gap-12 md:gap-20">
       {blocks.map((block) => {
         switch (block._type) {
           case "textSection":
             return (
               <Reveal key={block._key}>
-                <div className="grid gap-6 md:grid-cols-[1fr_2fr]">
-                  <div>
-                    {block.heading && (
-                      <h2 className="display border-t-2 rule pt-4 text-3xl md:text-4xl">{block.heading}</h2>
-                    )}
-                  </div>
+                <div className="mx-auto max-w-3xl">
+                  {block.heading && <h2 className="display mb-5 text-3xl md:text-4xl">{block.heading}</h2>}
                   {block.body && (
-                    <div className="grid max-w-3xl gap-4 border-t-2 rule pt-4 text-lg leading-relaxed">
+                    <div className="grid gap-4 text-lg leading-relaxed">
                       {block.body.split(/\n\s*\n/).map((p, i) => (
                         <p key={i}>{p}</p>
                       ))}
@@ -49,8 +34,8 @@ export default function BlockRenderer({ blocks }: { blocks: Block[] }) {
           case "fullBleedImage":
             return block.image ? (
               <Reveal key={block._key}>
-                <Framed caption={block.caption}>
-                  <div className="img-zoom relative aspect-[16/9] w-full overflow-hidden bg-surface">
+                <figure>
+                  <div className="img-zoom relative aspect-[16/9] w-full overflow-hidden">
                     <Image
                       src={urlFor(block.image).width(2000).fit("max").url()}
                       alt={block.caption || ""}
@@ -59,7 +44,8 @@ export default function BlockRenderer({ blocks }: { blocks: Block[] }) {
                       className="object-cover"
                     />
                   </div>
-                </Framed>
+                  {block.caption && <figcaption className="label mt-2 opacity-50">{block.caption}</figcaption>}
+                </figure>
               </Reveal>
             ) : null;
           case "imageGrid": {
@@ -68,8 +54,8 @@ export default function BlockRenderer({ blocks }: { blocks: Block[] }) {
             return (
               <div key={block._key} className={`grid grid-cols-1 gap-4 md:gap-6 ${cols}`}>
                 {block.images?.map((img, i) => (
-                  <Reveal key={i} delay={(i % (block.columns || 2)) * 0.07}>
-                    <div className="img-zoom frame relative aspect-square w-full overflow-hidden bg-surface">
+                  <Reveal key={i} delay={(i % (block.columns || 2)) * 0.08}>
+                    <div className="img-zoom relative aspect-square w-full overflow-hidden">
                       <Image
                         src={urlFor(img).width(1000).fit("max").url()}
                         alt=""
@@ -88,7 +74,7 @@ export default function BlockRenderer({ blocks }: { blocks: Block[] }) {
             const src = videoSrc(block.url);
             return (
               <Reveal key={block._key}>
-                <Framed caption={block.caption || "▶ Video"}>
+                <figure>
                   <div className="relative aspect-video w-full overflow-hidden bg-ink">
                     {src.mp4 ? (
                       <video src={src.mp4} controls playsInline className="h-full w-full" />
@@ -101,7 +87,8 @@ export default function BlockRenderer({ blocks }: { blocks: Block[] }) {
                       />
                     )}
                   </div>
-                </Framed>
+                  {block.caption && <figcaption className="label mt-2 opacity-50">{block.caption}</figcaption>}
+                </figure>
               </Reveal>
             );
           }
@@ -110,14 +97,11 @@ export default function BlockRenderer({ blocks }: { blocks: Block[] }) {
             const statCols = n <= 2 ? "md:grid-cols-2" : n === 3 ? "md:grid-cols-3" : "md:grid-cols-4";
             return (
               <Reveal key={block._key}>
-                <div className={`frame grid grid-cols-2 ${statCols}`}>
+                <div className={`grid grid-cols-2 gap-8 ${statCols}`}>
                   {block.stats?.map((s, i) => (
-                    <div
-                      key={i}
-                      className={`p-6 md:p-8 ${i > 0 ? "border-l-2 rule max-md:[&:nth-child(odd)]:border-l-0" : ""} ${i >= 2 ? "max-md:border-t-2" : ""}`}
-                    >
-                      <p className="display text-4xl text-accent md:text-6xl">{s.value}</p>
-                      <p className="mono-label mt-2 opacity-70">{s.label}</p>
+                    <div key={i}>
+                      <p className="display text-6xl text-ink/15 md:text-7xl">{s.value}</p>
+                      <p className="mt-3 max-w-[16rem] bg-ink/5 p-3 text-sm leading-relaxed">{s.label}</p>
                     </div>
                   ))}
                 </div>
@@ -127,15 +111,11 @@ export default function BlockRenderer({ blocks }: { blocks: Block[] }) {
           case "logoList":
             return (
               <Reveal key={block._key}>
-                <div className="border-y-2 rule py-8">
-                  {block.heading && (
-                    <p className="mono-label mb-5 flex items-center gap-2 opacity-70">
-                      <span className="text-accent">✦</span> {block.heading}
-                    </p>
-                  )}
+                <div className="mx-auto max-w-3xl">
+                  {block.heading && <p className="label mb-4 opacity-50">{block.heading}</p>}
                   <div className="flex flex-wrap gap-x-8 gap-y-3">
                     {block.items?.map((item, i) => (
-                      <span key={i} className="display text-2xl transition-colors hover:text-accent md:text-4xl">
+                      <span key={i} className="display text-2xl transition-colors hover:text-accent md:text-3xl">
                         {item}
                       </span>
                     ))}

@@ -216,7 +216,7 @@ export type About = {
 export async function getAbout(): Promise<About | null> {
   if (MOCK)
     return {
-      headline: "I work across the full creative arc — from strategic brief to production to final asset.",
+      headline: "When I'm not designing, you can catch me behind a podcast mic, hand-lettering everything in sight, and directing photoshoots where the talent has four legs.",
       bio: "I'm Nicole — a Senior Designer and Brand Strategist with nine years of experience.\n\nMy background is in consumer brands, with a growing focus on health, wellness, and lifestyle.",
       experience: [
         { company: "Independent Pet Partners", role: "Senior Designer", dates: "2019 – Present", summary: "Sole in-house designer." },

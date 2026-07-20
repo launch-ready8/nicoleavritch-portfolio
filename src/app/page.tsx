@@ -1,151 +1,140 @@
 import Link from "next/link";
 import Image from "next/image";
-import { getProjects, getSettings, urlFor, type ProjectCard as Card } from "@/lib/sanity";
-import Marquee from "@/components/Marquee";
+import { getProjects, getSettings, urlFor } from "@/lib/sanity";
+import Ticker from "@/components/Ticker";
 import Reveal from "@/components/Reveal";
-import Star from "@/components/Star";
+import WordReveal from "@/components/WordReveal";
+import Doodle from "@/components/Doodle";
 
 export const revalidate = 60;
-
-function FeaturedSection({ project, index }: { project: Card; index: number }) {
-  const schemes = [
-    { bg: "var(--accent)", text: "var(--ink)" },
-    { bg: "var(--ink)", text: "var(--background)" },
-    { bg: "var(--surface)", text: "var(--ink)" },
-  ];
-  const scheme = schemes[index % schemes.length];
-  return (
-    <section style={{ background: scheme.bg, color: scheme.text }} className="border-b-2 rule">
-      <div className="mx-auto max-w-[1700px] px-5 py-14 md:px-10 md:py-20">
-        <Reveal>
-          <div className="mb-8 flex items-center justify-between">
-            <span className="num">{String(index + 1).padStart(2, "0")}</span>
-            <span className="mono-label">{project.tags?.slice(0, 3).join(" / ")}</span>
-          </div>
-          <Link href={`/work/${project.slug}`} className="group block">
-            <h2 className="display break-words text-[15vw] transition-transform duration-500 group-hover:translate-x-3 md:text-[9vw]">
-              {project.title}
-            </h2>
-            <div className="mt-8 grid gap-6 md:grid-cols-[2fr_1fr]">
-              <div className="img-zoom frame relative aspect-[16/9] overflow-hidden">
-                {project.heroImage ? (
-                  <Image
-                    src={urlFor(project.heroImage).width(1800).fit("max").url()}
-                    alt={project.title}
-                    fill
-                    sizes="(min-width: 768px) 60vw, 95vw"
-                    className="object-cover"
-                  />
-                ) : (
-                  <div className="flex h-full items-center justify-center">
-                    <Star className="h-24 w-24 opacity-30" spin={false} />
-                  </div>
-                )}
-              </div>
-              <div className="flex flex-col gap-6">
-                <div className="frame p-5">
-                  <p className="mono-label mb-3 opacity-70">Year</p>
-                  <p className="display text-3xl">{project.year || "—"}</p>
-                </div>
-                {project.intro && (
-                  <p className="text-base leading-relaxed opacity-90 md:text-lg">{project.intro}</p>
-                )}
-                <span className="stamp-btn mt-auto self-start">Open case study →</span>
-              </div>
-            </div>
-          </Link>
-        </Reveal>
-      </div>
-    </section>
-  );
-}
 
 export default async function Home() {
   const [settings, projects] = await Promise.all([getSettings(), getProjects()]);
   const featured = projects.filter((p) => p.featured);
   const rest = projects.filter((p) => !p.featured);
-  const nameParts = settings.siteTitle.split(" ");
+  const [first = "Nicole", last = "Avritch"] = settings.siteTitle.split(" ");
+  const years = new Date().getFullYear() - 2017;
+
+  const stats = [
+    { value: `${years}+`, caption: "years designing for consumer, wellness, and lifestyle brands." },
+    { value: `${projects.length || 12}`, caption: "projects across brand, campaign, packaging, email, and motion." },
+    { value: "40K+", caption: "streams on the podcast brand I co-founded and designed." },
+  ];
 
   return (
-    <div className="text-ink">
-      {/* HERO */}
-      <section className="relative overflow-hidden border-b-2 rule">
-        <div className="mx-auto grid max-w-[1700px] grid-cols-[1fr_auto]">
-          <div className="relative px-5 pb-8 pt-8 md:px-10 md:pt-12">
-            <div className="mono-label mb-6 flex flex-wrap items-center gap-x-6 gap-y-2">
-              <span className="flex items-center gap-2">
-                <span className="inline-block h-2.5 w-2.5 bg-accent" />
-                {settings.tagline}
-              </span>
-              <span className="opacity-60">Est. 2017</span>
-            </div>
-            <h1 className="display relative z-10 -ml-1 text-[20vw] md:text-[14.5vw]">
-              {nameParts.map((part, i) => (
-                <span key={part} className={`block ${i % 2 === 1 ? "md:pl-[8vw]" : ""}`}>
-                  {part}
-                </span>
-              ))}
-            </h1>
-            <Star className="absolute right-[6%] top-[34%] z-20 h-[16vw] w-[16vw] text-accent md:right-[18%] md:top-[30%] md:h-[10vw] md:w-[10vw]" />
-          </div>
-          <div className="hidden items-stretch border-l-2 rule md:flex">
-            <p className="vert mono-label flex items-center gap-4 px-4 py-8">
-              Portfolio — {new Date().getFullYear()} <span className="text-accent">✦</span> Brand · Campaign · Motion
-            </p>
-          </div>
+    <div id="top">
+      {/* HERO — staggered name with scribble, parenthetical role */}
+      <section className="mx-auto max-w-[1500px] px-5 pt-6 md:px-10">
+        <h1 className="display relative">
+          <span className="block text-right text-[19vw] leading-[0.88] md:text-[14vw]">{first}</span>
+          <span className="relative block text-[19vw] leading-[0.88] md:text-[14vw]">
+            {last}—
+            <Doodle
+              name="scribble"
+              className="absolute left-[18%] top-[6%] h-[72%] w-[26%] text-accent"
+              strokeWidth={7}
+              delay={0.5}
+            />
+          </span>
+        </h1>
+        <div className="relative mt-2 md:mt-4">
+          <p className="text-[8.5vw] leading-[1.02] tracking-tight md:text-[5.5vw]">
+            (Senior designer
+            <br />
+            &amp; brand strategist)
+          </p>
+          <Doodle name="chevrons" className="absolute right-2 top-2 h-10 w-10 text-accent md:h-14 md:w-14" delay={1} />
         </div>
-        {settings.heroLine && (
-          <div className="border-t-2 rule">
-            <div className="mx-auto grid max-w-[1700px] md:grid-cols-2">
-              <p className="mono-label border-b-2 rule px-5 py-5 leading-relaxed opacity-80 md:border-b-0 md:border-r-2 md:px-10">
-                From strategic brief
-                <br />→ to production
-                <br />→ to final asset.
-              </p>
-              <p className="max-w-xl px-5 py-5 text-lg leading-snug md:px-10">{settings.heroLine}</p>
-            </div>
-          </div>
-        )}
       </section>
 
-      <Marquee items={["Brand Identity", "Art Direction", "Campaigns", "Packaging", "Motion", "Strategy"]} />
+      {/* INTRO — word reveal */}
+      {settings.heroLine && (
+        <section className="mx-auto max-w-[1500px] px-5 py-24 md:px-10 md:py-36">
+          <div className="relative mx-auto max-w-2xl md:ml-[38%]">
+            <Doodle name="arrowCircle" className="absolute -left-20 top-1 hidden h-12 w-12 text-accent md:block" strokeWidth={5} />
+            <WordReveal text={settings.heroLine} className="text-2xl leading-snug md:text-4xl" />
+          </div>
+        </section>
+      )}
 
-      {/* FEATURED — color-blocked sections */}
+      {/* SERVICE TICKER */}
+      <Ticker
+        items={[
+          "Brand identity",
+          "Campaign design",
+          "Art direction",
+          "Packaging",
+          "Email & retail",
+          "Motion",
+          "Brand strategy",
+        ]}
+      />
+
+      {/* STATS — ghost numbers with caption cards */}
+      <section className="mx-auto max-w-[1500px] px-5 py-20 md:px-10 md:py-28">
+        <div className="relative grid gap-10 md:grid-cols-3 md:gap-8">
+          <Doodle name="star" className="absolute -top-14 right-[8%] h-10 w-10 text-accent" strokeWidth={6} />
+          {stats.map((s, i) => (
+            <Reveal key={i} delay={i * 0.12}>
+              <p className="display text-7xl text-ink/15 md:text-8xl">{s.value}</p>
+              <p className="mt-4 max-w-xs bg-ink/5 p-4 text-sm leading-relaxed">{s.caption}</p>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* FEATURED — big quiet image plates */}
       {featured.map((p, i) => (
-        <FeaturedSection key={p._id} project={p} index={i} />
+        <section key={p._id} className="mx-auto max-w-[1500px] px-5 pb-24 md:px-10 md:pb-32">
+          <Reveal>
+            <Link href={`/work/${p.slug}`} className="group block">
+              <div className="img-zoom relative aspect-[16/9] w-full overflow-hidden">
+                {p.heroImage ? (
+                  <Image
+                    src={urlFor(p.heroImage).width(2200).fit("max").url()}
+                    alt={p.title}
+                    fill
+                    priority={i === 0}
+                    sizes="95vw"
+                    className="object-cover"
+                  />
+                ) : (
+                  <div className="h-full w-full" style={{ background: i % 2 ? "#1B7754" : "#ECDFAB" }} />
+                )}
+              </div>
+              <div className="mt-3 flex items-baseline justify-between">
+                <span className="flex items-baseline gap-3">
+                  <span className="num">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="display text-2xl transition-colors group-hover:text-accent md:text-4xl">
+                    {p.title}
+                  </span>
+                </span>
+                <span className="label opacity-60">{p.year}</span>
+              </div>
+              {p.intro && <p className="mt-2 max-w-2xl text-base leading-relaxed opacity-80">{p.intro}</p>}
+            </Link>
+          </Reveal>
+        </section>
       ))}
 
-      {/* INDEX TABLE */}
+      {/* QUIET INDEX */}
       {rest.length > 0 && (
-        <section className="mx-auto max-w-[1700px] px-5 py-14 md:px-10 md:py-20">
-          <div className="mb-8 flex items-end justify-between">
-            <h2 className="display text-4xl md:text-6xl">
-              Index<span className="text-accent">.</span>
-            </h2>
-            <span className="mono-label opacity-60">({String(rest.length).padStart(2, "0")}) more projects</span>
-          </div>
-          <div className="border-t-2 rule">
+        <section className="mx-auto max-w-[1500px] px-5 pb-24 md:px-10">
+          <p className="label mb-5 opacity-50">More projects</p>
+          <div className="border-t rule">
             {rest.map((p, i) => (
-              <Link
-                key={p._id}
-                href={`/work/${p.slug}`}
-                className="work-row flex items-baseline justify-between gap-4 py-4"
-              >
-                <span className="flex min-w-0 items-baseline gap-4 md:gap-6">
-                  <span className="num shrink-0">{String(i + featured.length + 1).padStart(2, "0")}</span>
-                  <span className="display truncate text-2xl md:text-5xl">{p.title}</span>
+              <Link key={p._id} href={`/work/${p.slug}`} className="work-row flex items-baseline justify-between py-3.5">
+                <span className="flex items-baseline gap-4">
+                  <span className="num">{String(i + featured.length + 1).padStart(2, "0")}</span>
+                  <span className="text-lg md:text-2xl">{p.title}</span>
                 </span>
-                <span className="flex shrink-0 items-baseline gap-4">
-                  {p.tags?.[0] && <span className="mono-label hidden opacity-60 md:inline">{p.tags[0]}</span>}
-                  {p.year && <span className="mono-label opacity-60">({p.year.slice(-4)})</span>}
-                  <span className="row-arrow display text-2xl md:text-4xl">→</span>
-                </span>
+                <span className="label opacity-50">{p.tags?.[0]}</span>
               </Link>
             ))}
           </div>
-          <div className="mt-10">
+          <div className="mt-8">
             <Link href="/work" className="stamp-btn">
-              View all work →
+              See all work →
             </Link>
           </div>
         </section>
