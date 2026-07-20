@@ -1,4 +1,7 @@
-import { defineField, defineType } from "sanity";
+import { defineField, defineType, type StringRule } from "sanity";
+
+const hexValidation = (r: StringRule) =>
+  r.regex(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/, { name: "hex color like #EB3D00" });
 
 export const siteSettings = defineType({
   name: "siteSettings",
@@ -20,14 +23,14 @@ export const siteSettings = defineType({
     defineField({
       name: "tagline",
       title: "Tagline",
-      description: "The short line under your name on the homepage. e.g. 'Senior Designer & Brand Strategist'",
+      description: "The line under your name on the homepage, e.g. 'Creative Director & Senior Designer'",
       type: "string",
       group: "identity",
     }),
     defineField({
       name: "heroLine",
       title: "Hero sentence",
-      description: "One friendly sentence about what you do. Appears on the homepage.",
+      description: "One sentence about what you do. Appears on the homepage.",
       type: "text",
       rows: 3,
       group: "identity",
@@ -40,7 +43,7 @@ export const siteSettings = defineType({
     }),
     defineField({
       name: "phone",
-      title: "Phone (optional)",
+      title: "Phone (optional — leave empty to hide)",
       type: "string",
       group: "identity",
     }),
@@ -59,10 +62,12 @@ export const siteSettings = defineType({
         },
       ],
     }),
+
+    /* ---------- fonts ---------- */
     defineField({
       name: "fontPairing",
-      title: "Font style",
-      description: "Changes the fonts across the whole site instantly.",
+      title: "Font preset",
+      description: "Quick presets. The fields below override these if filled in.",
       type: "string",
       group: "look",
       options: {
@@ -76,44 +81,77 @@ export const siteSettings = defineType({
       initialValue: "editorial",
     }),
     defineField({
+      name: "headlineGoogleFont",
+      title: "Headline font — Google Fonts name (optional)",
+      description:
+        "Type any font name exactly as it appears on fonts.google.com (e.g. 'Bebas Neue', 'Archivo Black'). Overrides the preset for headlines.",
+      type: "string",
+      group: "look",
+    }),
+    defineField({
+      name: "bodyGoogleFont",
+      title: "Body font — Google Fonts name (optional)",
+      description: "Any Google Fonts name (e.g. 'Inter', 'Space Grotesk'). Overrides the preset for body text.",
+      type: "string",
+      group: "look",
+    }),
+    defineField({
+      name: "headlineFontFile",
+      title: "Headline font — upload your own file (optional)",
+      description: "Upload a .ttf, .otf, .woff or .woff2 file. Overrides everything else for headlines.",
+      type: "file",
+      group: "look",
+      options: { accept: ".ttf,.otf,.woff,.woff2" },
+    }),
+    defineField({
+      name: "bodyFontFile",
+      title: "Body font — upload your own file (optional)",
+      description: "Upload a .ttf, .otf, .woff or .woff2 file. Overrides everything else for body text.",
+      type: "file",
+      group: "look",
+      options: { accept: ".ttf,.otf,.woff,.woff2" },
+    }),
+
+    /* ---------- colors (hex codes) ---------- */
+    defineField({
       name: "colorBackground",
       title: "Background color",
-      description: "The main page background (default: warm off-white).",
-      type: "color",
+      description: "Hex code, e.g. #FDFCF9 (near-white). The main page background.",
+      type: "string",
       group: "look",
-      options: { disableAlpha: true },
+      validation: hexValidation,
     }),
     defineField({
       name: "colorInk",
       title: "Text / dark color",
-      description: "Used for text and dark sections (default: deep forest green).",
-      type: "color",
+      description: "Hex code, e.g. #09201B (deep forest green). Used for text and dark sections.",
+      type: "string",
       group: "look",
-      options: { disableAlpha: true },
+      validation: hexValidation,
     }),
     defineField({
       name: "colorAccent",
       title: "Accent color",
-      description: "The punchy color — links, highlights, hovers (default: tangerine).",
-      type: "color",
+      description: "Hex code, e.g. #EB3D00 (tangerine). Links, doodles, highlights, hovers.",
+      type: "string",
       group: "look",
-      options: { disableAlpha: true },
+      validation: hexValidation,
     }),
     defineField({
       name: "colorAccent2",
       title: "Second accent",
-      description: "Used sparingly for tags and details (default: marigold yellow).",
-      type: "color",
+      description: "Hex code, e.g. #F9B122 (marigold). Used sparingly.",
+      type: "string",
       group: "look",
-      options: { disableAlpha: true },
+      validation: hexValidation,
     }),
     defineField({
       name: "colorSurface",
       title: "Card / surface color",
-      description: "Background for cards and callouts (default: cream).",
-      type: "color",
+      description: "Hex code, e.g. #ECDFAB (cream). Cards, callouts, placeholder tiles.",
+      type: "string",
       group: "look",
-      options: { disableAlpha: true },
+      validation: hexValidation,
     }),
   ],
   preview: { prepare: () => ({ title: "Site Settings" }) },

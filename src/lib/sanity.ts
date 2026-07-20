@@ -26,6 +26,10 @@ export type Theme = {
   accent2: string;
   surface: string;
   fontPairing: "editorial" | "poster" | "grotesque";
+  headlineGoogleFont?: string;
+  bodyGoogleFont?: string;
+  headlineFontUrl?: string;
+  bodyFontUrl?: string;
 };
 
 export const DEFAULT_THEME: Theme = {
@@ -49,12 +53,15 @@ export type SiteSettings = {
 
 const settingsQuery = `*[_type == "siteSettings"][0]{
   siteTitle, tagline, heroLine, email, phone, socials,
-  "background": colorBackground.hex,
-  "ink": colorInk.hex,
-  "accent": colorAccent.hex,
-  "accent2": colorAccent2.hex,
-  "surface": colorSurface.hex,
-  fontPairing
+  "background": coalesce(colorBackground.hex, colorBackground),
+  "ink": coalesce(colorInk.hex, colorInk),
+  "accent": coalesce(colorAccent.hex, colorAccent),
+  "accent2": coalesce(colorAccent2.hex, colorAccent2),
+  "surface": coalesce(colorSurface.hex, colorSurface),
+  fontPairing,
+  headlineGoogleFont, bodyGoogleFont,
+  "headlineFontUrl": headlineFontFile.asset->url,
+  "bodyFontUrl": bodyFontFile.asset->url
 }`;
 
 export async function getSettings(): Promise<SiteSettings> {
@@ -84,6 +91,10 @@ export async function getSettings(): Promise<SiteSettings> {
         accent2: s?.accent2 || DEFAULT_THEME.accent2,
         surface: s?.surface || DEFAULT_THEME.surface,
         fontPairing: s?.fontPairing || DEFAULT_THEME.fontPairing,
+        headlineGoogleFont: s?.headlineGoogleFont || undefined,
+        bodyGoogleFont: s?.bodyGoogleFont || undefined,
+        headlineFontUrl: s?.headlineFontUrl || undefined,
+        bodyFontUrl: s?.bodyFontUrl || undefined,
       },
     };
   } catch {

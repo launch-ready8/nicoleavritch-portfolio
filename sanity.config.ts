@@ -2,7 +2,6 @@
 
 import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
-import { colorInput } from "@sanity/color-input";
 import { orderableDocumentListDeskItem } from "@sanity/orderable-document-list";
 import { projectId, dataset } from "./src/sanity/env";
 import { schemaTypes } from "./src/sanity/schemaTypes";
@@ -34,7 +33,6 @@ export default defineConfig({
               .child(S.document().schemaType("siteSettings").documentId("siteSettings")),
           ]),
     }),
-    colorInput(),
   ],
   schema: { types: schemaTypes },
 });

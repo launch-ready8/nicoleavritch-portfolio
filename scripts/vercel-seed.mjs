@@ -16,7 +16,7 @@ import path from "node:path";
  * editing in the Studio, do NOT bump SEED_VERSION — make content changes in
  * the Studio instead. Only bump for a deliberate full reset.
  */
-const SEED_VERSION = 4; // bump to force a reseed on next deploy (see warning above)
+const SEED_VERSION = 5; // bump to force a reseed on next deploy (see warning above)
 
 const IS_VERCEL = !!process.env.VERCEL;
 const token = process.env.SANITY_TOKEN;
@@ -139,7 +139,7 @@ async function main() {
   }
 
   /* ---- site settings (palette from Nicole's approved color cards) ---- */
-  const color = (hex) => ({ _type: "color", hex, alpha: 1 });
+  const color = (hex) => hex; // plain hex strings now
   await client.createOrReplace({
     _id: "siteSettings",
     _type: "siteSettings",
