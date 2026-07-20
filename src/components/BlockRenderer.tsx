@@ -16,6 +16,20 @@ export default function BlockRenderer({ blocks }: { blocks: Block[] }) {
     <div className="grid gap-12 md:gap-20">
       {blocks.map((block) => {
         switch (block._type) {
+          case "sectionHeader":
+            return (
+              <Reveal key={block._key}>
+                <div className="border-t rule pt-8">
+                  {block.kicker && <p className="label mb-3 text-accent">{block.kicker}</p>}
+                  {block.heading && (
+                    <h2 className="display text-5xl md:text-7xl">
+                      {block.heading}
+                      <span className="text-accent">.</span>
+                    </h2>
+                  )}
+                </div>
+              </Reveal>
+            );
           case "textSection":
             return (
               <Reveal key={block._key}>

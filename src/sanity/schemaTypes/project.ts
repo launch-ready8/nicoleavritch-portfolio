@@ -79,6 +79,19 @@ export const project = defineType({
       type: "array",
       of: [
         defineArrayMember({
+          name: "sectionHeader",
+          title: "Section heading (big callout)",
+          type: "object",
+          fields: [
+            defineField({ name: "kicker", title: "Small label above (optional)", type: "string" }),
+            defineField({ name: "heading", title: "Big heading", type: "string" }),
+          ],
+          preview: {
+            select: { title: "heading", subtitle: "kicker" },
+            prepare: ({ title, subtitle }) => ({ title: `▙ ${title || "Section heading"}`, subtitle }),
+          },
+        }),
+        defineArrayMember({
           name: "textSection",
           title: "Text section",
           type: "object",

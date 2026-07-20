@@ -7,11 +7,14 @@
     "email": "nicoleavritch@gmail.com",
     "phone": "+1 (860) 877-5619",
     "socials": [
-      { "label": "LinkedIn", "url": "https://www.linkedin.com/in/nicole-avritch-586533114/" }
+      {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/nicole-avritch-586533114/"
+      }
     ]
   },
   "about": {
-    "headline": "Off the clock you can catch me directing photoshoots where the talent has four legs, drawing letterforms by hand, and starting more creative projects than I can finish.",
+    "headline": "Catch me directing photo shoots where the talent has four legs or watching Gilmore Girls or something silly like that.",
     "bio": "I'm Nicole, a designer with nine years in consumer brands and a focus on health, wellness, and lifestyle.\n\nI work across the full creative arc, from strategy to production to final asset. At Independent Pet Partners I'm the only designer in house, so I lead everything from 360 campaigns to the systems behind them: brand guidelines, a loyalty program, and a credentialing program that keeps 75 locations consistent.\n\nThe work I care about most sits between marketing and design: taking what a brand knows about its audience and turning it into creative that moves people.",
     "experience": [
       {
@@ -65,7 +68,11 @@
       "client": "Let's Talk, Peaches",
       "year": "2020 – 2023",
       "role": "Co-Founder, Brand & Design",
-      "tags": ["Podcast Brand", "Visual Identity", "Art Direction"],
+      "tags": [
+        "Podcast Brand",
+        "Visual Identity",
+        "Art Direction"
+      ],
       "featured": true,
       "order": 1,
       "intro": "I co-founded the podcast and designed all of it: the identity, the episode template system, and the website. The show grew past 40,000 streams.",
@@ -73,7 +80,13 @@
         {
           "type": "logoList",
           "heading": "Featured guests",
-          "items": ["Puno", "Zipeng Zhu", "Taylor Rae Roman", "Jeffery Marsh", "Alicia Sinclair"]
+          "items": [
+            "Puno",
+            "Zipeng Zhu",
+            "Taylor Rae Roman",
+            "Jeffery Marsh",
+            "Alicia Sinclair"
+          ]
         }
       ]
     },
@@ -84,28 +97,51 @@
       "client": "Independent Pet Partners",
       "year": "2019 – Present",
       "role": "Senior Designer",
-      "tags": ["Brand Campaigns", "360° Campaign", "Retail"],
+      "tags": [
+        "Brand Campaigns",
+        "360° Campaign",
+        "Retail"
+      ],
       "featured": true,
       "order": 2,
       "intro": "Independent Pet Partners is a multi-brand pet wellness retailer. As the only designer in house, I lead brand creative across campaigns, email, social, packaging, web, signage, and merch.",
       "extraBlocks": [
         {
-          "type": "textSection",
-          "heading": "Ask Us Anything",
-          "body": "I art directed this 360° brand campaign from brief to production: built the mood boards, helped shape the shot list, and directed the video and photo teams on set. The campaign shipped a brand video in three cuts for Meta and Instagram, plus an in-store image library that replaced stock photography across every channel."
+          "type": "sectionHeader",
+          "kicker": "360° brand campaign",
+          "heading": "Ask Us Anything"
         },
+        {
+          "type": "textSection",
+          "body": "I art directed this campaign from brief to production: built the mood boards, helped shape the shot list, and directed the video and photo teams on set. It shipped a brand video in three cuts for Meta and Instagram, plus an in-store image library that replaced stock photography across every channel."
+        }
+      ],
+      "extraBlocksAfter": [
         {
           "type": "statsRow",
           "stats": [
-            { "value": "40", "label": "emails a month" },
-            { "value": "10", "label": "campaigns a month" },
-            { "value": "75", "label": "locations, one brand system" }
+            {
+              "value": "40",
+              "label": "emails a month"
+            },
+            {
+              "value": "10",
+              "label": "campaigns a month"
+            },
+            {
+              "value": "75",
+              "label": "locations, one brand system"
+            }
           ]
         },
         {
+          "type": "sectionHeader",
+          "kicker": "Beyond campaigns",
+          "heading": "Systems, not one-offs"
+        },
+        {
           "type": "textSection",
-          "heading": "Systems, not one-offs",
-          "body": "Beyond campaigns I build the systems that keep the brand consistent: company-wide guidelines, the loyalty program identity, a multi-level credentialing program, and the wireframes for a full website redesign.\n\nThe Roosevelt house brand I helped design won a Graphis Silver award (Design Annual 2021) for its packaging."
+          "body": "I build the systems that keep the brand consistent: company-wide guidelines, the loyalty program identity, a multi-level credentialing program, and the wireframes for a full website redesign.\n\nThe Roosevelt house brand I helped design won a Graphis Silver award (Design Annual 2021) for its packaging."
         }
       ]
     },
@@ -116,7 +152,11 @@
       "client": "Loop",
       "year": "Freelance",
       "role": "Brand Designer",
-      "tags": ["Brand Identity", "Social System", "Motion"],
+      "tags": [
+        "Brand Identity",
+        "Social System",
+        "Motion"
+      ],
       "featured": false,
       "order": 3,
       "intro": "Loop is an app for working through personal challenges over live audio. I built the brand identity for its social presence, then a template and motion system the team could run with."
@@ -128,7 +168,10 @@
       "client": "Neon Cheetah",
       "year": "Freelance",
       "role": "Brand Designer",
-      "tags": ["Brand Identity", "Web Design"],
+      "tags": [
+        "Brand Identity",
+        "Web Design"
+      ],
       "featured": false,
       "order": 4,
       "intro": "Neon Cheetah is a fashion blog that helps readers find their inner cheetah. I designed an identity and website bold enough to keep up."
@@ -140,7 +183,10 @@
       "client": "Forward",
       "year": "Freelance",
       "role": "Brand Designer",
-      "tags": ["Brand Identity", "Type & Badges"],
+      "tags": [
+        "Brand Identity",
+        "Type & Badges"
+      ],
       "featured": false,
       "order": 5,
       "intro": "Brand identity for Forward, a coaching practice: logo, palette, type system, and a set of certification badges."
@@ -152,7 +198,11 @@
       "client": "Ubbi",
       "year": "2018 – 2019",
       "role": "Designer",
-      "tags": ["Packaging", "Product", "Stop Motion"],
+      "tags": [
+        "Packaging",
+        "Product",
+        "Stop Motion"
+      ],
       "featured": false,
       "order": 6,
       "intro": "Ubbi is a baby and lifestyle brand. I worked across product and marketing: new product development, packaging, social, stop motion, and advertising."
@@ -163,7 +213,10 @@
       "title": "Motion",
       "client": "Various",
       "role": "Motion Designer",
-      "tags": ["Motion", "After Effects"],
+      "tags": [
+        "Motion",
+        "After Effects"
+      ],
       "featured": false,
       "order": 7,
       "intro": "Motion work cut in After Effects: stop motion, logo animation, a lyric video, and quote animations."
@@ -174,7 +227,10 @@
       "title": "Custom Lettering",
       "client": "Various",
       "role": "Letterer",
-      "tags": ["Hand Lettering", "Illustration"],
+      "tags": [
+        "Hand Lettering",
+        "Illustration"
+      ],
       "featured": false,
       "order": 8,
       "intro": "Hand lettering in every pen, brush, and style I can get my hands on."
@@ -185,7 +241,10 @@
       "title": "Get Your ____ Together",
       "client": "Self-initiated",
       "role": "Designer & Author",
-      "tags": ["Book Design", "Print"],
+      "tags": [
+        "Book Design",
+        "Print"
+      ],
       "featured": false,
       "order": 9,
       "intro": "A 150 page, hand bound, participatory book. Readers flip, rip, spin, and write in it to uncover what's inside."
@@ -196,7 +255,10 @@
       "title": "Party Depot",
       "client": "Party Depot",
       "role": "Brand Designer",
-      "tags": ["Rebrand", "Retail"],
+      "tags": [
+        "Rebrand",
+        "Retail"
+      ],
       "featured": false,
       "order": 10,
       "intro": "A rebrand that kicks the cliché party store aesthetic: organized, bold, and modern."
@@ -207,7 +269,10 @@
       "title": "Cup Shop",
       "client": "Self-initiated",
       "role": "Designer",
-      "tags": ["Visual System", "Print"],
+      "tags": [
+        "Visual System",
+        "Print"
+      ],
       "featured": false,
       "order": 11,
       "intro": "Retail-ready coffee mugs, each for a different kind of coffee lover, with posters, a lookbook, and a website."
@@ -219,7 +284,9 @@
       "client": "Urban Outfitters",
       "year": "2018",
       "role": "Product Designer",
-      "tags": ["Product Design"],
+      "tags": [
+        "Product Design"
+      ],
       "featured": false,
       "order": 12,
       "intro": "Product design for Urban Outfitters' fall 2018 season, in femme and bohemian directions."
@@ -231,7 +298,10 @@
       "client": "Cookie Dough Confections",
       "year": "2017",
       "role": "Design Intern",
-      "tags": ["Packaging", "Retail"],
+      "tags": [
+        "Packaging",
+        "Retail"
+      ],
       "featured": false,
       "order": 13,
       "intro": "A summer internship at an edible cookie dough shop in NYC. I designed holiday packaging, a partnership label, and retail materials."

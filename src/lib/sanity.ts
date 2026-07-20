@@ -118,6 +118,7 @@ export type ProjectFull = ProjectCard & {
 };
 
 export type Block =
+  | { _type: "sectionHeader"; _key: string; kicker?: string; heading?: string }
   | { _type: "textSection"; _key: string; heading?: string; body?: string }
   | { _type: "fullBleedImage"; _key: string; image?: SanityImageSource; caption?: string }
   | { _type: "imageGrid"; _key: string; images?: SanityImageSource[]; columns?: number }
@@ -221,7 +222,7 @@ export type About = {
 export async function getAbout(): Promise<About | null> {
   if (MOCK)
     return {
-      headline: "Off the clock you can catch me directing photoshoots where the talent has four legs, drawing letterforms by hand, and starting more creative projects than I can finish.",
+      headline: "Catch me directing photo shoots where the talent has four legs or watching Gilmore Girls or something silly like that.",
       bio: "I'm Nicole — a Senior Designer and Brand Strategist with nine years of experience.\n\nMy background is in consumer brands, with a growing focus on health, wellness, and lifestyle.",
       experience: [
         { company: "Independent Pet Partners", role: "Senior Designer", dates: "2019 – Present", summary: "Sole in-house designer." },

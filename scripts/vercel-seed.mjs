@@ -10,7 +10,13 @@ import { createClient } from "@sanity/client";
 import fs from "node:fs";
 import path from "node:path";
 
-const SEED_VERSION = 2; // bump to force a reseed on next deploy
+/*
+ * ⚠️  WARNING: a reseed REBUILDS every document from seed.json and the harvest,
+ * which OVERWRITES any edits made by hand in the Sanity Studio. Once Nicole is
+ * editing in the Studio, do NOT bump SEED_VERSION — make content changes in
+ * the Studio instead. Only bump for a deliberate full reset.
+ */
+const SEED_VERSION = 3; // bump to force a reseed on next deploy (see warning above)
 
 const IS_VERCEL = !!process.env.VERCEL;
 const token = process.env.SANITY_TOKEN;
@@ -178,6 +184,7 @@ async function main() {
       return { _type: "statsRow", _key: `${slug}-extra-${i}`, stats: b.stats.map((s, j) => ({ ...s, _key: `${slug}-stat-${i}-${j}` })) };
     if (b.type === "logoList") return { _type: "logoList", _key: `${slug}-extra-${i}`, heading: b.heading, items: b.items };
     if (b.type === "textSection") return { _type: "textSection", _key: `${slug}-extra-${i}`, heading: b.heading, body: b.body };
+    if (b.type === "sectionHeader") return { _type: "sectionHeader", _key: `${slug}-extra-${i}`, kicker: b.kicker, heading: b.heading };
     return null;
   }
 
@@ -209,12 +216,13 @@ async function main() {
       }
       if (!heroImage && pdfRefs.length) heroImage = pdfRefs[0];
 
+      // Order: intro blocks → campaign video(s) → her PDF spreads → follow-up blocks → old-site galleries
       const blocks = [];
       (p.extraBlocks || []).forEach((b, i) => {
         const cb = convertExtraBlock(b, p.slug, i);
         if (cb) blocks.push(cb);
       });
-      // PDF spreads lead (skip the first if it became the hero)
+      videos.forEach((v, i) => blocks.push({ _type: "videoEmbed", _key: `${p.slug}-vid-${i}`, url: v }));
       const lead = pdfRefs.filter((r) => r !== heroImage);
       for (let i = 0; i < lead.length; i += 6) {
         blocks.push({
@@ -222,7 +230,10 @@ async function main() {
           images: lead.slice(i, i + 6).map((r, j) => ({ ...r, _key: `${p.slug}-pdfimg-${i}-${j}` })),
         });
       }
-      videos.forEach((v, i) => blocks.push({ _type: "videoEmbed", _key: `${p.slug}-vid-${i}`, url: v }));
+      (p.extraBlocksAfter || []).forEach((b, i) => {
+        const cb = convertExtraBlock(b, p.slug, 100 + i);
+        if (cb) blocks.push(cb);
+      });
       for (let i = 0; i < scraped.length; i += 6) {
         blocks.push({
           _type: "imageGrid", _key: `${p.slug}-grid-${i}`, columns: 2,
