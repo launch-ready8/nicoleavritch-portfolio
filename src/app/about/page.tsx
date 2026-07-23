@@ -14,18 +14,13 @@ export default async function AboutPage() {
 
   return (
     <div id="top" className="mx-auto max-w-[1500px] px-5 pt-8 md:px-10">
-      {/* Playful opener */}
-      <section className="mx-auto max-w-3xl py-10 md:py-14">
-        <p className="label mb-5 opacity-50">{L.getToKnowMe || "Get to know me"}</p>
-        <div className="relative">
+      {/* Opener + positioning, composed as one block */}
+      <section className="grid gap-10 py-8 md:grid-cols-[1.3fr_1fr] md:items-end md:gap-16 md:py-12">
+        <div>
+          <p className="label mb-5 opacity-50">{L.getToKnowMe || "Get to know me"}</p>
           {about?.headline && <WordReveal text={about.headline} className="text-3xl leading-snug md:text-5xl" />}
-          <span className="display mt-8 block text-4xl text-accent" aria-hidden>↓</span>
         </div>
-      </section>
-
-      {/* Positioning */}
-      <section className="py-6">
-        <h1 className="text-3xl leading-tight md:text-5xl">
+        <h1 className="text-2xl leading-tight md:text-3xl">
           {positioning.map((p, i) => (
             <span key={i} className="block">
               {i > 0 && <span className="text-accent">| </span>}
@@ -36,7 +31,7 @@ export default async function AboutPage() {
       </section>
 
       {/* Photo + About + Contact, after her own portfolio's layout */}
-      <section className="grid gap-10 py-10 md:grid-cols-[1fr_1.3fr] md:gap-20">
+      <section className="grid gap-10 border-t rule py-10 md:grid-cols-[1fr_1.3fr] md:gap-20">
         <div>
           {about?.portrait && (
             <Reveal>
