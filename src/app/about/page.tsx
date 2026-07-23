@@ -1,7 +1,6 @@
 import { getAbout, getSettings } from "@/lib/sanity";
 import Reveal from "@/components/Reveal";
 import WordReveal from "@/components/WordReveal";
-import Doodle from "@/components/Doodle";
 import SmartImage from "@/components/SmartImage";
 
 export const revalidate = 60;
@@ -20,8 +19,8 @@ export default async function AboutPage() {
         <p className="label mb-5 opacity-50">{L.getToKnowMe || "Get to know me"}</p>
         <div className="relative">
           {about?.headline && <WordReveal text={about.headline} className="text-3xl leading-snug md:text-5xl" />}
-          <Doodle name="paw" className="absolute -left-20 top-0 hidden h-14 w-14 text-accent md:block" strokeWidth={5} />
-          <Doodle name="chevrons" className="mt-8 h-9 w-9 text-accent" delay={0.8} />
+          <span className="absolute -left-20 top-2 hidden h-14 w-2 bg-accent md:block" aria-hidden />
+          <span className="display mt-8 block text-4xl text-accent" aria-hidden>↓</span>
         </div>
       </section>
 

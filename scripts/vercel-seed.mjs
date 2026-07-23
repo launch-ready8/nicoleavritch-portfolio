@@ -16,7 +16,7 @@ import path from "node:path";
  * editing in the Studio, do NOT bump SEED_VERSION — make content changes in
  * the Studio instead. Only bump for a deliberate full reset.
  */
-const SEED_VERSION = 5; // bump to force a reseed on next deploy (see warning above)
+const SEED_VERSION = 6; // bump to force a reseed on next deploy (see warning above)
 
 const IS_VERCEL = !!process.env.VERCEL;
 const token = process.env.SANITY_TOKEN;
@@ -149,11 +149,11 @@ async function main() {
     email: seed.siteSettings.email,
     socials: seed.siteSettings.socials.map((s, i) => ({ ...s, _key: `social-${i}` })),
     fontPairing: "editorial",
-    colorBackground: color("#FDFCF9"),
-    colorInk: color("#09201B"),
-    colorAccent: color("#EB3D00"),
-    colorAccent2: color("#F9B122"),
-    colorSurface: color("#ECDFAB"),
+    colorBackground: color("#F1ECE1"),
+    colorInk: color("#141414"),
+    colorAccent: color("#C24E27"),
+    colorAccent2: color("#C24E27"),
+    colorSurface: color("#E7E1D3"),
   });
   console.log("[seed] siteSettings ✓");
 
@@ -176,6 +176,16 @@ async function main() {
     recognition: seed.about.recognition,
   });
   console.log("[seed] aboutPage ✓");
+
+  /* ---- remove projects Nicole cut ---- */
+  for (const gone of ["party-depot", "cup-shop", "urban-outfitters"]) {
+    try {
+      await client.delete(`project-${gone}`);
+      console.log(`[seed] deleted project-${gone}`);
+    } catch (e) {
+      console.warn(`[seed] delete ${gone}: ${e.message}`);
+    }
+  }
 
   /* ---- projects ---- */
   function convertExtraBlock(b, slug, i) {
@@ -221,7 +231,7 @@ async function main() {
         const cb = convertExtraBlock(b, p.slug, i);
         if (cb) blocks.push(cb);
       });
-      videos.forEach((v, i) => blocks.push({ _type: "videoEmbed", _key: `${p.slug}-vid-${i}`, url: v }));
+      if (!p.videosLast) videos.forEach((v, i) => blocks.push({ _type: "videoEmbed", _key: `${p.slug}-vid-${i}`, url: v }));
       const lead = pdfRefs.filter((r) => r !== heroImage);
       for (let i = 0; i < lead.length; i += 6) {
         blocks.push({
@@ -246,6 +256,7 @@ async function main() {
         if (cb) blocks.push(cb);
       }
       if (p.skipScrapedGallery) scraped = [];
+      if (p.videosLast) videos.forEach((v, i) => blocks.push({ _type: "videoEmbed", _key: `${p.slug}-vid-${i}`, url: v }));
       for (let i = 0; i < scraped.length; i += 6) {
         blocks.push({
           _type: "imageGrid", _key: `${p.slug}-grid-${i}`, columns: 2,
@@ -259,6 +270,7 @@ async function main() {
         title: p.title,
         slug: { _type: "slug", current: p.slug },
         featured: !!p.featured,
+        hideHero: !!p.hideHero,
         order: p.order,
         orderRank: `0|${String.fromCharCode(96 + p.order)}00000:`,
         client: p.client,

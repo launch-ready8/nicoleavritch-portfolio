@@ -1,10 +1,20 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 export default function Nav({ siteTitle, email }: { siteTitle: string; email?: string }) {
   const pathname = usePathname();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 90);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   if (pathname?.startsWith("/studio")) return null;
 
   const links = [
@@ -14,9 +24,16 @@ export default function Nav({ siteTitle, email }: { siteTitle: string; email?: s
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-bg/85 backdrop-blur-sm">
+    <header
+      className="sticky top-0 z-50 transition-colors duration-300"
+      style={
+        scrolled
+          ? { background: "var(--accent)", color: "var(--background)" }
+          : { background: "color-mix(in srgb, var(--background) 85%, transparent)", backdropFilter: "blur(4px)" }
+      }
+    >
       <nav className="mx-auto flex max-w-[1500px] items-center justify-between px-5 py-4 md:px-10">
-        <Link href="/" className="nav-link transition-colors hover:text-accent">
+        <Link href="/" className="nav-link transition-opacity hover:opacity-60">
           {links[0].label}
         </Link>
         <div className="flex items-center gap-7 md:gap-10">
@@ -24,15 +41,15 @@ export default function Nav({ siteTitle, email }: { siteTitle: string; email?: s
             <Link
               key={l.href}
               href={l.href}
-              className={`nav-link transition-colors hover:text-accent ${
-                pathname?.startsWith(l.href) ? "text-accent" : ""
+              className={`nav-link transition-opacity hover:opacity-60 ${
+                pathname?.startsWith(l.href) && !scrolled ? "text-accent" : ""
               }`}
             >
               {l.label}
             </Link>
           ))}
           {email && (
-            <a href={`mailto:${email}`} className="nav-link hidden transition-colors hover:text-accent md:inline">
+            <a href={`mailto:${email}`} className="nav-link hidden transition-opacity hover:opacity-60 md:inline">
               Contact
             </a>
           )}

@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
 :root {
-  --background: #FDFCF9;
-  --ink: #10201c;
-  --accent: #eb3d00;
-  --accent2: #f9b122;
-  --surface: #1b7754;
+  --background: #F1ECE1;
+  --ink: #141414;
+  --accent: #C24E27;
+  --accent2: #C24E27;
+  --surface: #E7E1D3;
   --font-display: "Anton";
   --font-body: "Archivo Variable";
   --font-plex-mono: "IBM Plex Mono";

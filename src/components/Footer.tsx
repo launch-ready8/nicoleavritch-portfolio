@@ -2,20 +2,15 @@
 
 import { usePathname } from "next/navigation";
 import type { SiteSettings } from "@/lib/sanity";
-import Doodle from "@/components/Doodle";
 
 /** Full color-field footer whose color changes per page. */
 export default function Footer({ settings }: { settings: SiteSettings }) {
   const pathname = usePathname() || "/";
   if (pathname.startsWith("/studio")) return null;
 
-  const scheme = pathname === "/"
-    ? { bg: "#1B7754", text: "var(--background)" }
-    : pathname.startsWith("/about")
-      ? { bg: "var(--accent2)", text: "var(--ink)" }
-      : pathname.startsWith("/work/")
-        ? { bg: "var(--ink)", text: "var(--background)" }
-        : { bg: "var(--accent)", text: "var(--ink)" };
+  const scheme = pathname.startsWith("/work/")
+    ? { bg: "var(--ink)", text: "var(--background)" }
+    : { bg: "var(--accent)", text: "var(--background)" };
 
   const L = settings.labels || {};
   const year = new Date().getFullYear();
@@ -24,8 +19,7 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
     <footer style={{ background: scheme.bg, color: scheme.text }}>
       <div className="mx-auto max-w-[1500px] px-5 py-16 md:px-10 md:py-20">
         <div className="relative">
-          <Doodle name="spark" className="absolute -top-6 right-[6%] h-9 w-9" strokeWidth={6} />
-          <Doodle name="paw" className="absolute -top-2 right-[16%] hidden h-9 w-9 md:block" strokeWidth={5} delay={0.3} />
+          <span className="display absolute -top-4 right-[6%] text-5xl md:text-6xl" aria-hidden>↗</span>
           <p className="label mb-4 opacity-60">{L.footerContact || "Contact"}</p>
           {settings.email && (
             <a
@@ -35,7 +29,7 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
               {settings.email.replace("@", " [at] ")}
             </a>
           )}
-          <Doodle name="peach" className="mt-5 h-10 w-10" strokeWidth={5} delay={0.5} />
+          <span className="mt-6 block h-1.5 w-24 bg-current opacity-80" aria-hidden />
         </div>
 
         <div

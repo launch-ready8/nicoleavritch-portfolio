@@ -5,7 +5,6 @@ import SmartImage from "@/components/SmartImage";
 import BlockRenderer from "@/components/BlockRenderer";
 import Reveal from "@/components/Reveal";
 import WordReveal from "@/components/WordReveal";
-import Doodle from "@/components/Doodle";
 
 export const revalidate = 60;
 
@@ -42,12 +41,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         </p>
         <h1 className="display relative text-[13vw] md:text-[9vw]">
           {project.title}
-          <Doodle
-            name="scribble"
-            className="absolute right-[4%] top-[-10%] h-[50%] w-[14%] text-accent"
-            strokeWidth={7}
-            delay={0.4}
-          />
+          <span className="ml-4 inline-block h-[0.5em] w-[0.5em] bg-accent align-baseline" aria-hidden />
         </h1>
         {meta && <p className="label mt-5 opacity-60">{meta}</p>}
         {project.tags && project.tags.length > 0 && (
@@ -60,7 +54,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         )}
       </header>
 
-      {project.heroImage && (
+      {project.heroImage && !project.hideHero && (
         <div className="mx-auto max-w-[1500px] px-5 md:px-10">
           <Reveal>
             <div className="img-zoom overflow-hidden">

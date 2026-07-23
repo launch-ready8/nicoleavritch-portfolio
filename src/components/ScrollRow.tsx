@@ -6,7 +6,7 @@ import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { urlFor, type ProjectCard } from "@/lib/sanity";
 
-const tones = ["#ECDFAB", "#F9B122", "#1B7754", "#EB3D00"];
+const tones = ["var(--accent)", "var(--ink)"];
 
 function Tile({ p, idx, mobile = false }: { p: ProjectCard; idx: number; mobile?: boolean }) {
   return (
@@ -24,14 +24,14 @@ function Tile({ p, idx, mobile = false }: { p: ProjectCard; idx: number; mobile?
             className="object-cover"
           />
         ) : (
-          <div className="h-full w-full" style={{ background: tones[idx % 4] }} />
+          <div className="h-full w-full" style={{ background: tones[idx % 2] }} />
         )}
       </div>
       <div className="mt-2 flex items-baseline justify-between gap-4">
         <span className="truncate text-xl font-medium transition-colors group-hover:text-accent md:text-3xl">
           {p.title}
         </span>
-        <span className="num shrink-0">{p.year || String(idx + 1).padStart(2, "0")}</span>
+        <span className="num shrink-0">{p.tags?.[0] || p.year || ""}</span>
       </div>
     </Link>
   );

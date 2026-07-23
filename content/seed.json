@@ -61,43 +61,6 @@
   },
   "projects": [
     {
-      "oldSlug": "lets-talk-peaches",
-      "slug": "lets-talk-peaches",
-      "title": "Let's Talk, Peaches",
-      "client": "Let's Talk, Peaches",
-      "year": "2020 – 2023",
-      "role": "Co-Founder, Brand & Design",
-      "tags": [
-        "Podcast Brand",
-        "Visual Identity",
-        "Art Direction"
-      ],
-      "featured": true,
-      "order": 2,
-      "intro": "I co-founded the podcast and designed all of it: the identity, the episode template system, and the website. The show grew past 40,000 streams.",
-      "extraBlocks": [
-        {
-          "type": "logoList",
-          "heading": "Featured guests — listen in",
-          "people": [
-            {
-              "name": "Puno",
-              "url": "https://podcasts.apple.com/us/podcast/lets-talk-creatives-business-and-female/id1523122912?i=1000564475608"
-            },
-            {
-              "name": "Zipeng Zhu",
-              "url": "https://podcasts.apple.com/us/podcast/lets-talk-taking-risks-living-boldly-learning-to-lead/id1523122912?i=1000548082274"
-            },
-            {
-              "name": "Jeffery Marsh",
-              "url": "https://podcasts.apple.com/us/podcast/lets-talk-radical-self-acceptance-spirituality-with/id1523122912?i=1000557882134"
-            }
-          ]
-        }
-      ],
-      "skipScrapedGallery": true
-    },
-    {
       "oldSlug": "independent-pet-partners",
       "slug": "independent-pet-partners",
       "title": "Independent Pet Partners",
@@ -125,6 +88,22 @@
       ],
       "extraBlocksAfter": [
         {
+          "type": "sectionHeader",
+          "kicker": "Beyond campaigns",
+          "heading": "Brand systems"
+        },
+        {
+          "type": "textSection",
+          "body": "I build the systems that keep the brand consistent: company-wide guidelines, the loyalty program identity, a multi-level credentialing program, and the wireframes for a full website redesign.\n\nThe Roosevelt house brand I helped design won a Graphis Silver award (Design Annual 2021) for its packaging."
+        },
+        {
+          "type": "imageUrls",
+          "urls": [
+            "https://graphis-assets.s3.amazonaws.com/uploads/cfe/entry/4649bc6a-2480-4be2-9d12-5d04b2f61a0f/roosevelt-comp-26lb-6up-v3.jpg"
+          ],
+          "caption": "Roosevelt packaging — Graphis Silver, Design Annual 2021"
+        },
+        {
           "type": "statsRow",
           "stats": [
             {
@@ -140,71 +119,46 @@
               "label": "locations, one brand system"
             }
           ]
-        },
-        {
-          "type": "sectionHeader",
-          "kicker": "Beyond campaigns",
-          "heading": "Brand systems"
-        },
-        {
-          "type": "textSection",
-          "body": "I build the systems that keep the brand consistent: company-wide guidelines, the loyalty program identity, a multi-level credentialing program, and the wireframes for a full website redesign.\n\nThe Roosevelt house brand I helped design won a Graphis Silver award (Design Annual 2021) for its packaging."
-        },
-        {
-          "type": "imageUrls",
-          "urls": [
-            "https://graphis-assets.s3.amazonaws.com/uploads/cfe/entry/4649bc6a-2480-4be2-9d12-5d04b2f61a0f/roosevelt-comp-26lb-6up-v3.jpg"
-          ],
-          "caption": "Roosevelt packaging — Graphis Silver, Design Annual 2021"
         }
       ],
       "skipScrapedGallery": true
     },
     {
-      "oldSlug": "loop",
-      "slug": "loop",
-      "title": "Loop",
-      "client": "Loop",
-      "year": "Freelance",
-      "role": "Brand Designer",
+      "oldSlug": "lets-talk-peaches",
+      "slug": "lets-talk-peaches",
+      "title": "Let's Talk, Peaches",
+      "client": "Let's Talk, Peaches",
+      "year": "2020 – 2023",
+      "role": "Co-Founder, Brand & Design",
       "tags": [
-        "Brand Identity",
-        "Social System",
-        "Motion"
+        "Podcast Brand",
+        "Visual Identity",
+        "Art Direction"
       ],
-      "featured": false,
-      "order": 3,
-      "intro": "Loop is an app for working through personal challenges over live audio. I built the brand identity for its social presence, then a template and motion system the team could run with."
-    },
-    {
-      "oldSlug": "loyal-companion",
-      "slug": "neon-cheetah",
-      "title": "Neon Cheetah",
-      "client": "Neon Cheetah",
-      "year": "Freelance",
-      "role": "Brand Designer",
-      "tags": [
-        "Brand Identity",
-        "Web Design"
-      ],
-      "featured": false,
-      "order": 4,
-      "intro": "Neon Cheetah is a fashion blog that helps readers find their inner cheetah. I designed an identity and website bold enough to keep up."
-    },
-    {
-      "oldSlug": null,
-      "slug": "forward",
-      "title": "Forward",
-      "client": "Forward",
-      "year": "Freelance",
-      "role": "Brand Designer",
-      "tags": [
-        "Brand Identity",
-        "Type & Badges"
-      ],
-      "featured": false,
-      "order": 5,
-      "intro": "Brand identity for Forward, a coaching practice: logo, palette, type system, and a set of certification badges."
+      "featured": true,
+      "order": 2,
+      "intro": "I co-founded the podcast and designed all of it: the identity, the episode template system, and the website. The show grew past 40,000 streams.",
+      "skipScrapedGallery": true,
+      "extraBlocksAfter": [
+        {
+          "type": "logoList",
+          "heading": "Featured guests — listen in",
+          "people": [
+            {
+              "name": "Puno",
+              "url": "https://podcasts.apple.com/us/podcast/lets-talk-creatives-business-and-female/id1523122912?i=1000564475608"
+            },
+            {
+              "name": "Zipeng Zhu",
+              "url": "https://podcasts.apple.com/us/podcast/lets-talk-taking-risks-living-boldly-learning-to-lead/id1523122912?i=1000548082274"
+            },
+            {
+              "name": "Jeffery Marsh",
+              "url": "https://podcasts.apple.com/us/podcast/lets-talk-radical-self-acceptance-spirituality-with/id1523122912?i=1000557882134"
+            }
+          ]
+        }
+      ]
     },
     {
       "oldSlug": "ubbi",
@@ -219,93 +173,42 @@
         "Stop Motion"
       ],
       "featured": false,
-      "order": 6,
+      "order": 3,
       "intro": "Ubbi is a baby and lifestyle brand. I worked across product and marketing: new product development, packaging, social, stop motion, and advertising.",
-      "skipScrapedGallery": true
+      "skipScrapedGallery": true,
+      "videosLast": true
     },
     {
-      "oldSlug": "zig",
-      "slug": "motion",
-      "title": "Motion",
-      "client": "Various",
-      "role": "Motion Designer",
-      "tags": [
-        "Motion",
-        "After Effects"
-      ],
-      "featured": false,
-      "order": 7,
-      "intro": "Motion work cut in After Effects: stop motion, logo animation, a lyric video, and quote animations."
-    },
-    {
-      "oldSlug": "empress-capital",
-      "slug": "custom-lettering",
-      "title": "Custom Lettering",
-      "client": "Various",
-      "role": "Letterer",
-      "tags": [
-        "Hand Lettering",
-        "Illustration"
-      ],
-      "featured": false,
-      "order": 8,
-      "intro": "Hand lettering in every pen, brush, and style I can get my hands on."
-    },
-    {
-      "oldSlug": "get-your-together",
-      "slug": "get-your-together",
-      "title": "Get Your ____ Together",
-      "client": "Self-initiated",
-      "role": "Designer & Author",
-      "tags": [
-        "Book Design",
-        "Print"
-      ],
-      "featured": false,
-      "order": 9,
-      "intro": "A 150 page, hand bound, participatory book. Readers flip, rip, spin, and write in it to uncover what's inside."
-    },
-    {
-      "oldSlug": "party-depot",
-      "slug": "party-depot",
-      "title": "Party Depot",
-      "client": "Party Depot",
+      "oldSlug": "loop",
+      "slug": "loop",
+      "title": "Loop",
+      "client": "Loop",
+      "year": "2021 – 2022",
       "role": "Brand Designer",
       "tags": [
-        "Rebrand",
-        "Retail"
+        "Brand Identity",
+        "Social System",
+        "Motion"
       ],
       "featured": false,
-      "order": 10,
-      "intro": "A rebrand that kicks the cliché party store aesthetic: organized, bold, and modern."
+      "order": 4,
+      "intro": "Loop is an app for working through personal challenges over live audio, built for a Gen Z audience. I created the brand identity for its social presence, then a template and motion system the team could run with."
     },
     {
-      "oldSlug": "cup-shop",
-      "slug": "cup-shop",
-      "title": "Cup Shop",
-      "client": "Self-initiated",
-      "role": "Designer",
+      "oldSlug": null,
+      "slug": "forward",
+      "title": "Forward",
+      "client": "Forward",
+      "year": "Freelance",
+      "role": "Brand Designer",
       "tags": [
-        "Visual System",
-        "Print"
+        "Brand Identity",
+        "Type & Badges"
       ],
       "featured": false,
-      "order": 11,
-      "intro": "Retail-ready coffee mugs, each for a different kind of coffee lover, with posters, a lookbook, and a website."
-    },
-    {
-      "oldSlug": "urban-outfitters",
-      "slug": "urban-outfitters",
-      "title": "Urban Outfitters",
-      "client": "Urban Outfitters",
-      "year": "2018",
-      "role": "Product Designer",
-      "tags": [
-        "Product Design"
-      ],
-      "featured": false,
-      "order": 12,
-      "intro": "Product design for Urban Outfitters' fall 2018 season, in femme and bohemian directions."
+      "order": 5,
+      "intro": "Brand identity for Forward, a coaching practice: logo, palette, type system, and a set of certification badges.",
+      "hideHero": true
     },
     {
       "oldSlug": "extra-goodness",
@@ -319,8 +222,65 @@
         "Retail"
       ],
       "featured": false,
-      "order": 13,
+      "order": 6,
       "intro": "A summer internship at an edible cookie dough shop in NYC. I designed holiday packaging, a partnership label, and retail materials."
+    },
+    {
+      "oldSlug": "loyal-companion",
+      "slug": "neon-cheetah",
+      "title": "Neon Cheetah",
+      "client": "Neon Cheetah",
+      "year": "Freelance",
+      "role": "Brand Designer",
+      "tags": [
+        "Brand Identity",
+        "Web Design"
+      ],
+      "featured": false,
+      "order": 7,
+      "intro": "Neon Cheetah is a fashion blog that helps readers find their inner cheetah. I designed an identity and website bold enough to keep up."
+    },
+    {
+      "oldSlug": "get-your-together",
+      "slug": "get-your-together",
+      "title": "Get Your ____ Together",
+      "client": "Self-initiated",
+      "role": "Designer & Author",
+      "tags": [
+        "Book Design",
+        "Print"
+      ],
+      "featured": false,
+      "order": 8,
+      "intro": "A 150 page, hand bound, participatory book. Readers flip, rip, spin, and write in it to uncover what's inside."
+    },
+    {
+      "oldSlug": "empress-capital",
+      "slug": "custom-lettering",
+      "title": "Custom Lettering",
+      "client": "Various",
+      "role": "Letterer",
+      "tags": [
+        "Hand Lettering",
+        "Illustration"
+      ],
+      "featured": false,
+      "order": 9,
+      "intro": "Hand lettering in every pen, brush, and style I can get my hands on."
+    },
+    {
+      "oldSlug": "zig",
+      "slug": "motion",
+      "title": "Motion",
+      "client": "Various",
+      "role": "Motion Designer",
+      "tags": [
+        "Motion",
+        "After Effects"
+      ],
+      "featured": false,
+      "order": 10,
+      "intro": "Motion work cut in After Effects: stop motion, logo animation, a lyric video, and quote animations."
     }
   ]
 }

@@ -33,11 +33,11 @@ export type Theme = {
 };
 
 export const DEFAULT_THEME: Theme = {
-  background: "#FDFCF9",
-  ink: "#09201B",
-  accent: "#EB3D00",
-  accent2: "#F9B122",
-  surface: "#ECDFAB",
+  background: "#F1ECE1",
+  ink: "#141414",
+  accent: "#C24E27",
+  accent2: "#C24E27",
+  surface: "#E7E1D3",
   fontPairing: "editorial",
 };
 
@@ -127,6 +127,7 @@ export type ProjectCard = {
 
 export type ProjectFull = ProjectCard & {
   role?: string;
+  hideHero?: boolean;
   credits?: string;
   blocks?: Block[];
 };
@@ -217,7 +218,7 @@ export async function getProject(slug: string): Promise<ProjectFull | null> {
   if (MOCK) return mockProjects.find((p) => p.slug === slug) || null;
   try {
     return await client.fetch(
-      `*[_type == "project" && slug.current == $slug][0]{${cardFields}, role, intro, credits, blocks}`,
+      `*[_type == "project" && slug.current == $slug][0]{${cardFields}, role, intro, credits, blocks, hideHero}`,
       { slug },
       { next: { revalidate: 60 } }
     );

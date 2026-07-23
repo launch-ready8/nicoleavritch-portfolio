@@ -1,6 +1,6 @@
 import { type Block } from "@/lib/sanity";
 import Reveal from "@/components/Reveal";
-import SmartImage from "@/components/SmartImage";
+import ZoomImage from "@/components/ZoomImage";
 
 function videoSrc(url: string): { embed?: string; mp4?: string } {
   const yt = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/);
@@ -49,7 +49,7 @@ export default function BlockRenderer({ blocks }: { blocks: Block[] }) {
             return block.image ? (
               <Reveal key={block._key}>
                 <figure>
-                  <SmartImage image={block.image} alt={block.caption || ""} sizes="95vw" maxWidth={2000} />
+                  <ZoomImage image={block.image} alt={block.caption || ""} sizes="95vw" maxWidth={2000} />
                   {block.caption && <figcaption className="label mt-2 opacity-50">{block.caption}</figcaption>}
                 </figure>
               </Reveal>
@@ -62,7 +62,7 @@ export default function BlockRenderer({ blocks }: { blocks: Block[] }) {
               <div key={block._key} className={`columns-1 gap-5 md:gap-6 ${cols}`}>
                 {block.images?.map((img, i) => (
                   <div key={i} className="img-zoom mb-5 break-inside-avoid overflow-hidden md:mb-6">
-                    <SmartImage image={img} sizes="(min-width: 768px) 45vw, 95vw" maxWidth={1200} />
+                    <ZoomImage image={img} sizes="(min-width: 768px) 45vw, 95vw" maxWidth={1200} />
                   </div>
                 ))}
               </div>

@@ -4,7 +4,6 @@ import { getProjects, getSettings, urlFor } from "@/lib/sanity";
 import Ticker from "@/components/Ticker";
 import Reveal from "@/components/Reveal";
 import WordReveal from "@/components/WordReveal";
-import Doodle from "@/components/Doodle";
 
 export const revalidate = 60;
 
@@ -24,12 +23,7 @@ export default async function Home() {
           <span className="block text-right text-[19vw] leading-[0.88] md:text-[14vw]">{first}</span>
           <span className="relative block text-[19vw] leading-[0.88] md:text-[14vw]">
             {last}
-            <Doodle
-              name="scribble"
-              className="absolute left-[18%] top-[6%] h-[72%] w-[26%] text-accent"
-              strokeWidth={7}
-              delay={0.5}
-            />
+            <span className="absolute right-[2%] top-[10%] hidden h-[10%] w-[22%] bg-accent md:block" aria-hidden />
           </span>
         </h1>
         <div className="relative mt-2 md:mt-4">
@@ -38,7 +32,7 @@ export default async function Home() {
             <br />
             &amp; {taglineParts[1]?.trim().toLowerCase()})
           </p>
-          <Doodle name="chevrons" className="absolute right-2 top-2 h-10 w-10 text-accent md:h-14 md:w-14" delay={1} />
+          <span className="display absolute right-2 top-0 text-[8vw] text-accent md:text-[4.5vw]" aria-hidden>↓</span>
         </div>
       </section>
 
@@ -46,7 +40,7 @@ export default async function Home() {
       {settings.heroLine && (
         <section className="mx-auto max-w-[1500px] px-5 py-20 md:px-10 md:py-28">
           <div className="relative mx-auto max-w-2xl md:ml-[38%]">
-            <Doodle name="arrowCircle" className="absolute -left-20 top-1 hidden h-12 w-12 text-accent md:block" strokeWidth={5} />
+            <span className="display absolute -left-20 top-0 hidden text-5xl text-accent md:block" aria-hidden>→</span>
             <WordReveal text={settings.heroLine} className="text-2xl leading-snug md:text-4xl" />
           </div>
         </section>
@@ -78,7 +72,7 @@ export default async function Home() {
                       className="object-cover"
                     />
                   ) : (
-                    <div className="h-full w-full" style={{ background: i % 2 ? "#1B7754" : "#ECDFAB" }} />
+                    <div className="h-full w-full" style={{ background: i % 2 ? "var(--ink)" : "var(--accent)" }} />
                   )}
                 </div>
                 <div className="mt-3 flex items-baseline justify-between">
@@ -101,17 +95,15 @@ export default async function Home() {
           <div className="border-t rule">
             {rest.map((p, i) => {
               const rowTones = [
-                { c: "#EB3D00", t: "#FDFCF9" },
-                { c: "#F9B122", t: "#09201B" },
-                { c: "#1B7754", t: "#FDFCF9" },
-                { c: "#ECDFAB", t: "#09201B" },
+                { c: "var(--accent)", t: "var(--background)" },
+                { c: "var(--ink)", t: "var(--background)" },
               ];
               return (
                 <Link
                   key={p._id}
                   href={`/work/${p.slug}`}
                   className="work-row flex items-baseline justify-between py-3.5"
-                  style={{ "--row-c": rowTones[i % 4].c, "--row-t": rowTones[i % 4].t } as React.CSSProperties}
+                  style={{ "--row-c": rowTones[i % 2].c, "--row-t": rowTones[i % 2].t } as React.CSSProperties}
                 >
                   <span className="flex items-baseline gap-4">
                     <span className="num text-accent opacity-100">
