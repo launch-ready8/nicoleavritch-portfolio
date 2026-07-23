@@ -21,10 +21,7 @@ export default async function Home() {
       <section className="mx-auto max-w-[1500px] px-5 pt-6 md:px-10">
         <h1 className="display relative">
           <span className="block text-right text-[19vw] leading-[0.88] md:text-[14vw]">{first}</span>
-          <span className="relative block text-[19vw] leading-[0.88] md:text-[14vw]">
-            {last}
-            <span className="absolute right-[2%] top-[10%] hidden h-[10%] w-[22%] bg-accent md:block" aria-hidden />
-          </span>
+          <span className="block text-[19vw] leading-[0.88] md:text-[14vw]">{last}</span>
         </h1>
         <div className="relative mt-2 md:mt-4">
           <p className="text-[8vw] leading-[1.05] tracking-tight md:text-[5vw]">

@@ -39,10 +39,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           </Link>
           {"  "}/ {String(idx + 1).padStart(2, "0")}
         </p>
-        <h1 className="display relative text-[13vw] md:text-[9vw]">
-          {project.title}
-          <span className="ml-4 inline-block h-[0.5em] w-[0.5em] bg-accent align-baseline" aria-hidden />
-        </h1>
+        <h1 className="display text-[13vw] md:text-[9vw]">{project.title}</h1>
         {meta && <p className="label mt-5 opacity-60">{meta}</p>}
         {project.tags && project.tags.length > 0 && (
           <p className="label mt-1.5 opacity-40">{project.tags.join("  /  ")}</p>

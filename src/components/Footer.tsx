@@ -29,7 +29,6 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
               {settings.email.replace("@", " [at] ")}
             </a>
           )}
-          <span className="mt-6 block h-1.5 w-24 bg-current opacity-80" aria-hidden />
         </div>
 
         <div
