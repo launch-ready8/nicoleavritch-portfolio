@@ -91,22 +91,11 @@ export default function BlockRenderer({ blocks }: { blocks: Block[] }) {
               </Reveal>
             );
           }
-          case "statsRow": {
-            const n = block.stats?.length || 0;
-            const statCols = n <= 2 ? "md:grid-cols-2" : n === 3 ? "md:grid-cols-3" : "md:grid-cols-4";
-            return (
-              <Reveal key={block._key}>
-                <div className={`grid grid-cols-2 gap-8 ${statCols}`}>
-                  {block.stats?.map((s, i) => (
-                    <div key={i}>
-                      <p className="display text-6xl text-ink/15 md:text-7xl">{s.value}</p>
-                      <p className="mt-3 max-w-[16rem] bg-ink/5 p-3 text-sm leading-relaxed">{s.label}</p>
-                    </div>
-                  ))}
-                </div>
-              </Reveal>
-            );
-          }
+          case "statsRow":
+            // Per Nicole's review: the big-number stat treatment is removed from
+            // the site for now. Data stays in the CMS; flip this back on later
+            // by restoring the renderer here.
+            return null;
           case "logoList": {
             const people =
               block.people && block.people.length > 0

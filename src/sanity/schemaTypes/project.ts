@@ -172,7 +172,7 @@ export const project = defineType({
         }),
         defineArrayMember({
           name: "statsRow",
-          title: "Numbers / results",
+          title: "Numbers / results (currently hidden on the live site)",
           type: "object",
           fields: [
             defineField({
