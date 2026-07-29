@@ -35,8 +35,8 @@ export type Theme = {
 export const DEFAULT_THEME: Theme = {
   background: "#F1ECE1",
   ink: "#141414",
-  accent: "#C24E27",
-  accent2: "#C24E27",
+  accent: "#FB4A1E",
+  accent2: "#FB4A1E",
   surface: "#E7E1D3",
   fontPairing: "editorial",
 };

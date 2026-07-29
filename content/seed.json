@@ -208,7 +208,8 @@
       "featured": false,
       "order": 5,
       "intro": "Brand identity for Forward, a coaching practice: logo, palette, type system, and a set of certification badges.",
-      "hideHero": true
+      "hideHero": true,
+      "gridColumns": 1
     },
     {
       "oldSlug": "extra-goodness",
@@ -238,7 +239,9 @@
       ],
       "featured": false,
       "order": 7,
-      "intro": "Neon Cheetah is a fashion blog that helps readers find their inner cheetah. I designed an identity and website bold enough to keep up."
+      "intro": "Neon Cheetah is a fashion blog that helps readers find their inner cheetah. I designed an identity and website bold enough to keep up.",
+      "gridColumns": 1,
+      "skipScrapedGallery": true
     },
     {
       "oldSlug": "get-your-together",

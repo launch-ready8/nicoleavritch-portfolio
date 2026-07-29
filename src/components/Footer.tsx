@@ -8,9 +8,7 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
   const pathname = usePathname() || "/";
   if (pathname.startsWith("/studio")) return null;
 
-  const scheme = pathname.startsWith("/work/")
-    ? { bg: "var(--ink)", text: "var(--background)" }
-    : { bg: "var(--accent)", text: "var(--background)" };
+  const scheme = { bg: "var(--ink)", text: "var(--background)" };
 
   const L = settings.labels || {};
   const year = new Date().getFullYear();
@@ -19,7 +17,13 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
     <footer style={{ background: scheme.bg, color: scheme.text }}>
       <div className="mx-auto max-w-[1500px] px-5 py-16 md:px-10 md:py-20">
         <div className="relative">
-          <span className="display absolute -top-4 right-[6%] text-5xl md:text-6xl" aria-hidden>↗</span>
+          <a
+            href="#top"
+            aria-label="Back to top"
+            className="display absolute -top-4 right-[6%] text-5xl transition-opacity hover:opacity-60 md:text-6xl"
+          >
+            ↑
+          </a>
           <p className="label mb-4 opacity-60">{L.footerContact || "Contact"}</p>
           {settings.email && (
             <a

@@ -1,4 +1,5 @@
-import { type Block } from "@/lib/sanity";
+import { type Block, type SanityImageSource } from "@/lib/sanity";
+import GalleryProvider from "@/components/Gallery";
 import Reveal from "@/components/Reveal";
 import ZoomImage from "@/components/ZoomImage";
 
@@ -12,7 +13,24 @@ function videoSrc(url: string): { embed?: string; mp4?: string } {
 }
 
 export default function BlockRenderer({ blocks }: { blocks: Block[] }) {
+  // flat list of every image on the page, so the lightbox can arrow through all of them
+  const allImages: SanityImageSource[] = [];
+  const indexOfBlockImage = new Map<string, number>();
+  for (const b of blocks) {
+    if (b._type === "fullBleedImage" && b.image) {
+      indexOfBlockImage.set(b._key, allImages.length);
+      allImages.push(b.image);
+    }
+    if (b._type === "imageGrid") {
+      (b.images || []).forEach((img, i) => {
+        indexOfBlockImage.set(`${b._key}:${i}`, allImages.length);
+        allImages.push(img);
+      });
+    }
+  }
+
   return (
+    <GalleryProvider images={allImages}>
     <div className="grid gap-12 md:gap-20">
       {blocks.map((block) => {
         switch (block._type) {
@@ -49,20 +67,38 @@ export default function BlockRenderer({ blocks }: { blocks: Block[] }) {
             return block.image ? (
               <Reveal key={block._key}>
                 <figure>
-                  <ZoomImage image={block.image} alt={block.caption || ""} sizes="95vw" maxWidth={2000} />
+                  <ZoomImage
+                    image={block.image}
+                    alt={block.caption || ""}
+                    sizes="95vw"
+                    maxWidth={2000}
+                    galleryIndex={indexOfBlockImage.get(block._key) || 0}
+                  />
                   {block.caption && <figcaption className="label mt-2 opacity-50">{block.caption}</figcaption>}
                 </figure>
               </Reveal>
             ) : null;
           case "imageGrid": {
-            // masonry: images keep their native aspect ratio, no cropping
+            // aligned grid, natural ratios; columns: 1 stacks full-width for scroll-through pages
             const cols =
-              block.columns === 3 ? "md:columns-3" : block.columns === 4 ? "md:columns-4" : "md:columns-2";
+              block.columns === 1
+                ? "md:grid-cols-1"
+                : block.columns === 3
+                  ? "md:grid-cols-3"
+                  : block.columns === 4
+                    ? "md:grid-cols-4"
+                    : "md:grid-cols-2";
+            const wide = block.columns === 1;
             return (
-              <div key={block._key} className={`columns-1 gap-5 md:gap-6 ${cols}`}>
+              <div key={block._key} className={`grid grid-cols-1 items-start gap-5 md:gap-6 ${cols}`}>
                 {block.images?.map((img, i) => (
-                  <div key={i} className="img-zoom mb-5 break-inside-avoid overflow-hidden md:mb-6">
-                    <ZoomImage image={img} sizes="(min-width: 768px) 45vw, 95vw" maxWidth={1200} />
+                  <div key={i} className="img-zoom overflow-hidden">
+                    <ZoomImage
+                      image={img}
+                      sizes={wide ? "95vw" : "(min-width: 768px) 45vw, 95vw"}
+                      maxWidth={wide ? 2000 : 1200}
+                      galleryIndex={indexOfBlockImage.get(`${block._key}:${i}`) || 0}
+                    />
                   </div>
                 ))}
               </div>
@@ -133,5 +169,6 @@ export default function BlockRenderer({ blocks }: { blocks: Block[] }) {
         }
       })}
     </div>
+    </GalleryProvider>
   );
 }

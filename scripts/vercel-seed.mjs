@@ -16,7 +16,7 @@ import path from "node:path";
  * editing in the Studio, do NOT bump SEED_VERSION — make content changes in
  * the Studio instead. Only bump for a deliberate full reset.
  */
-const SEED_VERSION = 6; // bump to force a reseed on next deploy (see warning above)
+const SEED_VERSION = 7; // bump to force a reseed on next deploy (see warning above)
 
 const IS_VERCEL = !!process.env.VERCEL;
 const token = process.env.SANITY_TOKEN;
@@ -151,8 +151,8 @@ async function main() {
     fontPairing: "editorial",
     colorBackground: color("#F1ECE1"),
     colorInk: color("#141414"),
-    colorAccent: color("#C24E27"),
-    colorAccent2: color("#C24E27"),
+    colorAccent: color("#FB4A1E"),
+    colorAccent2: color("#FB4A1E"),
     colorSurface: color("#E7E1D3"),
   });
   console.log("[seed] siteSettings ✓");
@@ -235,7 +235,7 @@ async function main() {
       const lead = pdfRefs.filter((r) => r !== heroImage);
       for (let i = 0; i < lead.length; i += 6) {
         blocks.push({
-          _type: "imageGrid", _key: `${p.slug}-pdfgrid-${i}`, columns: 2,
+          _type: "imageGrid", _key: `${p.slug}-pdfgrid-${i}`, columns: p.gridColumns || 2,
           images: lead.slice(i, i + 6).map((r, j) => ({ ...r, _key: `${p.slug}-pdfimg-${i}-${j}` })),
         });
       }
@@ -259,7 +259,7 @@ async function main() {
       if (p.videosLast) videos.forEach((v, i) => blocks.push({ _type: "videoEmbed", _key: `${p.slug}-vid-${i}`, url: v }));
       for (let i = 0; i < scraped.length; i += 6) {
         blocks.push({
-          _type: "imageGrid", _key: `${p.slug}-grid-${i}`, columns: 2,
+          _type: "imageGrid", _key: `${p.slug}-grid-${i}`, columns: p.gridColumns || 2,
           images: scraped.slice(i, i + 6).map((r, j) => ({ ...r, _key: `${p.slug}-img-${i}-${j}` })),
         });
       }

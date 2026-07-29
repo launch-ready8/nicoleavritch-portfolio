@@ -14,13 +14,15 @@ export default async function AboutPage() {
 
   return (
     <div id="top" className="mx-auto max-w-[1500px] px-5 pt-8 md:px-10">
-      {/* Opener + positioning, composed as one block */}
-      <section className="grid gap-10 py-8 md:grid-cols-[1.3fr_1fr] md:items-end md:gap-16 md:py-12">
-        <div>
-          <p className="label mb-5 opacity-50">{L.getToKnowMe || "Get to know me"}</p>
-          {about?.headline && <WordReveal text={about.headline} className="text-3xl leading-snug md:text-5xl" />}
-        </div>
-        <h1 className="text-2xl leading-tight md:text-3xl">
+      {/* Opener — big and centered, per Nicole */}
+      <section className="mx-auto max-w-3xl py-12 md:py-20">
+        <p className="label mb-5 opacity-50">{L.getToKnowMe || "Get to know me"}</p>
+        {about?.headline && <WordReveal text={about.headline} className="text-3xl leading-snug md:text-5xl" />}
+      </section>
+
+      {/* Positioning */}
+      <section className="pb-10">
+        <h1 className="text-3xl leading-tight md:text-5xl">
           {positioning.map((p, i) => (
             <span key={i} className="block">
               {i > 0 && <span className="text-accent">| </span>}

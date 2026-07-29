@@ -25,11 +25,21 @@ export default async function Home() {
         </h1>
         <div className="relative mt-2 md:mt-4">
           <p className="text-[8vw] leading-[1.05] tracking-tight md:text-[5vw]">
-            ({taglineParts[0]?.trim()}
+            (<span className="relative inline-block">
+              {taglineParts[0]?.trim()}
+              <svg
+                className="pointer-events-none absolute -inset-x-[5%] -inset-y-[14%] h-[128%] w-[110%] text-accent"
+                viewBox="0 0 300 100"
+                preserveAspectRatio="none"
+                fill="none"
+                aria-hidden
+              >
+                <ellipse cx="150" cy="50" rx="147" ry="46" stroke="currentColor" strokeWidth="2.5" />
+              </svg>
+            </span>
             <br />
             &amp; {taglineParts[1]?.trim().toLowerCase()})
           </p>
-          <span className="display absolute right-2 top-0 text-[8vw] text-accent md:text-[4.5vw]" aria-hidden>↓</span>
         </div>
       </section>
 
@@ -37,7 +47,9 @@ export default async function Home() {
       {settings.heroLine && (
         <section className="mx-auto max-w-[1500px] px-5 py-20 md:px-10 md:py-28">
           <div className="relative mx-auto max-w-2xl md:ml-[38%]">
-            <span className="display absolute -left-20 top-0 hidden text-5xl text-accent md:block" aria-hidden>→</span>
+            <svg className="absolute -left-24 top-1 hidden h-12 w-12 text-accent md:block" viewBox="0 0 100 100" fill="none" aria-hidden>
+              <path d="M50 4 V96 M8 50 H92 M20 20 L80 80 M80 20 L20 80" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+            </svg>
             <WordReveal text={settings.heroLine} className="text-2xl leading-snug md:text-4xl" />
           </div>
         </section>
@@ -91,16 +103,13 @@ export default async function Home() {
           <p className="label mb-5 opacity-50">{L.moreProjects || "More projects"}</p>
           <div className="border-t rule">
             {rest.map((p, i) => {
-              const rowTones = [
-                { c: "var(--accent)", t: "var(--background)" },
-                { c: "var(--ink)", t: "var(--background)" },
-              ];
+              const rowTones = [{ c: "var(--ink)", t: "var(--background)" }];
               return (
                 <Link
                   key={p._id}
                   href={`/work/${p.slug}`}
                   className="work-row flex items-baseline justify-between py-3.5"
-                  style={{ "--row-c": rowTones[i % 2].c, "--row-t": rowTones[i % 2].t } as React.CSSProperties}
+                  style={{ "--row-c": rowTones[0].c, "--row-t": rowTones[0].t } as React.CSSProperties}
                 >
                   <span className="flex items-baseline gap-4">
                     <span className="num text-accent opacity-100">
