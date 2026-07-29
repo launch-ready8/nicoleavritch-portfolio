@@ -4,8 +4,6 @@ import "@fontsource-variable/archivo";
 import "@fontsource/bebas-neue";
 import "@fontsource/archivo-black";
 import "@fontsource-variable/space-grotesk";
-import "@fontsource/ibm-plex-mono/400.css";
-import "@fontsource/ibm-plex-mono/500.css";
 import { getSettings } from "@/lib/sanity";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";

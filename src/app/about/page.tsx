@@ -1,6 +1,6 @@
 import { getAbout, getSettings } from "@/lib/sanity";
 import Reveal from "@/components/Reveal";
-import ManifestoText from "@/components/ManifestoText";
+import WordReveal from "@/components/WordReveal";
 import SmartImage from "@/components/SmartImage";
 
 export const revalidate = 60;
@@ -14,10 +14,14 @@ export default async function AboutPage() {
 
   return (
     <div id="top" className="mx-auto max-w-[1500px] px-5 pt-8 md:px-10">
-      {/* Opener — staggered manifesto treatment */}
-      <section className="py-12 md:py-20">
-        <p className="label mb-8 opacity-50">{L.getToKnowMe || "Get to know me"}</p>
-        {about?.headline && <ManifestoText text={about.headline} className="text-3xl md:text-6xl" />}
+      {/* Opener — centered word-by-word reveal */}
+      <section className="py-12 text-center md:py-20">
+        <p className="label mb-8 opacity-70">{L.getToKnowMe || "Get to know me"}</p>
+        {about?.headline && (
+          <div className="mx-auto max-w-3xl">
+            <WordReveal text={about.headline} className="text-3xl leading-snug md:text-5xl" />
+          </div>
+        )}
       </section>
 
       {/* Positioning */}
@@ -67,20 +71,20 @@ export default async function AboutPage() {
       {/* Experience / recognition / skills */}
       <section className="grid gap-10 border-t rule py-12 md:grid-cols-3">
         <div>
-          <p className="label mb-4 opacity-40">{L.experienceLabel || "Experience"}</p>
+          <p className="label mb-4 opacity-60">{L.experienceLabel || "Experience"}</p>
           <div className="grid gap-4">
             {about?.experience?.map((e, i) => (
               <div key={i}>
                 <p className="text-sm font-medium">
                   {e.role} | {e.company}
                 </p>
-                <p className="label mt-0.5 opacity-50">{e.dates}</p>
+                <p className="label mt-0.5 opacity-70">{e.dates}</p>
               </div>
             ))}
           </div>
         </div>
         <div>
-          <p className="label mb-4 opacity-40">{L.recognitionLabel || "Recognition & education"}</p>
+          <p className="label mb-4 opacity-60">{L.recognitionLabel || "Recognition & education"}</p>
           <div className="grid gap-3">
             {about?.recognition?.map((r, i) => (
               <p key={i} className="text-sm leading-relaxed">
@@ -92,12 +96,12 @@ export default async function AboutPage() {
         <div className="grid content-start gap-8">
           {about?.skills && about.skills.length > 0 && (
             <div>
-              <p className="label mb-4 opacity-40">{L.craftLabel || "Craft"}</p>
+              <p className="label mb-4 opacity-60">{L.craftLabel || "Craft"}</p>
               <p className="text-sm font-medium leading-relaxed">{about.skills.join(", ")}</p>
             </div>
           )}
           <div>
-            <p className="label mb-4 opacity-40">{L.softwareLabel || "Software"}</p>
+            <p className="label mb-4 opacity-60">{L.softwareLabel || "Software"}</p>
             <p className="text-sm font-medium leading-relaxed">
               {about?.software ||
                 "Adobe Creative Suite, Figma, Canva, Wordpress, basic CSS/HTML, and an expanding AI toolkit (Midjourney, Figma Weave, Claude, Gemini)"}

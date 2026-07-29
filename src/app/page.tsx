@@ -4,6 +4,9 @@ import { getProjects, getSettings, urlFor } from "@/lib/sanity";
 import Ticker from "@/components/Ticker";
 import Reveal from "@/components/Reveal";
 import WordReveal from "@/components/WordReveal";
+import HeroEllipse from "@/components/HeroEllipse";
+import ViewAllBand from "@/components/ViewAllBand";
+import HoverIndex from "@/components/HoverIndex";
 
 export const revalidate = 60;
 
@@ -14,6 +17,16 @@ export default async function Home() {
   const [first = "Nicole", last = "Avritch"] = settings.siteTitle.split(" ");
   const L = settings.labels || {};
   const taglineParts = (settings.tagline || "Creative Director & Senior Designer").split(/\s*&\s*/);
+  const viewAll = L.seeAllWork || "View all work";
+
+  const indexRows = rest.map((p, i) => ({
+    id: p._id,
+    title: p.title,
+    slug: p.slug,
+    tag: p.tags?.[0],
+    num: String(i + featured.length + 1).padStart(2, "0"),
+    img: p.heroImage ? urlFor(p.heroImage).width(600).fit("max").url() : null,
+  }));
 
   return (
     <div id="top">
@@ -27,18 +40,10 @@ export default async function Home() {
           <p className="text-[8vw] leading-[1.05] tracking-tight md:text-[5vw]">
             (<span className="relative inline-block">
               {taglineParts[0]?.trim()}
-              <svg
-                className="pointer-events-none absolute -inset-x-[5%] -inset-y-[14%] h-[128%] w-[110%] text-accent"
-                viewBox="0 0 300 100"
-                preserveAspectRatio="none"
-                fill="none"
-                aria-hidden
-              >
-                <ellipse cx="150" cy="50" rx="147" ry="46" stroke="currentColor" strokeWidth="2.5" />
-              </svg>
+              <HeroEllipse />
             </span>
             <br />
-            &amp; {taglineParts[1]?.trim().toLowerCase()})
+            &amp; {taglineParts[1]?.trim()})
           </p>
         </div>
       </section>
@@ -65,7 +70,14 @@ export default async function Home() {
 
       {/* FEATURED — restrained scale, side by side on desktop */}
       <section className="mx-auto max-w-[1500px] px-5 py-16 md:px-10 md:py-24">
-        <p className="label mb-8 opacity-50">{L.selectedWork || "Selected work"}</p>
+        <p className="label mb-8">
+          <span
+            className="inline-block px-2.5 py-1.5"
+            style={{ background: "var(--accent)", color: "var(--background)" }}
+          >
+            {L.selectedWork || "Selected work"}
+          </span>
+        </p>
         <div className="grid gap-12 md:grid-cols-2 md:gap-10">
           {featured.map((p, i) => (
             <Reveal key={p._id} delay={i * 0.1}>
@@ -90,41 +102,24 @@ export default async function Home() {
                   </span>
                   <span className="num">{p.year}</span>
                 </div>
-                {p.tags && <p className="label mt-1 opacity-50">{p.tags.slice(0, 3).join(" · ")}</p>}
+                {p.tags && <p className="label mt-1 opacity-70">{p.tags.slice(0, 3).join(" · ")}</p>}
               </Link>
             </Reveal>
           ))}
         </div>
       </section>
 
-      {/* QUIET INDEX */}
+      {/* VIEW ALL WORK — clickable slider band right under the featured pair */}
+      <ViewAllBand text={viewAll.replace(/\s*→\s*$/, "")} />
+
+      {/* QUIET INDEX with cursor image previews */}
       {rest.length > 0 && (
-        <section className="mx-auto max-w-[1500px] px-5 pb-24 md:px-10">
-          <p className="label mb-5 opacity-50">{L.moreProjects || "More projects"}</p>
-          <div className="border-t rule">
-            {rest.map((p, i) => {
-              const rowTones = [{ c: "var(--ink)", t: "var(--background)" }];
-              return (
-                <Link
-                  key={p._id}
-                  href={`/work/${p.slug}`}
-                  className="work-row flex items-baseline justify-between py-3.5"
-                  style={{ "--row-c": rowTones[0].c, "--row-t": rowTones[0].t } as React.CSSProperties}
-                >
-                  <span className="flex items-baseline gap-4">
-                    <span className="num">
-                      {String(i + featured.length + 1).padStart(2, "0")}
-                    </span>
-                    <span className="text-lg md:text-2xl">{p.title}</span>
-                  </span>
-                  <span className="label opacity-50">{p.tags?.[0]}</span>
-                </Link>
-              );
-            })}
-          </div>
+        <section className="mx-auto max-w-[1500px] px-5 py-16 pb-24 md:px-10">
+          <p className="label mb-5 opacity-70">{L.moreProjects || "More projects"}</p>
+          <HoverIndex rows={indexRows} />
           <div className="mt-8">
             <Link href="/work" className="stamp-btn">
-              {L.seeAllWork || "See all work →"}
+              {viewAll.replace(/\s*→\s*$/, "")} →
             </Link>
           </div>
         </section>

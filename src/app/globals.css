@@ -8,7 +8,6 @@
   --surface: #E7E1D3;
   --font-display: "Anton";
   --font-body: "Archivo Variable";
-  --font-plex-mono: "IBM Plex Mono";
 }
 
 @theme inline {
@@ -19,7 +18,7 @@
   --color-surface: var(--surface);
   --font-display: var(--font-display);
   --font-body: var(--font-body);
-  --font-mono: var(--font-plex-mono);
+  --font-mono: var(--font-body);
 }
 
 html {
@@ -65,7 +64,7 @@ body {
   font-weight: 500;
   font-size: 0.7rem;
   letter-spacing: 0.06em;
-  opacity: 0.55;
+  opacity: 0.75;
 }
 
 /* quiet text link */
@@ -133,6 +132,15 @@ body {
 .thumb-track.left { animation: drift-l 55s linear infinite; }
 .thumb-track.right { animation: drift-r 60s linear infinite; }
 .thumb-track:hover { animation-play-state: paused; }
+
+/* view-all marquee band — inverts on hover */
+.view-all-band {
+  transition: background 0.25s ease, color 0.25s ease;
+}
+.view-all-band:hover {
+  background: var(--ink);
+  color: var(--background);
+}
 
 /* image hover */
 .img-zoom img {

@@ -38,7 +38,7 @@ export default function BlockRenderer({ blocks }: { blocks: Block[] }) {
             return (
               <Reveal key={block._key}>
                 <div className="border-t rule pt-8">
-                  {block.kicker && <p className="label mb-3 opacity-50">{block.kicker}</p>}
+                  {block.kicker && <p className="label mb-3 opacity-70">{block.kicker}</p>}
                   {block.heading && (
                     <h2 className="display text-5xl md:text-7xl">
                       {block.heading}.
@@ -73,7 +73,7 @@ export default function BlockRenderer({ blocks }: { blocks: Block[] }) {
                     maxWidth={2000}
                     galleryIndex={indexOfBlockImage.get(block._key) || 0}
                   />
-                  {block.caption && <figcaption className="label mt-2 opacity-50">{block.caption}</figcaption>}
+                  {block.caption && <figcaption className="label mt-2 opacity-70">{block.caption}</figcaption>}
                 </figure>
               </Reveal>
             ) : null;
@@ -124,7 +124,7 @@ export default function BlockRenderer({ blocks }: { blocks: Block[] }) {
                       />
                     )}
                   </div>
-                  {block.caption && <figcaption className="label mt-2 opacity-50">{block.caption}</figcaption>}
+                  {block.caption && <figcaption className="label mt-2 opacity-70">{block.caption}</figcaption>}
                 </figure>
               </Reveal>
             );
@@ -142,7 +142,7 @@ export default function BlockRenderer({ blocks }: { blocks: Block[] }) {
             return (
               <Reveal key={block._key}>
                 <div className="mx-auto max-w-3xl">
-                  {block.heading && <p className="label mb-4 opacity-50">{block.heading}</p>}
+                  {block.heading && <p className="label mb-4 opacity-70">{block.heading}</p>}
                   <div className="flex flex-wrap gap-x-8 gap-y-3">
                     {people.map((person, i) =>
                       person.url ? (

@@ -84,7 +84,7 @@ export const siteSettings = defineType({
       fields: [
         defineField({ name: "selectedWork", title: "Homepage: featured section label", type: "string", placeholder: "Selected work" }),
         defineField({ name: "moreProjects", title: "Homepage: index label", type: "string", placeholder: "More projects" }),
-        defineField({ name: "seeAllWork", title: "Homepage: button to Work page", type: "string", placeholder: "See all work →" }),
+        defineField({ name: "seeAllWork", title: "Homepage: 'View all work' button & slider band", type: "string", placeholder: "View all work" }),
         defineField({ name: "workIndexLabel", title: "Work page: top label", type: "string", placeholder: "Selected projects" }),
         defineField({ name: "backToWork", title: "Project page: back link", type: "string", placeholder: "← Work" }),
         defineField({ name: "nextProject", title: "Project page: next-project label", type: "string", placeholder: "Next project" }),

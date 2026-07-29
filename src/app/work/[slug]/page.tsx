@@ -33,7 +33,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   return (
     <article id="top">
       <header className="mx-auto max-w-[1500px] px-5 pt-8 md:px-10">
-        <p className="label mb-6 opacity-50">
+        <p className="label mb-6 opacity-70">
           <Link href="/work" className="transition-colors hover:text-accent">
             {L.backToWork || "← Work"}
           </Link>
@@ -42,7 +42,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         <h1 className="display text-[13vw] md:text-[9vw]">{project.title}</h1>
         {meta && <p className="label mt-5 opacity-60">{meta}</p>}
         {project.tags && project.tags.length > 0 && (
-          <p className="label mt-1.5 opacity-40">{project.tags.join("  /  ")}</p>
+          <p className="label mt-1.5 opacity-60">{project.tags.join("  /  ")}</p>
         )}
         {project.intro && (
           <div className="max-w-3xl py-10 md:py-14">
@@ -69,13 +69,13 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
       {project.credits && (
         <div className="mx-auto max-w-[1500px] px-5 pb-12 md:px-10">
-          <p className="label max-w-2xl whitespace-pre-line leading-relaxed opacity-50">{project.credits}</p>
+          <p className="label max-w-2xl whitespace-pre-line leading-relaxed opacity-70">{project.credits}</p>
         </div>
       )}
 
       {next && (
         <div className="mx-auto max-w-[1500px] px-5 py-16 md:px-10 md:py-24">
-          <p className="label mb-4 opacity-50">{L.nextProject || "Next project"}</p>
+          <p className="label mb-4 opacity-70">{L.nextProject || "Next project"}</p>
           <Link href={`/work/${next.slug}`} className="group flex items-baseline justify-between">
             <span className="display text-4xl transition-colors group-hover:text-accent md:text-7xl">
               {next.title}

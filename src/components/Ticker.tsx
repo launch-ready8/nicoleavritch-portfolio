@@ -5,7 +5,7 @@ export default function Ticker({ items }: { items: string[] }) {
         {item}
       </span>,
       <span key={`${prefix}-a-${i}`} className="text-[13px] opacity-50">
-        · ✳ ·
+        ✳
       </span>,
     ]);
   return (

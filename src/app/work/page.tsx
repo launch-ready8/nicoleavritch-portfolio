@@ -16,7 +16,7 @@ export default async function WorkPage() {
   return (
     <div id="top">
       <div className="mx-auto max-w-[1500px] px-5 pt-8 md:px-10">
-        <p className="label opacity-50">{L.workIndexLabel || "Selected projects"}</p>
+        <p className="label opacity-70">{L.workIndexLabel || "Selected projects"}</p>
       </div>
       <section className="mt-6 grid gap-10 pb-16 md:gap-14">
         {rows.map((row, i) => (

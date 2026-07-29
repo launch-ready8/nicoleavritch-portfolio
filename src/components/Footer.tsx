@@ -53,7 +53,6 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
           <div className="md:text-right">
             <p className="label mb-4 opacity-50">Currently</p>
             <p className="text-base opacity-80 md:text-lg">{settings.tagline}</p>
-            <p className="mt-1 text-base opacity-50 md:text-lg">Working worldwide</p>
           </div>
         </div>
 
