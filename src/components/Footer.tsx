@@ -24,14 +24,16 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
           >
             ↑
           </a>
-          <p className="label mb-4 opacity-60">{L.footerContact || "Contact"}</p>
           {settings.email && (
-            <a
-              href={`mailto:${settings.email}`}
-              className="block break-all text-3xl leading-snug underline underline-offset-8 transition-opacity hover:opacity-70 md:text-6xl"
-            >
-              {settings.email.replace("@", " [at] ")}
-            </a>
+            <p className="text-base md:text-lg">
+              {L.footerContact || "Email"}:{" "}
+              <a
+                href={`mailto:${settings.email}`}
+                className="underline underline-offset-4 transition-opacity hover:opacity-70"
+              >
+                {settings.email.replace("@", " [at] ")}
+              </a>
+            </p>
           )}
         </div>
 
