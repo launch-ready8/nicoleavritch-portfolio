@@ -1,6 +1,6 @@
 import { getAbout, getSettings } from "@/lib/sanity";
 import Reveal from "@/components/Reveal";
-import WordReveal from "@/components/WordReveal";
+import ManifestoText from "@/components/ManifestoText";
 import SmartImage from "@/components/SmartImage";
 
 export const revalidate = 60;
@@ -14,10 +14,10 @@ export default async function AboutPage() {
 
   return (
     <div id="top" className="mx-auto max-w-[1500px] px-5 pt-8 md:px-10">
-      {/* Opener — big and centered, per Nicole */}
-      <section className="mx-auto max-w-3xl py-12 md:py-20">
-        <p className="label mb-5 opacity-50">{L.getToKnowMe || "Get to know me"}</p>
-        {about?.headline && <WordReveal text={about.headline} className="text-3xl leading-snug md:text-5xl" />}
+      {/* Opener — staggered manifesto treatment */}
+      <section className="py-12 md:py-20">
+        <p className="label mb-8 opacity-50">{L.getToKnowMe || "Get to know me"}</p>
+        {about?.headline && <ManifestoText text={about.headline} className="text-3xl md:text-6xl" />}
       </section>
 
       {/* Positioning */}
