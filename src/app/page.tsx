@@ -47,7 +47,7 @@ export default async function Home() {
       {settings.heroLine && (
         <section className="mx-auto max-w-[1500px] px-5 py-20 md:px-10 md:py-28">
           <div className="relative mx-auto max-w-2xl md:ml-[38%]">
-            <svg className="absolute -left-24 top-1 hidden h-12 w-12 text-accent md:block" viewBox="0 0 100 100" fill="none" aria-hidden>
+            <svg className="absolute -left-24 top-1 hidden h-12 w-12 text-ink md:block" viewBox="0 0 100 100" fill="none" aria-hidden>
               <path d="M50 4 V96 M8 50 H92 M20 20 L80 80 M80 20 L20 80" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
             </svg>
             <WordReveal text={settings.heroLine} className="text-2xl leading-snug md:text-4xl" />
@@ -112,7 +112,7 @@ export default async function Home() {
                   style={{ "--row-c": rowTones[0].c, "--row-t": rowTones[0].t } as React.CSSProperties}
                 >
                   <span className="flex items-baseline gap-4">
-                    <span className="num text-accent opacity-100">
+                    <span className="num">
                       {String(i + featured.length + 1).padStart(2, "0")}
                     </span>
                     <span className="text-lg md:text-2xl">{p.title}</span>

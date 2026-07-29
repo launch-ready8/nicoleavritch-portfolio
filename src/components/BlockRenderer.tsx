@@ -38,11 +38,10 @@ export default function BlockRenderer({ blocks }: { blocks: Block[] }) {
             return (
               <Reveal key={block._key}>
                 <div className="border-t rule pt-8">
-                  {block.kicker && <p className="label mb-3 text-accent">{block.kicker}</p>}
+                  {block.kicker && <p className="label mb-3 opacity-50">{block.kicker}</p>}
                   {block.heading && (
                     <h2 className="display text-5xl md:text-7xl">
-                      {block.heading}
-                      <span className="text-accent">.</span>
+                      {block.heading}.
                     </h2>
                   )}
                 </div>
@@ -154,7 +153,7 @@ export default function BlockRenderer({ blocks }: { blocks: Block[] }) {
                           rel="noreferrer"
                           className="display text-2xl underline decoration-2 underline-offset-8 transition-colors hover:text-accent md:text-3xl"
                         >
-                          {person.name} <span className="text-accent">↗</span>
+                          {person.name} ↗
                         </a>
                       ) : (
                         <span key={i} className="display text-2xl md:text-3xl">

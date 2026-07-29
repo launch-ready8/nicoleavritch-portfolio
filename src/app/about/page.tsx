@@ -25,7 +25,7 @@ export default async function AboutPage() {
         <h1 className="text-3xl leading-tight md:text-5xl">
           {positioning.map((p, i) => (
             <span key={i} className="block">
-              {i > 0 && <span className="text-accent">| </span>}
+              {i > 0 && <span className="opacity-40">| </span>}
               {p.trim()}
             </span>
           ))}

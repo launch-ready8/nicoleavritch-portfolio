@@ -26,11 +26,13 @@ export default function Nav({ siteTitle, email }: { siteTitle: string; email?: s
   return (
     <header
       className="sticky top-0 z-50 transition-colors duration-300"
-      style={
-        scrolled
-          ? { background: "var(--accent)", color: "var(--background)" }
-          : { background: "color-mix(in srgb, var(--background) 85%, transparent)", backdropFilter: "blur(4px)" }
-      }
+      style={{
+        background: scrolled
+          ? "var(--background)"
+          : "color-mix(in srgb, var(--background) 85%, transparent)",
+        boxShadow: scrolled ? "0 1px 0 color-mix(in srgb, var(--ink) 15%, transparent)" : "none",
+        backdropFilter: "blur(4px)",
+      }}
     >
       <nav className="mx-auto flex max-w-[1500px] items-center justify-between px-5 py-4 md:px-10">
         <Link href="/" className="nav-link transition-opacity hover:opacity-60">
@@ -42,7 +44,7 @@ export default function Nav({ siteTitle, email }: { siteTitle: string; email?: s
               key={l.href}
               href={l.href}
               className={`nav-link transition-opacity hover:opacity-60 ${
-                pathname?.startsWith(l.href) && !scrolled ? "text-accent" : ""
+                pathname?.startsWith(l.href) ? "underline underline-offset-8" : ""
               }`}
             >
               {l.label}

@@ -4,7 +4,7 @@ export default function Ticker({ items }: { items: string[] }) {
       <span key={`${prefix}-t-${i}`} className="whitespace-nowrap text-2xl md:text-4xl">
         {item}
       </span>,
-      <span key={`${prefix}-a-${i}`} className="text-2xl text-accent md:text-4xl">
+      <span key={`${prefix}-a-${i}`} className="text-2xl opacity-40 md:text-4xl">
         →
       </span>,
     ]);
