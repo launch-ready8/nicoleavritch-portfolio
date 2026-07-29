@@ -25,7 +25,10 @@ export default async function Home() {
     slug: p.slug,
     tag: p.tags?.[0],
     num: String(i + featured.length + 1).padStart(2, "0"),
-    img: p.heroImage ? urlFor(p.heroImage).width(600).fit("max").url() : null,
+    img:
+      p.previewImage || p.heroImage
+        ? urlFor(p.previewImage || p.heroImage).width(600).fit("max").url()
+        : null,
   }));
 
   return (
@@ -117,9 +120,12 @@ export default async function Home() {
         <section className="mx-auto max-w-[1500px] px-5 py-16 pb-24 md:px-10">
           <p className="label mb-5 opacity-70">{L.moreProjects || "More projects"}</p>
           <HoverIndex rows={indexRows} />
-          <div className="mt-8">
-            <Link href="/work" className="stamp-btn">
-              {viewAll.replace(/\s*→\s*$/, "")} →
+          <div className="mt-10">
+            <Link href="/work" className="big-link group inline-flex items-baseline gap-3">
+              <span>{viewAll.replace(/\s*→\s*$/, "")}</span>
+              <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1.5">
+                →
+              </span>
             </Link>
           </div>
         </section>

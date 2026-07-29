@@ -122,6 +122,7 @@ export type ProjectCard = {
   tags?: string[];
   featured?: boolean;
   heroImage?: SanityImageSource;
+  previewImage?: SanityImageSource;
   intro?: string;
 };
 
@@ -141,7 +142,7 @@ export type Block =
   | { _type: "statsRow"; _key: string; stats?: { value?: string; label?: string }[] }
   | { _type: "logoList"; _key: string; heading?: string; items?: string[]; people?: { name?: string; url?: string }[] };
 
-const cardFields = `_id, title, "slug": slug.current, client, year, tags, featured, heroImage, intro`;
+const cardFields = `_id, title, "slug": slug.current, client, year, tags, featured, heroImage, previewImage, intro`;
 
 /* Local design-preview mode: `MOCK_CONTENT=1 npm run dev` renders sample
    content without needing Sanity. Never set in production. */

@@ -1,6 +1,11 @@
 export default function Ticker({ items }: { items: string[] }) {
+  /* Repeat the item set so each half of the loop is always wider than any
+     viewport — otherwise the marquee shows a blank gap before it repeats. */
+  const reps = Math.max(3, Math.ceil(18 / Math.max(items.length, 1)));
+  const seq = Array.from({ length: reps }).flatMap(() => items);
+
   const row = (prefix: string) =>
-    items.flatMap((item, i) => [
+    seq.flatMap((item, i) => [
       <span key={`${prefix}-t-${i}`} className="whitespace-nowrap text-[15px] font-medium uppercase tracking-[0.06em]">
         {item}
       </span>,

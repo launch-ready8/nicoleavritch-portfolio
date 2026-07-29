@@ -59,11 +59,13 @@ body {
   letter-spacing: 0.12em;
 }
 
+/* numbers/years — same metrics as .label so small text reads as one system */
 .num {
   font-family: var(--font-body), sans-serif;
   font-weight: 500;
-  font-size: 0.7rem;
-  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
   opacity: 0.75;
 }
 
@@ -94,6 +96,27 @@ body {
 .stamp-btn:hover {
   color: var(--accent);
   transform: translateX(3px);
+}
+
+/* bigger CTA link (homepage 'View all work' under the index) */
+.big-link {
+  font-family: var(--font-body), sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 1.05rem;
+  letter-spacing: 0.08em;
+  text-decoration: underline;
+  text-underline-offset: 6px;
+  text-decoration-thickness: 2px;
+  transition: color 0.2s ease;
+}
+@media (min-width: 768px) {
+  .big-link {
+    font-size: 1.3rem;
+  }
+}
+.big-link:hover {
+  color: var(--accent);
 }
 
 .rule {

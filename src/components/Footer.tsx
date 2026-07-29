@@ -51,8 +51,11 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
             </div>
           </div>
           <div className="md:text-right">
-            <p className="label mb-4 opacity-50">Currently</p>
-            <p className="text-base opacity-80 md:text-lg">{settings.tagline}</p>
+            {(settings.tagline || "").split(/\s*&\s*/).map((part, i) => (
+              <p key={i} className="text-base opacity-80 md:text-lg">
+                {part.trim()}
+              </p>
+            ))}
           </div>
         </div>
 

@@ -81,6 +81,14 @@ export const project = defineType({
       options: { hotspot: true },
     }),
     defineField({
+      name: "previewImage",
+      title: "Hover preview image (optional)",
+      description:
+        "The little image that floats next to the cursor when hovering this project in the homepage list. Leave empty to use the cover image.",
+      type: "image",
+      options: { hotspot: true },
+    }),
+    defineField({
       name: "blocks",
       title: "Page content",
       description: "Build the page by stacking blocks — drag to reorder.",

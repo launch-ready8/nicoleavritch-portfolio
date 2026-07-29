@@ -69,25 +69,25 @@ export default async function AboutPage() {
       </section>
 
       {/* Experience / recognition / skills */}
-      <section className="grid gap-10 border-t rule py-12 md:grid-cols-3">
+      <section className="grid gap-10 border-t rule py-12 md:grid-cols-[0.85fr_1.25fr_1fr] md:gap-14">
         <div>
           <p className="label mb-4 opacity-60">{L.experienceLabel || "Experience"}</p>
-          <div className="grid gap-4">
+          <div className="grid gap-5">
             {about?.experience?.map((e, i) => (
               <div key={i}>
-                <p className="text-sm font-medium">
+                <p className="text-base font-medium">
                   {e.role} | {e.company}
                 </p>
-                <p className="label mt-0.5 opacity-70">{e.dates}</p>
+                <p className="label mt-1 opacity-70">{e.dates}</p>
               </div>
             ))}
           </div>
         </div>
         <div>
           <p className="label mb-4 opacity-60">{L.recognitionLabel || "Recognition & education"}</p>
-          <div className="grid gap-3">
+          <div className="grid gap-4">
             {about?.recognition?.map((r, i) => (
-              <p key={i} className="text-sm leading-relaxed">
+              <p key={i} className="text-base leading-relaxed">
                 {r}
               </p>
             ))}
@@ -97,12 +97,12 @@ export default async function AboutPage() {
           {about?.skills && about.skills.length > 0 && (
             <div>
               <p className="label mb-4 opacity-60">{L.craftLabel || "Craft"}</p>
-              <p className="text-sm font-medium leading-relaxed">{about.skills.join(", ")}</p>
+              <p className="text-base font-medium leading-relaxed">{about.skills.join(", ")}</p>
             </div>
           )}
           <div>
             <p className="label mb-4 opacity-60">{L.softwareLabel || "Software"}</p>
-            <p className="text-sm font-medium leading-relaxed">
+            <p className="text-base font-medium leading-relaxed">
               {about?.software ||
                 "Adobe Creative Suite, Figma, Canva, Wordpress, basic CSS/HTML, and an expanding AI toolkit (Midjourney, Figma Weave, Claude, Gemini)"}
             </p>
