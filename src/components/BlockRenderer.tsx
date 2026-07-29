@@ -90,13 +90,16 @@ export default function BlockRenderer({ blocks }: { blocks: Block[] }) {
                     : "md:grid-cols-2";
             const wide = block.columns === 1;
             return (
-              <div key={block._key} className={`grid grid-cols-1 items-start gap-5 md:gap-6 ${cols}`}>
+              <div
+                key={block._key}
+                className={`grid grid-cols-1 items-start gap-5 md:gap-6 ${cols} ${wide ? "mx-auto w-full max-w-3xl" : ""}`}
+              >
                 {block.images?.map((img, i) => (
                   <div key={i} className="img-zoom overflow-hidden">
                     <ZoomImage
                       image={img}
-                      sizes={wide ? "95vw" : "(min-width: 768px) 45vw, 95vw"}
-                      maxWidth={wide ? 2000 : 1200}
+                      sizes={wide ? "(min-width: 768px) 768px, 95vw" : "(min-width: 768px) 45vw, 95vw"}
+                      maxWidth={wide ? 1600 : 1200}
                       galleryIndex={indexOfBlockImage.get(`${block._key}:${i}`) || 0}
                     />
                   </div>
