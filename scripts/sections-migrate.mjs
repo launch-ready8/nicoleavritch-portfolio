@@ -205,7 +205,7 @@ async function markDone() {
  * image. The lightbox data-src URLs below are the ORIGINAL un-resized files
  * (each carries its own signed ?h= token), so this also fixes the blur that
  * came from the old harvest's small renditions. */
-const PEACHES_LAYOUT_VERSION = 2;
+const PEACHES_LAYOUT_VERSION = 3; // v3: patch published doc explicitly (v2 landed on a Studio draft)
 const PEACHES_SLUG = "lets-talk-peaches";
 const PEACHES_CDN = "https://cdn.myportfolio.com/d16c8cbd2ff15d87315ef646e6ee0d96";
 const PEACHES_ORIGINALS = [
@@ -237,11 +237,15 @@ async function migratePeaches(state) {
     console.log(`[sections] peaches up to date (v${state.peachesVersion})`);
     return;
   }
-  const doc = await client.fetch(`*[_type == "project" && slug.current == $slug][0]`, { slug: PEACHES_SLUG });
+  /* authenticated fetches see Studio drafts too — patch published AND any
+     draft, so the live site changes now and a later "Publish" can't revert it */
+  const docs = await client.fetch(`*[_type == "project" && slug.current == $slug]{..., "isDraft": _id in path("drafts.**")}`, { slug: PEACHES_SLUG });
+  const doc = docs.find((d) => !d.isDraft) || docs[0];
   if (!doc) {
     console.log("[sections] peaches doc not found — nothing to migrate");
     return;
   }
+  console.log(`[sections] peaches targets: ${docs.map((d) => d._id).join(", ")}`);
 
   const UA = { "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/126.0 Safari/537.36" };
   const refs = [];
@@ -287,9 +291,12 @@ async function migratePeaches(state) {
         peachesBackup2: JSON.stringify({ blocks: doc.blocks || [], intro: doc.intro || "", hideHero: !!doc.hideHero }),
       })
     )
-    .patch(doc._id, (p) => p.set({ blocks, hideHero: true }).unset(["intro", "sections"]))
     .commit();
-  console.log(`[sections] peaches migrated v2 → exact old-portfolio layout (${got} original images, video after #${PEACHES_VIDEO_AFTER})`);
+  for (const d of docs) {
+    await client.patch(d._id).set({ blocks, hideHero: true }).unset(["intro", "sections"]).commit();
+    console.log(`[sections] peaches patched ${d._id}`);
+  }
+  console.log(`[sections] peaches migrated v3 → exact old-portfolio layout (${got} original images, video after #${PEACHES_VIDEO_AFTER})`);
 }
 
 main()

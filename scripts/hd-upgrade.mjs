@@ -17,7 +17,7 @@
 import { createClient } from "@sanity/client";
 import fs from "node:fs";
 
-const HD_VERSION = 2;
+const HD_VERSION = 3; // v3: patch published docs explicitly (v2 may have landed on Studio drafts)
 const MIN_OK_WIDTH = 1400;
 const BASE = "https://nicoleavritch.myportfolio.com";
 const SKIP_SLUGS = new Set(["lets-talk-peaches"]); // rebuilt from originals in sections-migrate
@@ -78,9 +78,11 @@ async function main() {
   for (const p of seed.projects) {
     if (!p.oldSlug || SKIP_SLUGS.has(p.slug)) continue;
 
-    const doc = await client.fetch(`*[_type == "project" && slug.current == $slug][0]{_id, blocks, sections}`, {
-      slug: p.slug,
-    });
+    const docsAll = await client.fetch(
+      `*[_type == "project" && slug.current == $slug]{_id, blocks, sections, "isDraft": _id in path("drafts.**")}`,
+      { slug: p.slug }
+    );
+    const doc = docsAll.find((d) => !d.isDraft) || docsAll[0];
     if (!doc) continue;
 
     /* scraped assets this doc actually references, in page order */
@@ -141,11 +143,13 @@ async function main() {
           else if (v && typeof v === "object") swap(v);
         }
       };
-      const patch = {};
-      if (doc.blocks) { swap({ x: doc.blocks }); patch.blocks = doc.blocks; }
-      if (doc.sections) { swap({ x: doc.sections }); patch.sections = doc.sections; }
-      await client.patch(doc._id).set(patch).commit();
-      console.log(`[hd] ${p.slug}: ${refMap.size} images upgraded to originals`);
+      for (const d of docsAll) {
+        const patch = {};
+        if (d.blocks) { swap({ x: d.blocks }); patch.blocks = d.blocks; }
+        if (d.sections) { swap({ x: d.sections }); patch.sections = d.sections; }
+        if (Object.keys(patch).length) await client.patch(d._id).set(patch).commit();
+      }
+      console.log(`[hd] ${p.slug}: ${refMap.size} images upgraded to originals (${docsAll.map((d) => d._id).join(", ")})`);
     }
   }
 
