@@ -12,25 +12,33 @@ function videoSrc(url: string): { embed?: string; mp4?: string } {
   return { embed: url };
 }
 
-export default function BlockRenderer({ blocks }: { blocks: Block[] }) {
-  // flat list of every image on the page, so the lightbox can arrow through all of them
-  const allImages: SanityImageSource[] = [];
-  const indexOfBlockImage = new Map<string, number>();
-  for (const b of blocks) {
-    if (b._type === "fullBleedImage" && b.image) {
-      indexOfBlockImage.set(b._key, allImages.length);
-      allImages.push(b.image);
-    }
-    if (b._type === "imageGrid") {
-      (b.images || []).forEach((img, i) => {
-        indexOfBlockImage.set(`${b._key}:${i}`, allImages.length);
-        allImages.push(img);
-      });
+/** Flat list of every image across the given block groups, so one lightbox
+ *  can arrow through the whole page (even when blocks live inside sections). */
+export function collectGalleryImages(blockGroups: Block[][]) {
+  const images: SanityImageSource[] = [];
+  const indexOf = new Map<string, number>();
+  for (const blocks of blockGroups) {
+    for (const b of blocks) {
+      if (b._type === "fullBleedImage" && b.image) {
+        indexOf.set(b._key, images.length);
+        images.push(b.image);
+      }
+      if (b._type === "imageGrid") {
+        (b.images || []).forEach((img, i) => {
+          indexOf.set(`${b._key}:${i}`, images.length);
+          images.push(img);
+        });
+      }
     }
   }
+  return { images, indexOf };
+}
 
+/** Renders blocks WITHOUT a gallery provider — the caller supplies one
+ *  (used by the sectioned project layout, which shares a single lightbox). */
+export function Blocks({ blocks, indexOf }: { blocks: Block[]; indexOf: Map<string, number> }) {
+  const indexOfBlockImage = indexOf;
   return (
-    <GalleryProvider images={allImages}>
     <div className="grid gap-12 md:gap-20">
       {blocks.map((block) => {
         switch (block._type) {
@@ -171,6 +179,15 @@ export default function BlockRenderer({ blocks }: { blocks: Block[] }) {
         }
       })}
     </div>
+  );
+}
+
+/** Standalone renderer for the flat-blocks layout: one gallery, one list. */
+export default function BlockRenderer({ blocks }: { blocks: Block[] }) {
+  const { images, indexOf } = collectGalleryImages([blocks]);
+  return (
+    <GalleryProvider images={images}>
+      <Blocks blocks={blocks} indexOf={indexOf} />
     </GalleryProvider>
   );
 }

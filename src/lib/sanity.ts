@@ -126,10 +126,18 @@ export type ProjectCard = {
   intro?: string;
 };
 
+export type ProjectSection = {
+  _key: string;
+  title?: string;
+  intro?: string;
+  blocks?: Block[];
+};
+
 export type ProjectFull = ProjectCard & {
   role?: string;
   hideHero?: boolean;
   credits?: string;
+  sections?: ProjectSection[];
   blocks?: Block[];
 };
 
@@ -195,6 +203,35 @@ const mockProjects: ProjectFull[] = [
     tags: ["Brand Campaigns", "360° Campaign"],
     featured: true,
     intro: "Sole in-house designer for a multi-brand pet-wellness retailer.",
+    sections: [
+      {
+        _key: "s1",
+        title: "Brand shoot + assets",
+        blocks: [
+          { _type: "videoEmbed", _key: "s1v", url: "https://vimeo.com/76979871" },
+          { _type: "sectionHeader", _key: "s1h", kicker: "360° brand campaign", heading: "Ask Us Anything" },
+          {
+            _type: "textSection",
+            _key: "s1t",
+            body: "I art directed this campaign from brief to production: built the mood boards, helped shape the shot list, and directed the video and photo teams on set.",
+          },
+        ],
+      },
+      { _key: "s2", title: "Print", intro: "In-store signage, new store opening assets, welcome home books and service menus." },
+      { _key: "s3", title: "Marketing", intro: "Email, social, the influencer box, and holiday design." },
+      {
+        _key: "s4",
+        title: "In-house brands",
+        blocks: [
+          {
+            _type: "textSection",
+            _key: "s4t",
+            body: "I build the systems that keep the brand consistent: company-wide guidelines, the loyalty program identity, and a multi-level credentialing program.",
+          },
+        ],
+      },
+      { _key: "s5", title: "Apparel", intro: "T-shirts, sweatshirts, and tote bags." },
+    ],
   },
   { _id: "m3", title: "Ubbi", slug: "ubbi", year: "2018 – 2019", tags: ["Packaging"], featured: false },
   { _id: "m4", title: "Neon Cheetah", slug: "neon-cheetah", tags: ["Brand Identity"], featured: false },
@@ -219,7 +256,7 @@ export async function getProject(slug: string): Promise<ProjectFull | null> {
   if (MOCK) return mockProjects.find((p) => p.slug === slug) || null;
   try {
     return await client.fetch(
-      `*[_type == "project" && slug.current == $slug][0]{${cardFields}, role, intro, credits, blocks, hideHero}`,
+      `*[_type == "project" && slug.current == $slug][0]{${cardFields}, role, intro, credits, blocks, sections, hideHero}`,
       { slug },
       { next: { revalidate: 60 } }
     );

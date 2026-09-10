@@ -1,100 +1,10 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 import { orderRankField } from "@sanity/orderable-document-list";
 
-export const project = defineType({
-  name: "project",
-  title: "Project",
-  type: "document",
-  fields: [
-    orderRankField({ type: "project" }),
-    defineField({
-      name: "title",
-      title: "Project title",
-      type: "string",
-      validation: (r) => r.required(),
-    }),
-    defineField({
-      name: "slug",
-      title: "Web address",
-      description: "Click 'Generate' after typing the title — this becomes the page URL.",
-      type: "slug",
-      options: { source: "title" },
-      validation: (r) => r.required(),
-    }),
-    defineField({
-      name: "featured",
-      title: "Feature on homepage?",
-      description: "Featured projects show large on the homepage.",
-      type: "boolean",
-      initialValue: false,
-    }),
-    defineField({
-      name: "order",
-      title: "Order (legacy — use drag-to-reorder in the Projects list instead)",
-      type: "number",
-      hidden: true,
-    }),
-    defineField({
-      name: "client",
-      title: "Client / brand",
-      type: "string",
-    }),
-    defineField({
-      name: "year",
-      title: "Year(s)",
-      description: "e.g. '2020–2023' or '2024'",
-      type: "string",
-    }),
-    defineField({
-      name: "role",
-      title: "Your role",
-      description: "e.g. 'Co-Founder & Designer' or 'Art Direction, Packaging'",
-      type: "string",
-    }),
-    defineField({
-      name: "tags",
-      title: "Tags",
-      description: "Short labels like 'Branding', 'Packaging', 'Motion'. Press Enter after each.",
-      type: "array",
-      of: [{ type: "string" }],
-      options: { layout: "tags" },
-    }),
-    defineField({
-      name: "intro",
-      title: "Intro paragraph",
-      description: "1–3 sentences that set up the project. Shows at the top of the page.",
-      type: "text",
-      rows: 4,
-    }),
-    defineField({
-      name: "hideHero",
-      title: "Hide cover image on the project page?",
-      description: "The cover still shows on cards/tiles, but not at the top of the project page itself.",
-      type: "boolean",
-      initialValue: false,
-    }),
-    defineField({
-      name: "heroImage",
-      title: "Cover image",
-      description: "The main image — used on cards and at the top of the project page.",
-      type: "image",
-      options: { hotspot: true },
-    }),
-    defineField({
-      name: "previewImage",
-      title: "Hover preview image (optional)",
-      description:
-        "The little image that floats next to the cursor when hovering this project in the homepage list. Leave empty to use the cover image.",
-      type: "image",
-      options: { hotspot: true },
-    }),
-    defineField({
-      name: "blocks",
-      title: "Page content",
-      description: "Build the page by stacking blocks — drag to reorder.",
-      type: "array",
-      of: [
-        defineArrayMember({
+/* The content block types, shared by the flat "Page content" list and by
+   each section in the sectioned (table-of-contents) layout. */
+const blockMembers = () => [
+  defineArrayMember({
           name: "sectionHeader",
           title: "Section heading (big callout)",
           type: "object",
@@ -230,7 +140,145 @@ export const project = defineType({
             prepare: ({ title }) => ({ title: title || "Name list" }),
           },
         }),
+];
+
+export const project = defineType({
+  name: "project",
+  title: "Project",
+  type: "document",
+  fields: [
+    orderRankField({ type: "project" }),
+    defineField({
+      name: "title",
+      title: "Project title",
+      type: "string",
+      validation: (r) => r.required(),
+    }),
+    defineField({
+      name: "slug",
+      title: "Web address",
+      description: "Click 'Generate' after typing the title — this becomes the page URL.",
+      type: "slug",
+      options: { source: "title" },
+      validation: (r) => r.required(),
+    }),
+    defineField({
+      name: "featured",
+      title: "Feature on homepage?",
+      description: "Featured projects show large on the homepage.",
+      type: "boolean",
+      initialValue: false,
+    }),
+    defineField({
+      name: "order",
+      title: "Order (legacy — use drag-to-reorder in the Projects list instead)",
+      type: "number",
+      hidden: true,
+    }),
+    defineField({
+      name: "client",
+      title: "Client / brand",
+      type: "string",
+    }),
+    defineField({
+      name: "year",
+      title: "Year(s)",
+      description: "e.g. '2020–2023' or '2024'",
+      type: "string",
+    }),
+    defineField({
+      name: "role",
+      title: "Your role",
+      description: "e.g. 'Co-Founder & Designer' or 'Art Direction, Packaging'",
+      type: "string",
+    }),
+    defineField({
+      name: "tags",
+      title: "Tags",
+      description: "Short labels like 'Branding', 'Packaging', 'Motion'. Press Enter after each.",
+      type: "array",
+      of: [{ type: "string" }],
+      options: { layout: "tags" },
+    }),
+    defineField({
+      name: "intro",
+      title: "Intro paragraph",
+      description: "1–3 sentences that set up the project. Shows at the top of the page.",
+      type: "text",
+      rows: 4,
+    }),
+    defineField({
+      name: "hideHero",
+      title: "Hide cover image on the project page?",
+      description: "The cover still shows on cards/tiles, but not at the top of the project page itself.",
+      type: "boolean",
+      initialValue: false,
+    }),
+    defineField({
+      name: "heroImage",
+      title: "Cover image",
+      description: "The main image — used on cards and at the top of the project page.",
+      type: "image",
+      options: { hotspot: true },
+    }),
+    defineField({
+      name: "previewImage",
+      title: "Hover preview image (optional)",
+      description:
+        "The little image that floats next to the cursor when hovering this project in the homepage list. Leave empty to use the cover image.",
+      type: "image",
+      options: { hotspot: true },
+    }),
+    defineField({
+      name: "sections",
+      title: "Sections (chapters with a table of contents)",
+      description:
+        "Group the page into named chapters — the page shows a table of contents and jumps to each one. Drag sections to reorder them. If any sections exist here, they replace the flat 'Page content' list below. A section with no content stays hidden on the live page until you add something to it.",
+      type: "array",
+      of: [
+        defineArrayMember({
+          name: "projectSection",
+          title: "Section",
+          type: "object",
+          fields: [
+            defineField({
+              name: "title",
+              title: "Section name",
+              description: "Shows in the table of contents and as the chapter heading, e.g. 'Print' or 'Apparel'.",
+              type: "string",
+              validation: (r) => r.required(),
+            }),
+            defineField({
+              name: "intro",
+              title: "Section intro (optional)",
+              description: "A sentence or two under the chapter heading. Fine to leave empty.",
+              type: "text",
+              rows: 3,
+            }),
+            defineField({
+              name: "blocks",
+              title: "Section content",
+              description: "Stack images, grids, text, and video — drag to reorder.",
+              type: "array",
+              of: blockMembers(),
+            }),
+          ],
+          preview: {
+            select: { title: "title", blocks: "blocks" },
+            prepare: ({ title, blocks }) => ({
+              title: title || "Section",
+              subtitle: `${blocks?.length || 0} content block${(blocks?.length || 0) === 1 ? "" : "s"}`,
+            }),
+          },
+        }),
       ],
+    }),
+    defineField({
+      name: "blocks",
+      title: "Page content (simple list — used when there are no sections above)",
+      description: "Build the page by stacking blocks — drag to reorder.",
+      type: "array",
+      of: blockMembers(),
     }),
     defineField({
       name: "credits",

@@ -14,10 +14,11 @@ A portfolio site for Nicole Avritch (Creative Director & Senior Designer), built
 ## Golden rules
 
 1. **Content lives in Sanity, not in code.** Copy/image changes should be made in the Studio at `/studio`, not by editing this repo. Publishing in the Studio is live within ~60s (ISR revalidate).
-2. **NEVER bump `SEED_VERSION` in `scripts/vercel-seed.mjs` casually.** A reseed rebuilds every Sanity document from `content/seed.json` and destroys any edits Nicole or Amanda made by hand in the Studio. Only reseed as a deliberate full reset, with Amanda's explicit OK.
+2. **NEVER bump `SEED_VERSION` in `scripts/vercel-seed.mjs` casually.** A reseed rebuilds every Sanity document from `content/seed.json` and destroys any edits Nicole or Amanda made by hand in the Studio. Only reseed as a deliberate full reset, with Amanda's explicit OK. The same applies to `IPP_SECTIONS_VERSION` in `scripts/sections-migrate.mjs` — a re-run rebuilds IPP's sections from its current content and discards manual section edits.
 3. **Design changes are code changes**: edit, build locally (`npm run build`), push to `main`. Vercel auto-deploys every push.
-4. Fonts are self-hosted via @fontsource (Google Fonts is NOT fetched at build). The display face is Anton; body is Archivo Variable; mono is IBM Plex Mono. Font pairing is switchable in the CMS.
-5. The palette comes from Nicole's approved color cards and is CMS-driven: ink #09201B, cream #ECDFAB, marigold #F9B122, green #1B7754, tangerine accent #EB3D00, warm paper background. Read them from Site Settings; don't hardcode new colors.
+4. Fonts are self-hosted via @fontsource (Google Fonts is NOT fetched at build). The display face is Anton; body is Archivo Variable — everything, small labels included. Do NOT re-introduce a mono face. Font pairing is switchable in the CMS but Amanda has locked Anton + Archivo.
+5. Current approved palette (CMS-driven via Site Settings — don't hardcode new colors): off-white background #F1ECE1, ink #141414, bright orange accent #FB4A1E used ONLY minimally (hovers, the hero ellipse, tiny highlights), surface #E7E1D3.
+6. Project pages support two layouts: flat `blocks`, or `sections` (named chapters with a sticky table-of-contents rail, Conner Nielander-style). If `sections` exist they win. IPP was migrated to sections by `scripts/sections-migrate.mjs` (guarded, runs in prebuild after the seeder; the pre-migration flat blocks are backed up as JSON on the `sectionsMigration` doc). Empty sections stay hidden on the live page but visible in Studio.
 
 ## Layout of the code
 
