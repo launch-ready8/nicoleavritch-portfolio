@@ -146,6 +146,7 @@ export type Block =
   | { _type: "textSection"; _key: string; heading?: string; body?: string }
   | { _type: "fullBleedImage"; _key: string; image?: SanityImageSource; caption?: string }
   | { _type: "imageGrid"; _key: string; images?: SanityImageSource[]; columns?: number }
+  | { _type: "imageCarousel"; _key: string; images?: SanityImageSource[]; caption?: string }
   | { _type: "videoEmbed"; _key: string; url?: string; caption?: string }
   | { _type: "statsRow"; _key: string; stats?: { value?: string; label?: string }[] }
   | { _type: "logoList"; _key: string; heading?: string; items?: string[]; people?: { name?: string; url?: string }[] };

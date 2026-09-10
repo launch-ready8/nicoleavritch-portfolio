@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 
 export type TocItem = { id: string; title: string };
 
-/** Sticky table of contents for sectioned case studies (Conner Nielander-style
- *  left rail). Highlights the section currently in view; smooth-scrolls on click.
- *  On mobile it renders as a horizontal chip row above the content instead. */
-export default function SectionToc({ items, projectLabel }: { items: TocItem[]; projectLabel?: string }) {
+/** Typographic index for sectioned case studies: Anton entries, numbered,
+ *  the active chapter in full ink with an accent number. Sticky on desktop,
+ *  a horizontal chip row on mobile. */
+export default function SectionToc({ items, label = "Index" }: { items: TocItem[]; label?: string }) {
   const [active, setActive] = useState<string>(items[0]?.id || "");
 
   useEffect(() => {
@@ -33,28 +33,35 @@ export default function SectionToc({ items, projectLabel }: { items: TocItem[]; 
   return (
     <>
       {/* desktop rail */}
-      <nav className="sticky top-28 hidden self-start md:block" aria-label="Sections">
-        {projectLabel && <p className="label mb-5 opacity-60">{projectLabel}</p>}
-        <ul className="grid gap-2.5">
+      <nav className="sticky top-24 hidden self-start md:block" aria-label="Sections">
+        <p className="label mb-6 opacity-60">{label}</p>
+        <ol className="grid gap-3">
           {items.map((it, i) => {
             const on = it.id === active;
             return (
               <li key={it.id}>
                 <a
                   href={`#${it.id}`}
-                  className={`flex items-baseline gap-3 transition-opacity duration-200 ${
-                    on ? "opacity-100" : "opacity-45 hover:opacity-80"
-                  }`}
+                  className="group flex items-baseline gap-3.5"
                 >
-                  <span className="num">{String(i + 1).padStart(2, "0")}</span>
-                  <span className={`text-[0.95rem] font-medium uppercase tracking-[0.06em] ${on ? "underline underline-offset-4" : ""}`}>
+                  <span
+                    className="num transition-colors duration-200"
+                    style={on ? { color: "var(--accent)", opacity: 1 } : undefined}
+                  >
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span
+                    className={`display text-[1.6rem] leading-[1.05] transition-opacity duration-200 ${
+                      on ? "opacity-100" : "opacity-30 group-hover:opacity-70"
+                    }`}
+                  >
                     {it.title}
                   </span>
                 </a>
               </li>
             );
           })}
-        </ul>
+        </ol>
       </nav>
 
       {/* mobile chip row */}
@@ -66,9 +73,9 @@ export default function SectionToc({ items, projectLabel }: { items: TocItem[]; 
               <a
                 key={it.id}
                 href={`#${it.id}`}
-                className="label whitespace-nowrap border px-3 py-2 transition-colors"
+                className="display whitespace-nowrap border px-3.5 py-2 text-lg transition-colors"
                 style={{
-                  borderColor: "color-mix(in srgb, var(--ink) 25%, transparent)",
+                  borderColor: "color-mix(in srgb, var(--ink) 30%, transparent)",
                   background: on ? "var(--ink)" : "transparent",
                   color: on ? "var(--background)" : "inherit",
                 }}

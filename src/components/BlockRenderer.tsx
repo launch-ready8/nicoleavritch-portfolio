@@ -2,6 +2,7 @@ import { type Block, type SanityImageSource } from "@/lib/sanity";
 import GalleryProvider from "@/components/Gallery";
 import Reveal from "@/components/Reveal";
 import ZoomImage from "@/components/ZoomImage";
+import Carousel from "@/components/Carousel";
 
 function videoSrc(url: string): { embed?: string; mp4?: string } {
   const yt = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/);
@@ -23,7 +24,7 @@ export function collectGalleryImages(blockGroups: Block[][]) {
         indexOf.set(b._key, images.length);
         images.push(b.image);
       }
-      if (b._type === "imageGrid") {
+      if (b._type === "imageGrid" || b._type === "imageCarousel") {
         (b.images || []).forEach((img, i) => {
           indexOf.set(`${b._key}:${i}`, images.length);
           images.push(img);
@@ -112,6 +113,18 @@ export function Blocks({ blocks, indexOf }: { blocks: Block[]; indexOf: Map<stri
                   </div>
                 ))}
               </div>
+            );
+          }
+          case "imageCarousel": {
+            const imgs = block.images || [];
+            return (
+              <Reveal key={block._key}>
+                <Carousel
+                  images={imgs}
+                  indexes={imgs.map((_, i) => indexOfBlockImage.get(`${block._key}:${i}`) || 0)}
+                  caption={block.caption}
+                />
+              </Reveal>
             );
           }
           case "videoEmbed": {

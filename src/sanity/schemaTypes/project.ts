@@ -71,6 +71,25 @@ const blockMembers = () => [
           },
         }),
         defineArrayMember({
+          name: "imageCarousel",
+          title: "Carousel / slider",
+          type: "object",
+          fields: [
+            defineField({
+              name: "images",
+              title: "Images",
+              description: "Slides, in order. Viewers swipe or use the arrows.",
+              type: "array",
+              of: [{ type: "image", options: { hotspot: true } }],
+            }),
+            defineField({ name: "caption", title: "Caption (optional)", type: "string" }),
+          ],
+          preview: {
+            select: { images: "images", title: "caption" },
+            prepare: ({ images, title }) => ({ title: `Carousel (${images?.length || 0} slides)`, subtitle: title }),
+          },
+        }),
+        defineArrayMember({
           name: "videoEmbed",
           title: "Video",
           type: "object",

@@ -35,9 +35,10 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
   const meta = [project.client, project.role, project.year].filter(Boolean).join("  ·  ");
 
-  // sections with actual content drive the chaptered layout + table of contents
+  // sections with actual VISIBLE content drive the chaptered layout + table of
+  // contents (statsRow renders nothing on the live site, so it doesn't count)
   const sections: ProjectSection[] = (project.sections || []).filter(
-    (s) => (s.blocks && s.blocks.length > 0) || s.intro
+    (s) => (s.blocks || []).some((b) => b._type !== "statsRow") || s.intro
   );
   const chaptered = sections.length > 0;
   const tocItems = sections.map((s, i) => ({ id: anchorId(s.title || "", i), title: s.title || `Section ${i + 1}` }));
@@ -55,24 +56,13 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
         {chaptered ? (
           <>
-            {/* chaptered opening: image first, brand name right underneath */}
-            {project.heroImage && !project.hideHero && (
-              <Reveal>
-                <div className="img-zoom mx-auto max-w-5xl overflow-hidden">
-                  <SmartImage image={project.heroImage} alt={project.title} sizes="(min-width: 1024px) 1024px, 95vw" maxWidth={2000} priority />
-                </div>
-              </Reveal>
-            )}
-            <div className="mx-auto max-w-5xl">
-              <h1 className="display mt-6 text-6xl md:text-[6.5vw]">{project.title}</h1>
-              {meta && <p className="label mt-4 opacity-60">{meta}</p>}
+            {/* chaptered opening: name + intro + index all above the fold,
+                first chapter already peeking underneath */}
+            <h1 className="display text-[11vw] leading-[0.9] md:text-[7vw]">{project.title}</h1>
+            <div className="mt-3 flex flex-wrap gap-x-6 gap-y-1 md:mt-4">
+              {meta && <p className="label opacity-60">{meta}</p>}
               {project.tags && project.tags.length > 0 && (
-                <p className="label mt-1.5 opacity-60">{project.tags.join("  /  ")}</p>
-              )}
-              {project.intro && (
-                <div className="max-w-3xl py-8 md:py-10">
-                  <WordReveal text={project.intro} className="text-2xl leading-snug md:text-3xl" />
-                </div>
+                <p className="label opacity-60">{project.tags.join("  /  ")}</p>
               )}
             </div>
           </>
@@ -104,10 +94,15 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
       {chaptered && gallery ? (
         <GalleryProvider images={gallery.images}>
-          <div className="mx-auto max-w-[1500px] px-5 py-10 md:px-10 md:py-14">
-            <div className="grid gap-8 md:grid-cols-[230px_minmax(0,1fr)] md:gap-14 lg:gap-20">
-              <SectionToc items={tocItems} projectLabel={project.client || project.title} />
+          <div className="mx-auto max-w-[1500px] px-5 pt-8 pb-10 md:px-10 md:pt-10 md:pb-14">
+            <div className="grid gap-8 md:grid-cols-[300px_minmax(0,1fr)] md:gap-14 lg:gap-20">
+              <SectionToc items={tocItems} />
               <div className="grid gap-16 md:gap-24">
+                {project.intro && (
+                  <div className="max-w-2xl">
+                    <WordReveal text={project.intro} className="text-xl leading-snug md:text-2xl" />
+                  </div>
+                )}
                 {sections.map((s, i) => (
                   <section key={s._key} id={tocItems[i].id} className="scroll-mt-28 border-t rule pt-8 md:pt-10">
                     <Reveal>

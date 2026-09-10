@@ -156,6 +156,14 @@ body {
 .thumb-track.right { animation: drift-r 60s linear infinite; }
 .thumb-track:hover { animation-play-state: paused; }
 
+/* hide scrollbars on carousel tracks */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 /* view-all marquee band — inverts on hover */
 .view-all-band {
   transition: background 0.25s ease, color 0.25s ease;
