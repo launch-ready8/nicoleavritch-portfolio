@@ -122,7 +122,7 @@ export function Blocks({ blocks, indexOf }: { blocks: Block[]; indexOf: Map<stri
                     <ZoomImage
                       image={img}
                       sizes={wide ? "(min-width: 768px) 768px, 95vw" : "(min-width: 768px) 45vw, 95vw"}
-                      maxWidth={wide ? 1600 : 1200}
+                      maxWidth={wide ? 2000 : 1600}
                       galleryIndex={indexOfBlockImage.get(`${block._key}:${i}`) || 0}
                     />
                   </div>

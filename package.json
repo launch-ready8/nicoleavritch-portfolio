@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "prebuild": "node scripts/vercel-seed.mjs && node scripts/sections-migrate.mjs"
+    "prebuild": "node scripts/vercel-seed.mjs && node scripts/sections-migrate.mjs && node scripts/hd-upgrade.mjs"
   },
   "dependencies": {
     "@fontsource-variable/anybody": "^5.3.0",
