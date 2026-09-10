@@ -42,12 +42,12 @@ export default function Nav({
         backdropFilter: "blur(4px)",
       }}
     >
+      {/* links distributed across the full width, editorial-style */}
       <nav className="mx-auto flex max-w-[1500px] items-center justify-between px-5 py-4 md:px-10">
         <Link href="/" className="nav-link transition-opacity hover:opacity-60">
           {links[0].label}
         </Link>
-        <div className="flex items-center gap-7 md:gap-10">
-          {links.slice(1).map((l) =>
+        {links.slice(1).map((l) =>
             l.href === "/work" && workItems.length > 0 ? (
               <span key={l.href} className="contents">
               {/* mobile: plain link (no hover on touch) */}
@@ -110,13 +110,12 @@ export default function Nav({
                 {l.label}
               </Link>
             )
-          )}
-          {email && (
-            <a href={`mailto:${email}`} className="nav-link hidden transition-opacity hover:opacity-60 md:inline">
-              Contact
-            </a>
-          )}
-        </div>
+        )}
+        {email && (
+          <a href={`mailto:${email}`} className="nav-link hidden transition-opacity hover:opacity-60 md:inline">
+            Contact
+          </a>
+        )}
       </nav>
     </header>
   );

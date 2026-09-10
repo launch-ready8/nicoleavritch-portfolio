@@ -70,7 +70,7 @@ export async function getSettings(): Promise<SiteSettings> {
   if (process.env.MOCK_CONTENT === "1")
     return {
       siteTitle: "Nicole Avritch",
-      tagline: "Creative Director & Senior Designer",
+      tagline: "Creative Direction and Design",
       heroLine:
         "I lead brand creative for consumer brands, from first brief to final asset: identity, campaigns, packaging, retail, and motion.",
       email: "nicoleavritch@gmail.com",
@@ -81,7 +81,7 @@ export async function getSettings(): Promise<SiteSettings> {
     const s = await client.fetch(settingsQuery, {}, { next: { revalidate: 60 } });
     return {
       siteTitle: s?.siteTitle || "Nicole Avritch",
-      tagline: s?.tagline || "Senior Designer & Brand Strategist",
+      tagline: s?.tagline || "Creative Direction and Design",
       heroLine: s?.heroLine || undefined,
       email: s?.email || undefined,
       phone: s?.phone || undefined,
@@ -104,7 +104,7 @@ export async function getSettings(): Promise<SiteSettings> {
   } catch {
     return {
       siteTitle: "Nicole Avritch",
-      tagline: "Senior Designer & Brand Strategist",
+      tagline: "Creative Direction and Design",
       socials: [],
       theme: DEFAULT_THEME,
     };

@@ -51,7 +51,7 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
             </div>
           </div>
           <div className="md:text-right">
-            {(settings.tagline || "").split(/\s*&\s*/).map((part, i) => (
+            {(settings.tagline || "").split(/\s+(?:&|and)\s+/i).map((part, i) => (
               <p key={i} className="text-base opacity-80 md:text-lg">
                 {part.trim()}
               </p>

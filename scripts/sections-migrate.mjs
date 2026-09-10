@@ -34,6 +34,23 @@ async function main() {
   const state = (await client.fetch(`*[_id == "sectionsMigration"][0]`)) || {};
   await migrateIpp(state);
   await migratePeaches(state);
+  await migrateTagline(state);
+}
+
+/* Amanda (Sep 2026): homepage should read "Creative Direction and Design". */
+const TAGLINE_VERSION = 1;
+async function migrateTagline(state) {
+  if ((state.taglineVersion || 0) >= TAGLINE_VERSION) {
+    console.log(`[sections] tagline up to date (v${state.taglineVersion})`);
+    return;
+  }
+  await client
+    .transaction()
+    .createIfNotExists({ _id: "sectionsMigration", _type: "migrationState" })
+    .patch("sectionsMigration", (p) => p.set({ taglineVersion: TAGLINE_VERSION }))
+    .patch("siteSettings", (p) => p.set({ tagline: "Creative Direction and Design" }))
+    .commit();
+  console.log(`[sections] tagline set → "Creative Direction and Design"`);
 }
 
 async function migrateIpp(state) {

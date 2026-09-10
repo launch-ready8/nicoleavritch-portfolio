@@ -3,7 +3,6 @@ import Image from "next/image";
 import { getProjects, getSettings, urlFor } from "@/lib/sanity";
 import Ticker from "@/components/Ticker";
 import Reveal from "@/components/Reveal";
-import WordReveal from "@/components/WordReveal";
 import HeroEllipse from "@/components/HeroEllipse";
 import ViewAllBand from "@/components/ViewAllBand";
 import HoverIndex from "@/components/HoverIndex";
@@ -16,8 +15,25 @@ export default async function Home() {
   const rest = projects.filter((p) => !p.featured);
   const [first = "Nicole", last = "Avritch"] = settings.siteTitle.split(" ");
   const L = settings.labels || {};
-  const taglineParts = (settings.tagline || "Creative Director & Senior Designer").split(/\s*&\s*/);
+  const tagline = settings.tagline || "Creative Direction and Design";
+  const tm = tagline.match(/^(.*?)\s+(&|and)\s+(.*)$/i);
+  const [tagA, tagConn, tagB] = tm ? [tm[1], tm[2], tm[3]] : [tagline, "", ""];
   const viewAll = L.seeAllWork || "View all work";
+  const expertise = settings.tickerItems?.length
+    ? settings.tickerItems.slice(0, 5)
+    : ["Brand identity", "Creative direction", "Campaigns", "Packaging", "Motion"];
+
+  /* *word* in the hero sentence renders in the accent color */
+  const accented = (t: string) =>
+    t.split(/(\*[^*]+\*)/g).map((p, i) =>
+      p.startsWith("*") && p.endsWith("*") ? (
+        <span key={i} style={{ color: "var(--accent)" }}>
+          {p.slice(1, -1)}
+        </span>
+      ) : (
+        <span key={i}>{p}</span>
+      )
+    );
 
   const indexRows = rest.map((p, i) => ({
     id: p._id,
@@ -33,35 +49,50 @@ export default async function Home() {
 
   return (
     <div id="top">
-      {/* HERO */}
-      <section className="mx-auto max-w-[1500px] px-5 pt-6 md:px-10">
-        <h1 className="display relative">
+      {/* HERO — layered editorial composition: statement top-left, massive
+          name, tagline + expertise index sharing the base line */}
+      <section className="mx-auto max-w-[1500px] px-5 pt-6 pb-14 md:px-10 md:pt-8 md:pb-20">
+        {settings.heroLine && (
+          <p className="max-w-[19rem] text-[0.8rem] font-semibold uppercase leading-[1.7] tracking-[0.09em] md:max-w-sm md:text-[0.92rem]">
+            {accented(settings.heroLine)}
+          </p>
+        )}
+        <h1 className="display relative mt-5 md:mt-2">
           <span className="block text-right text-[19vw] leading-[0.88] md:text-[14vw]">{first}</span>
           <span className="block text-[19vw] leading-[0.88] md:text-[14vw]">{last}</span>
         </h1>
-        <div className="relative mt-2 md:mt-4">
-          <p className="text-[8vw] leading-[1.05] tracking-tight md:text-[5vw]">
+        <div className="mt-4 flex flex-col gap-10 md:mt-6 md:flex-row md:items-end md:justify-between">
+          <p className="text-[7.5vw] leading-[1.08] tracking-tight md:text-[3.4vw]">
             (<span className="relative inline-block">
-              {taglineParts[0]?.trim()}
+              {tagA.trim()}
               <HeroEllipse />
             </span>
-            <br />
-            &amp; {taglineParts[1]?.trim()})
+            {tagConn && (
+              <>
+                <br />
+                {tagConn} {tagB.trim()})
+              </>
+            )}
+            {!tagConn && ")"}
           </p>
+          <div className="md:text-right">
+            <p className="label mb-3" style={{ color: "var(--accent)" }}>
+              {L.expertiseLabel || "Expertise"}
+            </p>
+            <ul className="grid gap-1.5">
+              {expertise.map((t, i) => (
+                <li
+                  key={t}
+                  className="text-[1rem] font-medium uppercase tracking-[0.06em] md:text-[1.1rem]"
+                  style={{ opacity: Math.max(0.35, 1 - i * 0.16) }}
+                >
+                  {t}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </section>
-
-      {/* INTRO */}
-      {settings.heroLine && (
-        <section className="mx-auto max-w-[1500px] px-5 py-20 md:px-10 md:py-28">
-          <div className="relative mx-auto max-w-2xl md:ml-[38%]">
-            <svg className="absolute -left-24 top-1 hidden h-12 w-12 text-ink md:block" viewBox="0 0 100 100" fill="none" aria-hidden>
-              <path d="M50 4 V96 M8 50 H92 M20 20 L80 80 M80 20 L20 80" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-            </svg>
-            <WordReveal text={settings.heroLine} className="text-2xl leading-snug md:text-4xl" />
-          </div>
-        </section>
-      )}
 
       <Ticker
         items={
