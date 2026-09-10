@@ -199,13 +199,30 @@ async function markDone() {
     .commit();
 }
 
-/* ---- Let's Talk, Peaches: mirror her old-portfolio layout exactly ----
- * Old page order: explainer blurb (guest names linked to episodes) → the
- * old site's gallery images in original order → the campaign video.
- * The gallery assets already exist in Sanity (uploaded during the seed
- * harvest, then unused) — this references them without re-downloading. */
-const PEACHES_LAYOUT_VERSION = 1;
+/* ---- Let's Talk, Peaches: mirror her old-portfolio page EXACTLY ----
+ * Verified against the live old page markup (Sep 2026): header description →
+ * eight full-width stacked image modules → the campaign video → one final
+ * image. The lightbox data-src URLs below are the ORIGINAL un-resized files
+ * (each carries its own signed ?h= token), so this also fixes the blur that
+ * came from the old harvest's small renditions. */
+const PEACHES_LAYOUT_VERSION = 2;
 const PEACHES_SLUG = "lets-talk-peaches";
+const PEACHES_CDN = "https://cdn.myportfolio.com/d16c8cbd2ff15d87315ef646e6ee0d96";
+const PEACHES_ORIGINALS = [
+  "8974f336-b948-45e0-ad7f-acfa16d71e66.jpg?h=35ab42345a92ff49ed7831214579d47d",
+  "a014b963-d174-4403-8e4a-ec16eafa076b.jpg?h=fdcafad55b4466723517ba55a427d4b0",
+  "dff7c216-38ed-4dd5-b09d-6bcac202c76c.jpg?h=ade42bd87f4485347b1e233836b31420",
+  "9c89b0c9-ac0e-4f78-89b8-79c5d3d792d4.jpg?h=7dab0bfe410a35fd5bfbd9f80f4fb4bd",
+  "183bc6cf-73d7-485e-9d96-0bad1a5fe4ed.jpg?h=50a1c46552bb8bfa930be3785ee7d9a3",
+  "6ab03b15-a64a-4357-93d8-aa99691af62f.jpg?h=b502a5992baac64eef9ec027645013e8",
+  "b1d719c7-6096-4cf9-95da-d192dd6a2872.jpg?h=bac7892e6b515ae165e112bb1b1ebe8a",
+  "bcad1b50-7965-4097-b8cf-e7a08fa2aa3e.jpg?h=e03e82e7fc8ec25b66ecc432ebcf2da9",
+  // ---- the video module sits here on the old page ----
+  "fc4cb902-3ac2-4fff-960d-62a553b8ca28.jpg?h=cfe818a5ac9a063cc696329cc6a263a3",
+];
+const PEACHES_VIDEO_AFTER = 8; // number of images before the video module
+const PEACHES_VIDEO_URL =
+  "https://www-ccv.adobe.io/v1/player/ccv/CB62sbnIIEp/embed?bgcolor=%23191919&lazyLoading=true&api_key=BehancePro2View";
 const PEACHES_BLURB =
   "Co-founded a podcast brand where I designed the full visual identity, graphic template system, and website. " +
   "I art-directed episode graphics featuring guests including " +
@@ -226,41 +243,40 @@ async function migratePeaches(state) {
     return;
   }
 
-  const assets = await client.fetch(
-    `*[_type == "sanity.imageAsset" && originalFilename match "lets-talk-peaches-*"]{_id, originalFilename, size}`
-  );
-  const gallery = assets
-    .filter((a) => /^lets-talk-peaches-\d+\.jpg$/.test(a.originalFilename || ""))
-    .sort((a, b) => (a.originalFilename || "").localeCompare(b.originalFilename || "", undefined, { numeric: true }));
-  // the old page repeats some tiles via lazy-load; drop byte-identical dupes
-  const seen = new Set();
-  const unique = gallery.filter((a) => (seen.has(a.size) ? false : (seen.add(a.size), true)));
-  if (unique.length < 4) {
-    console.log(`[sections] peaches: only ${unique.length} old-site gallery assets found — skipping, needs re-harvest`);
+  const UA = { "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/126.0 Safari/537.36" };
+  const refs = [];
+  for (let i = 0; i < PEACHES_ORIGINALS.length; i++) {
+    const url = `${PEACHES_CDN}/${PEACHES_ORIGINALS[i]}`;
+    const fn = `lets-talk-peaches-orig-${String(i + 1).padStart(2, "0")}.jpg`;
+    try {
+      const r = await fetch(url, { headers: UA });
+      if (!r.ok) throw new Error(String(r.status));
+      const buf = Buffer.from(await r.arrayBuffer());
+      if (buf.length < 8000) throw new Error("too small");
+      const found = await client.fetch(
+        `*[_type == "sanity.imageAsset" && originalFilename == $fn && size == $size][0]{_id}`,
+        { fn, size: buf.length }
+      );
+      const id = found?._id || (await client.assets.upload("image", buf, { filename: fn }))._id;
+      refs.push(id);
+    } catch (e) {
+      console.warn(`[sections] peaches original #${i + 1}: ${e.message}`);
+      refs.push(null);
+    }
+  }
+  const got = refs.filter(Boolean).length;
+  if (got < PEACHES_ORIGINALS.length - 2) {
+    console.log(`[sections] peaches: only ${got}/${PEACHES_ORIGINALS.length} originals downloadable — aborting, keeping current page`);
     return;
   }
 
-  const vids = (doc.blocks || []).filter((b) => b._type === "videoEmbed");
   let k = 0;
   const key = () => `peach-v${PEACHES_LAYOUT_VERSION}-${k++}`;
-  const blocks = [
-    { _type: "textSection", _key: key(), body: PEACHES_BLURB },
-    {
-      _type: "imageGrid",
-      _key: key(),
-      columns: 2,
-      images: unique.map((a) => ({ _type: "image", _key: key(), asset: { _type: "reference", _ref: a._id } })),
-    },
-    ...(vids.length
-      ? vids.map((v) => ({ ...v, _key: key() }))
-      : [
-          {
-            _type: "videoEmbed",
-            _key: key(),
-            url: "https://www-ccv.adobe.io/v1/player/ccv/CB62sbnIIEp/embed?bgcolor=%23191919&api_key=BehancePro2View",
-          },
-        ]),
-  ];
+  const img = (id) => ({ _type: "fullBleedImage", _key: key(), image: { _type: "image", asset: { _type: "reference", _ref: id } } });
+  const blocks = [{ _type: "textSection", _key: key(), body: PEACHES_BLURB }];
+  refs.slice(0, PEACHES_VIDEO_AFTER).forEach((id) => id && blocks.push(img(id)));
+  blocks.push({ _type: "videoEmbed", _key: key(), url: PEACHES_VIDEO_URL });
+  refs.slice(PEACHES_VIDEO_AFTER).forEach((id) => id && blocks.push(img(id)));
 
   await client
     .transaction()
@@ -268,12 +284,12 @@ async function migratePeaches(state) {
     .patch("sectionsMigration", (p) =>
       p.set({
         peachesVersion: PEACHES_LAYOUT_VERSION,
-        peachesBackup: JSON.stringify({ blocks: doc.blocks || [], intro: doc.intro || "", hideHero: !!doc.hideHero }),
+        peachesBackup2: JSON.stringify({ blocks: doc.blocks || [], intro: doc.intro || "", hideHero: !!doc.hideHero }),
       })
     )
     .patch(doc._id, (p) => p.set({ blocks, hideHero: true }).unset(["intro", "sections"]))
     .commit();
-  console.log(`[sections] peaches migrated → old-portfolio layout (${unique.length} images, ${Math.max(vids.length, 1)} video)`);
+  console.log(`[sections] peaches migrated v2 → exact old-portfolio layout (${got} original images, video after #${PEACHES_VIDEO_AFTER})`);
 }
 
 main()

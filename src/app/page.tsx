@@ -19,9 +19,6 @@ export default async function Home() {
   const tm = tagline.match(/^(.*?)\s+(&|and)\s+(.*)$/i);
   const [tagA, tagConn, tagB] = tm ? [tm[1], tm[2], tm[3]] : [tagline, "", ""];
   const viewAll = L.seeAllWork || "View all work";
-  const expertise = settings.tickerItems?.length
-    ? settings.tickerItems.slice(0, 5)
-    : ["Brand identity", "Creative direction", "Campaigns", "Packaging", "Motion"];
 
   /* *word* in the hero sentence renders in the accent color */
   const accented = (t: string) =>
@@ -61,7 +58,7 @@ export default async function Home() {
           <span className="block text-right text-[19vw] leading-[0.88] md:text-[14vw]">{first}</span>
           <span className="block text-[19vw] leading-[0.88] md:text-[14vw]">{last}</span>
         </h1>
-        <div className="mt-4 flex flex-col gap-10 md:mt-6 md:flex-row md:items-end md:justify-between">
+        <div className="mt-4 md:mt-6">
           <p className="text-[7.5vw] leading-[1.08] tracking-tight md:text-[3.4vw]">
             (<span className="relative inline-block">
               {tagA.trim()}
@@ -75,22 +72,6 @@ export default async function Home() {
             )}
             {!tagConn && ")"}
           </p>
-          <div className="md:text-right">
-            <p className="label mb-3" style={{ color: "var(--accent)" }}>
-              {L.expertiseLabel || "Expertise"}
-            </p>
-            <ul className="grid gap-1.5">
-              {expertise.map((t, i) => (
-                <li
-                  key={t}
-                  className="text-[1rem] font-medium uppercase tracking-[0.06em] md:text-[1.1rem]"
-                  style={{ opacity: Math.max(0.35, 1 - i * 0.16) }}
-                >
-                  {t}
-                </li>
-              ))}
-            </ul>
-          </div>
         </div>
       </section>
 

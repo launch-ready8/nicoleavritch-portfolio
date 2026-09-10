@@ -1,28 +1,26 @@
 /**
- * HD image upgrade: the July harvest of the old Adobe Portfolio site captured
- * whatever renditions the page HTML listed — for many gallery images that was
- * a small thumbnail (500–900px), which blurs on the live site. Adobe's CDN
- * serves larger renditions at predictable URLs (_rw_1920 / _rw_3840 / the
- * un-suffixed original), so this script:
+ * HD image upgrade v2. The July harvest saved the small renditions listed in
+ * each old-portfolio page's markup; the ORIGINAL un-resized files live in the
+ * same markup as lightbox `data-src` URLs (each with its own signed ?h=
+ * token — which is why rewriting rendition URLs failed in v1).
  *
- *   1. re-fetches each old project page and rebuilds the same ordered URL
- *      list the original seeder used (same extraction + filtering), so index
- *      NN maps to the existing asset named `${slug}-NN.jpg`;
- *   2. for each existing scraped asset narrower than MIN_OK_WIDTH, downloads
- *      the largest rendition it can find and uploads it as `${slug}-hd-NN.jpg`;
- *   3. walks every project document (blocks, sections, heroImage,
- *      previewImage) and repoints references from the small asset to the HD
- *      one — layouts and Studio edits are untouched, only the pixels change.
+ * For every project with an old-site page (Peaches is rebuilt separately by
+ * sections-migrate): re-fetch the page, read the lightbox originals in module
+ * order, and — where the project still references a scraped asset narrower
+ * than MIN_OK_WIDTH — upload the matching original and repoint the reference.
+ * Mapping is positional (n-th scraped image ↔ n-th lightbox module) and only
+ * applied when the counts agree, so nothing gets mismatched. Layouts and
+ * Studio edits are untouched.
  *
  * Guarded by hdVersion on the `sectionsMigration` doc; fail-soft (exit 0).
  */
 import { createClient } from "@sanity/client";
 import fs from "node:fs";
 
-const HD_VERSION = 1;
-const MIN_OK_WIDTH = 1400; // assets at least this wide are left alone
+const HD_VERSION = 2;
+const MIN_OK_WIDTH = 1400;
 const BASE = "https://nicoleavritch.myportfolio.com";
-const MAX_SCRAPED_PER_PROJECT = 24; // must match vercel-seed.mjs
+const SKIP_SLUGS = new Set(["lets-talk-peaches"]); // rebuilt from originals in sections-migrate
 
 const IS_VERCEL = !!process.env.VERCEL;
 const token = process.env.SANITY_TOKEN;
@@ -42,48 +40,11 @@ async function getPage(url) {
   return await r.text();
 }
 
-/* identical extraction + best-in-page pick as vercel-seed.mjs, so ordering matches */
-function extractImages(html) {
-  const all = [...html.matchAll(/https:\/\/cdn\.myportfolio\.com\/[^"'\s\\)]+?\.(?:jpe?g|png|gif|webp)(?:\?[^"'\s\\)]*)?/gi)].map((m) =>
-    m[0].replace(/&amp;/g, "&")
+/* lightbox data-src URLs = the original files, in module (page) order */
+function extractOriginals(html) {
+  return [...html.matchAll(/class="js-lightbox"\s+data-src="(https:\/\/cdn\.myportfolio\.com\/[^"]+)"/g)].map((m) =>
+    m[1].replace(/&amp;/g, "&")
   );
-  const groups = new Map();
-  for (const u of all) {
-    if (/favicon|touch-icon/i.test(u)) continue;
-    const idMatch = u.match(/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/i);
-    const key = idMatch ? idMatch[1] : u.split("?")[0];
-    const width = (() => {
-      const rw = u.match(/_rw_(\d+)/);
-      if (rw) return parseInt(rw[1]);
-      const rwc = u.match(/_rwc_\d+x\d+x(\d+)/);
-      if (rwc) return parseInt(rwc[1]);
-      return 1000;
-    })();
-    const cur = groups.get(key);
-    if (!cur || width > cur.width) groups.set(key, { url: u, width });
-  }
-  return [...groups.values()].map((g) => g.url);
-}
-
-function extractOg(html) {
-  const m =
-    html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i) ||
-    html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image["']/i);
-  return m ? m[1].replace(/&amp;/g, "&") : null;
-}
-
-/* candidate URLs for a bigger rendition, best first */
-function hdCandidates(url) {
-  const out = [];
-  if (/_rw_\d+/.test(url)) {
-    for (const w of [3840, 2500, 1920]) out.push(url.replace(/_rw_\d+/, `_rw_${w}`));
-    out.push(url.replace(/_rw_\d+\./, ".")); // un-suffixed original, sometimes exists
-  } else if (/_rwc_/.test(url)) {
-    // cropped renditions: bump the size segment (WxHxQ pattern varies; safest is leaving crop shape)
-    for (const w of [3840, 2500, 1920]) out.push(url.replace(/(_rwc_\d+x\d+x)\d+/, `$1${w}`));
-  }
-  out.push(url); // fall back to what we had
-  return [...new Set(out)];
 }
 
 async function download(url) {
@@ -94,6 +55,16 @@ async function download(url) {
   return buf;
 }
 
+/* collect image asset refs in document order (blocks, then sections) */
+function collectRefs(node, out) {
+  if (!node || typeof node !== "object") return;
+  if (node.asset?._ref) out.push(node.asset._ref);
+  for (const v of Object.values(node)) {
+    if (Array.isArray(v)) v.forEach((x) => collectRefs(x, out));
+    else if (v && typeof v === "object") collectRefs(v, out);
+  }
+}
+
 async function main() {
   const state = (await client.fetch(`*[_id == "sectionsMigration"][0]`)) || {};
   if ((state.hdVersion || 0) >= HD_VERSION) {
@@ -102,82 +73,79 @@ async function main() {
   }
 
   const seed = JSON.parse(fs.readFileSync("content/seed.json", "utf8"));
-  const refMap = new Map(); // small asset _id -> hd asset _id
-  let upgraded = 0, kept = 0, failed = 0;
+  let upgraded = 0, kept = 0, skippedProjects = 0;
 
   for (const p of seed.projects) {
-    if (!p.oldSlug) continue;
-    let urls;
+    if (!p.oldSlug || SKIP_SLUGS.has(p.slug)) continue;
+
+    const doc = await client.fetch(`*[_type == "project" && slug.current == $slug][0]{_id, blocks, sections}`, {
+      slug: p.slug,
+    });
+    if (!doc) continue;
+
+    /* scraped assets this doc actually references, in page order */
+    const allRefs = [];
+    collectRefs({ b: doc.blocks, s: doc.sections }, allRefs);
+    const uniqueRefs = [...new Set(allRefs)];
+    if (!uniqueRefs.length) continue;
+    const assets = await client.fetch(
+      `*[_type == "sanity.imageAsset" && _id in $ids]{_id, originalFilename, size, "w": metadata.dimensions.width}`,
+      { ids: uniqueRefs }
+    );
+    const byId = new Map(assets.map((a) => [a._id, a]));
+    const scrapedPattern = new RegExp(`^${p.slug}-\\d+\\.jpg$`);
+    const scrapedRefs = uniqueRefs.filter((id) => scrapedPattern.test(byId.get(id)?.originalFilename || ""));
+    if (!scrapedRefs.length) continue;
+
+    let originals;
     try {
-      const html = await getPage(`${BASE}/${p.oldSlug}`);
-      const og = extractOg(html);
-      urls = extractImages(html).filter((u) => u !== og).slice(0, MAX_SCRAPED_PER_PROJECT);
+      originals = extractOriginals(await getPage(`${BASE}/${p.oldSlug}`));
     } catch (e) {
       console.warn(`[hd] ${p.slug}: page fetch failed (${e.message})`);
       continue;
     }
+    if (originals.length !== scrapedRefs.length) {
+      console.warn(`[hd] ${p.slug}: ${scrapedRefs.length} scraped refs vs ${originals.length} lightbox originals — skipping (unsafe mapping)`);
+      skippedProjects++;
+      continue;
+    }
 
-    for (let i = 0; i < urls.length; i++) {
-      const fn = `${p.slug}-${String(i + 1).padStart(2, "0")}.jpg`;
-      const existing = await client.fetch(
-        `*[_type == "sanity.imageAsset" && originalFilename == $fn] | order(metadata.dimensions.width desc)[0]{_id, size, "w": metadata.dimensions.width}`,
-        { fn }
-      );
-      if (!existing) continue; // never referenced/uploaded — nothing to fix
-      if ((existing.w || 0) >= MIN_OK_WIDTH) { kept++; continue; }
-
-      let buf = null;
-      for (const cand of hdCandidates(urls[i])) {
-        try {
-          const b = await download(cand);
-          if (b.length > (existing.size || 0) * 1.15) { buf = b; break; }
-          if (!buf) buf = b; // keep first success as fallback comparison
-        } catch { /* try next candidate */ }
-      }
-      if (!buf || buf.length <= (existing.size || 0)) { failed++; continue; }
-
+    const refMap = new Map();
+    for (let i = 0; i < scrapedRefs.length; i++) {
+      const a = byId.get(scrapedRefs[i]);
+      if ((a.w || 0) >= MIN_OK_WIDTH) { kept++; continue; }
       try {
-        const hdFn = `${p.slug}-hd-${String(i + 1).padStart(2, "0")}.jpg`;
+        const buf = await download(originals[i]);
+        if (buf.length <= (a.size || 0)) { kept++; continue; }
+        const fn = `${p.slug}-orig-${String(i + 1).padStart(2, "0")}.jpg`;
         const found = await client.fetch(
           `*[_type == "sanity.imageAsset" && originalFilename == $fn && size == $size][0]{_id}`,
-          { fn: hdFn, size: buf.length }
+          { fn, size: buf.length }
         );
-        const id = found?._id || (await client.assets.upload("image", buf, { filename: hdFn }))._id;
-        refMap.set(existing._id, id);
+        const id = found?._id || (await client.assets.upload("image", buf, { filename: fn }))._id;
+        refMap.set(scrapedRefs[i], id);
         upgraded++;
       } catch (e) {
-        console.warn(`[hd] ${p.slug} #${i + 1}: upload failed (${e.message})`);
-        failed++;
+        console.warn(`[hd] ${p.slug} #${i + 1}: ${e.message}`);
       }
     }
-  }
 
-  /* repoint references across all project docs, layouts untouched */
-  let docsPatched = 0;
-  if (refMap.size) {
-    const swap = (node) => {
-      if (!node || typeof node !== "object") return false;
-      let changed = false;
-      if (node.asset?._ref && refMap.has(node.asset._ref)) {
-        node.asset = { _type: "reference", _ref: refMap.get(node.asset._ref) };
-        changed = true;
-      }
-      for (const v of Object.values(node)) {
-        if (Array.isArray(v)) v.forEach((x) => { if (swap(x)) changed = true; });
-        else if (v && typeof v === "object") { if (swap(v)) changed = true; }
-      }
-      return changed;
-    };
-    const docs = await client.fetch(`*[_type == "project"]{_id, blocks, sections, heroImage, previewImage}`);
-    for (const d of docs) {
+    if (refMap.size) {
+      const swap = (node) => {
+        if (!node || typeof node !== "object") return;
+        if (node.asset?._ref && refMap.has(node.asset._ref)) {
+          node.asset = { _type: "reference", _ref: refMap.get(node.asset._ref) };
+        }
+        for (const v of Object.values(node)) {
+          if (Array.isArray(v)) v.forEach(swap);
+          else if (v && typeof v === "object") swap(v);
+        }
+      };
       const patch = {};
-      for (const field of ["blocks", "sections", "heroImage", "previewImage"]) {
-        if (d[field] && swap({ x: d[field] } ) ) patch[field] = d[field];
-      }
-      if (Object.keys(patch).length) {
-        await client.patch(d._id).set(patch).commit();
-        docsPatched++;
-      }
+      if (doc.blocks) { swap({ x: doc.blocks }); patch.blocks = doc.blocks; }
+      if (doc.sections) { swap({ x: doc.sections }); patch.sections = doc.sections; }
+      await client.patch(doc._id).set(patch).commit();
+      console.log(`[hd] ${p.slug}: ${refMap.size} images upgraded to originals`);
     }
   }
 
@@ -186,7 +154,7 @@ async function main() {
     .createIfNotExists({ _id: "sectionsMigration", _type: "migrationState" })
     .patch("sectionsMigration", (p) => p.set({ hdVersion: HD_VERSION }))
     .commit();
-  console.log(`[hd] done: ${upgraded} upgraded, ${kept} already sharp, ${failed} no better rendition; ${docsPatched} docs repointed`);
+  console.log(`[hd] done: ${upgraded} upgraded, ${kept} already fine, ${skippedProjects} projects skipped`);
 }
 
 main()
