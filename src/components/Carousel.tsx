@@ -53,7 +53,7 @@ export default function Carousel({
             <ZoomImage
               image={img}
               sizes="(min-width: 768px) 70vw, 86vw"
-              maxWidth={1600}
+              maxWidth={2400}
               galleryIndex={indexes[i] || 0}
             />
           </div>

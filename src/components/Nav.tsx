@@ -69,7 +69,7 @@ export default function Nav({
                 >
                   {l.label}
                 </Link>
-                <div className="invisible absolute left-1/2 top-full -translate-x-1/2 pt-4 opacity-0 transition-all duration-200 group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
+                <div className="invisible absolute left-1/2 top-full -translate-x-1/2 pt-4 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100">
                   <div
                     className="min-w-[260px] p-2"
                     style={{

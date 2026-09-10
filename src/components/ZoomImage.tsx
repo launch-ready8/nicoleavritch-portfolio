@@ -9,7 +9,7 @@ export default function ZoomImage({
   image,
   alt = "",
   sizes = "(min-width: 768px) 46vw, 95vw",
-  maxWidth = 1600,
+  maxWidth = 2600,
   galleryIndex = 0,
 }: {
   image: SanityImageSource;
@@ -25,7 +25,7 @@ export default function ZoomImage({
   const w = dims ? parseInt(dims[1]) : 1600;
   const h = dims ? parseInt(dims[2]) : 1000;
   const isGif = ref.endsWith("-gif");
-  const src = isGif ? urlFor(image).url() : urlFor(image).width(Math.min(w, maxWidth)).fit("max").quality(85).url();
+  const src = isGif ? urlFor(image).url() : urlFor(image).width(Math.min(w, maxWidth)).fit("max").quality(90).url();
 
   return (
     <button
@@ -40,6 +40,7 @@ export default function ZoomImage({
         width={w}
         height={h}
         sizes={sizes}
+        quality={90}
         unoptimized={isGif}
         className="h-auto w-full"
       />

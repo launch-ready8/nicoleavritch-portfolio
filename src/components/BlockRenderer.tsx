@@ -94,7 +94,7 @@ export function Blocks({ blocks, indexOf }: { blocks: Block[]; indexOf: Map<stri
                     image={block.image}
                     alt={block.caption || ""}
                     sizes="95vw"
-                    maxWidth={2000}
+                    maxWidth={3200}
                     galleryIndex={indexOfBlockImage.get(block._key) || 0}
                   />
                   {block.caption && <figcaption className="label mt-2 opacity-70">{block.caption}</figcaption>}
@@ -122,7 +122,7 @@ export function Blocks({ blocks, indexOf }: { blocks: Block[]; indexOf: Map<stri
                     <ZoomImage
                       image={img}
                       sizes={wide ? "(min-width: 768px) 768px, 95vw" : "(min-width: 768px) 45vw, 95vw"}
-                      maxWidth={wide ? 2000 : 1600}
+                      maxWidth={wide ? 3200 : 2000}
                       galleryIndex={indexOfBlockImage.get(`${block._key}:${i}`) || 0}
                     />
                   </div>

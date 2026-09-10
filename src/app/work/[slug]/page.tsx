@@ -86,7 +86,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         <div className="mx-auto max-w-[1500px] px-5 md:px-10">
           <Reveal>
             <div className="img-zoom overflow-hidden">
-              <SmartImage image={project.heroImage} alt={project.title} sizes="95vw" maxWidth={2200} priority />
+              <SmartImage image={project.heroImage} alt={project.title} sizes="95vw" maxWidth={3200} priority />
             </div>
           </Reveal>
         </div>

@@ -15,7 +15,7 @@ function fullSrcOf(image: SanityImageSource) {
   if (ref.endsWith("-gif")) return urlFor(image).url();
   const dims = ref.match(/-(\d+)x(\d+)-/);
   const w = dims ? parseInt(dims[1]) : 2000;
-  return urlFor(image).width(Math.min(w, 2400)).fit("max").quality(90).url();
+  return urlFor(image).width(Math.min(w, 3600)).fit("max").quality(90).url();
 }
 
 export default function GalleryProvider({

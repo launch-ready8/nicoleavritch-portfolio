@@ -17,7 +17,7 @@ export default async function AboutPage() {
         <div>
           {about?.portrait && (
             <Reveal>
-              <SmartImage image={about.portrait} alt={settings.siteTitle} sizes="(min-width: 768px) 40vw, 95vw" maxWidth={1200} />
+              <SmartImage image={about.portrait} alt={settings.siteTitle} sizes="(min-width: 768px) 40vw, 95vw" maxWidth={2000} />
             </Reveal>
           )}
         </div>

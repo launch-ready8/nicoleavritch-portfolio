@@ -100,11 +100,12 @@ export default async function Home() {
                 <div className="img-zoom relative aspect-[4/3] w-full overflow-hidden">
                   {p.heroImage ? (
                     <Image
-                      src={urlFor(p.heroImage).width(1400).fit("max").url()}
+                      src={urlFor(p.heroImage).width(2400).fit("max").quality(90).url()}
                       alt={p.title}
                       fill
                       priority={i === 0}
                       sizes="(min-width: 768px) 45vw, 95vw"
+                      quality={90}
                       className="object-cover"
                     />
                   ) : (
