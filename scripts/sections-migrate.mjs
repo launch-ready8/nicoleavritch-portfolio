@@ -31,9 +31,14 @@ const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || "production";
 const client = createClient({ projectId, dataset, token, apiVersion: "2024-10-01", useCdn: false });
 
 async function main() {
-  const state = await client.fetch(`*[_id == "sectionsMigration"][0]`);
-  if ((state?.ippVersion || 0) >= IPP_SECTIONS_VERSION) {
-    console.log(`[sections] up to date (v${state.ippVersion})`);
+  const state = (await client.fetch(`*[_id == "sectionsMigration"][0]`)) || {};
+  await migrateIpp(state);
+  await migratePeaches(state);
+}
+
+async function migrateIpp(state) {
+  if ((state.ippVersion || 0) >= IPP_SECTIONS_VERSION) {
+    console.log(`[sections] IPP up to date (v${state.ippVersion})`);
     return;
   }
 
@@ -175,6 +180,83 @@ async function markDone() {
     .createIfNotExists({ _id: "sectionsMigration", _type: "migrationState" })
     .patch("sectionsMigration", (p) => p.set({ ippVersion: IPP_SECTIONS_VERSION }))
     .commit();
+}
+
+/* ---- Let's Talk, Peaches: mirror her old-portfolio layout exactly ----
+ * Old page order: explainer blurb (guest names linked to episodes) → the
+ * old site's gallery images in original order → the campaign video.
+ * The gallery assets already exist in Sanity (uploaded during the seed
+ * harvest, then unused) — this references them without re-downloading. */
+const PEACHES_LAYOUT_VERSION = 1;
+const PEACHES_SLUG = "lets-talk-peaches";
+const PEACHES_BLURB =
+  "Co-founded a podcast brand where I designed the full visual identity, graphic template system, and website. " +
+  "I art-directed episode graphics featuring guests including " +
+  "[Puno](https://podcasts.apple.com/us/podcast/lets-talk-creatives-business-and-female/id1523122912?i=1000564475608), " +
+  "[Zipeng Zhu](https://podcasts.apple.com/us/podcast/lets-talk-taking-risks-living-boldly-learning-to-lead/id1523122912?i=1000548082274), " +
+  "Taylor Rae Roman, " +
+  "[Jeffery Marsh](https://podcasts.apple.com/us/podcast/lets-talk-radical-self-acceptance-spirituality-with/id1523122912?i=1000557882134), " +
+  "and Alicia Sinclair. The podcast grew to over 40K streams.";
+
+async function migratePeaches(state) {
+  if ((state.peachesVersion || 0) >= PEACHES_LAYOUT_VERSION) {
+    console.log(`[sections] peaches up to date (v${state.peachesVersion})`);
+    return;
+  }
+  const doc = await client.fetch(`*[_type == "project" && slug.current == $slug][0]`, { slug: PEACHES_SLUG });
+  if (!doc) {
+    console.log("[sections] peaches doc not found — nothing to migrate");
+    return;
+  }
+
+  const assets = await client.fetch(
+    `*[_type == "sanity.imageAsset" && originalFilename match "lets-talk-peaches-*"]{_id, originalFilename, size}`
+  );
+  const gallery = assets
+    .filter((a) => /^lets-talk-peaches-\d+\.jpg$/.test(a.originalFilename || ""))
+    .sort((a, b) => (a.originalFilename || "").localeCompare(b.originalFilename || "", undefined, { numeric: true }));
+  // the old page repeats some tiles via lazy-load; drop byte-identical dupes
+  const seen = new Set();
+  const unique = gallery.filter((a) => (seen.has(a.size) ? false : (seen.add(a.size), true)));
+  if (unique.length < 4) {
+    console.log(`[sections] peaches: only ${unique.length} old-site gallery assets found — skipping, needs re-harvest`);
+    return;
+  }
+
+  const vids = (doc.blocks || []).filter((b) => b._type === "videoEmbed");
+  let k = 0;
+  const key = () => `peach-v${PEACHES_LAYOUT_VERSION}-${k++}`;
+  const blocks = [
+    { _type: "textSection", _key: key(), body: PEACHES_BLURB },
+    {
+      _type: "imageGrid",
+      _key: key(),
+      columns: 2,
+      images: unique.map((a) => ({ _type: "image", _key: key(), asset: { _type: "reference", _ref: a._id } })),
+    },
+    ...(vids.length
+      ? vids.map((v) => ({ ...v, _key: key() }))
+      : [
+          {
+            _type: "videoEmbed",
+            _key: key(),
+            url: "https://www-ccv.adobe.io/v1/player/ccv/CB62sbnIIEp/embed?bgcolor=%23191919&api_key=BehancePro2View",
+          },
+        ]),
+  ];
+
+  await client
+    .transaction()
+    .createIfNotExists({ _id: "sectionsMigration", _type: "migrationState" })
+    .patch("sectionsMigration", (p) =>
+      p.set({
+        peachesVersion: PEACHES_LAYOUT_VERSION,
+        peachesBackup: JSON.stringify({ blocks: doc.blocks || [], intro: doc.intro || "", hideHero: !!doc.hideHero }),
+      })
+    )
+    .patch(doc._id, (p) => p.set({ blocks, hideHero: true }).unset(["intro", "sections"]))
+    .commit();
+  console.log(`[sections] peaches migrated → old-portfolio layout (${unique.length} images, ${Math.max(vids.length, 1)} video)`);
 }
 
 main()

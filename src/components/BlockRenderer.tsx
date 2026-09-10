@@ -4,6 +4,21 @@ import Reveal from "@/components/Reveal";
 import ZoomImage from "@/components/ZoomImage";
 import Carousel from "@/components/Carousel";
 
+/** Renders plain text with lightweight [label](url) links, so editors can link
+ *  phrases (e.g. podcast episodes) inside any text block from the Studio. */
+function textWithLinks(text: string) {
+  return text.split(/(\[[^\]]+\]\([^)\s]+\))/g).map((part, i) => {
+    const m = part.match(/^\[([^\]]+)\]\(([^)\s]+)\)$/);
+    return m ? (
+      <a key={i} href={m[2]} target="_blank" rel="noreferrer" className="text-link">
+        {m[1]}
+      </a>
+    ) : (
+      <span key={i}>{part}</span>
+    );
+  });
+}
+
 function videoSrc(url: string): { embed?: string; mp4?: string } {
   const yt = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/);
   if (yt) return { embed: `https://www.youtube.com/embed/${yt[1]}` };
@@ -64,7 +79,7 @@ export function Blocks({ blocks, indexOf }: { blocks: Block[]; indexOf: Map<stri
                   {block.body && (
                     <div className="grid gap-4 text-lg leading-relaxed">
                       {block.body.split(/\n\s*\n/).map((p, i) => (
-                        <p key={i}>{p}</p>
+                        <p key={i}>{textWithLinks(p)}</p>
                       ))}
                     </div>
                   )}
