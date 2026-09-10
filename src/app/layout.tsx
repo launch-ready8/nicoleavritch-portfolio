@@ -4,7 +4,7 @@ import "@fontsource-variable/archivo";
 import "@fontsource/bebas-neue";
 import "@fontsource/archivo-black";
 import "@fontsource-variable/space-grotesk";
-import { getSettings } from "@/lib/sanity";
+import { getProjects, getSettings } from "@/lib/sanity";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import "./globals.css";
@@ -91,7 +91,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           </>
         )}
         {fontFaces.length > 0 && <style dangerouslySetInnerHTML={{ __html: fontFaces.join("\n") }} />}
-        <Nav siteTitle={s.siteTitle} email={s.email} />
+        <Nav
+          siteTitle={s.siteTitle}
+          email={s.email}
+          workItems={(await getProjects()).slice(0, 3).map((p) => ({ title: p.title, slug: p.slug }))}
+        />
         <main className="flex-1">{children}</main>
         <Footer settings={s} />
       </body>

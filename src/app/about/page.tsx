@@ -1,6 +1,5 @@
 import { getAbout, getSettings } from "@/lib/sanity";
 import Reveal from "@/components/Reveal";
-import WordReveal from "@/components/WordReveal";
 import SmartImage from "@/components/SmartImage";
 
 export const revalidate = 60;
@@ -10,34 +9,11 @@ export const metadata = { title: "About — Nicole Avritch" };
 export default async function AboutPage() {
   const [about, settings] = await Promise.all([getAbout(), getSettings()]);
   const L = settings.labels || {};
-  const positioning = (settings.tagline || "Creative Director & Senior Designer").split(/\s*&\s*/);
 
   return (
     <div id="top" className="mx-auto max-w-[1500px] px-5 pt-8 md:px-10">
-      {/* Opener — centered word-by-word reveal */}
-      <section className="py-12 text-center md:py-20">
-        <p className="label mb-8 opacity-70">{L.getToKnowMe || "Get to know me"}</p>
-        {about?.headline && (
-          <div className="mx-auto max-w-3xl">
-            <WordReveal text={about.headline} className="text-3xl leading-snug md:text-5xl" />
-          </div>
-        )}
-      </section>
-
-      {/* Positioning */}
-      <section className="pb-10">
-        <h1 className="text-3xl leading-tight md:text-5xl">
-          {positioning.map((p, i) => (
-            <span key={i} className="block">
-              {i > 0 && <span className="opacity-40">| </span>}
-              {p.trim()}
-            </span>
-          ))}
-        </h1>
-      </section>
-
       {/* Photo + About + Contact, after her own portfolio's layout */}
-      <section className="grid gap-10 border-t rule py-10 md:grid-cols-[1fr_1.3fr] md:gap-20">
+      <section className="grid gap-10 py-8 md:grid-cols-[1fr_1.3fr] md:gap-20 md:py-12">
         <div>
           {about?.portrait && (
             <Reveal>
