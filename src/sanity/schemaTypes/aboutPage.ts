@@ -6,12 +6,6 @@ export const aboutPage = defineType({
   type: "document",
   fields: [
     defineField({
-      name: "headline",
-      title: "Headline",
-      description: "The big line at the top of the About page.",
-      type: "string",
-    }),
-    defineField({
       name: "bio",
       title: "Bio",
       description: "A few paragraphs about you. Blank line = new paragraph.",
@@ -35,7 +29,6 @@ export const aboutPage = defineType({
             defineField({ name: "company", title: "Company", type: "string" }),
             defineField({ name: "role", title: "Role", type: "string" }),
             defineField({ name: "dates", title: "Dates (e.g. 2019 – Present)", type: "string" }),
-            defineField({ name: "summary", title: "One-line summary (optional)", type: "text", rows: 2 }),
           ],
           preview: { select: { title: "company", subtitle: "role" } },
         },

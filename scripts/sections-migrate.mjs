@@ -35,6 +35,51 @@ async function main() {
   await migrateIpp(state);
   await migratePeaches(state);
   await migrateTagline(state);
+  await schemaSync(state);
+}
+
+/* Amanda (Oct 2026): the Studio must mirror the live site exactly. Removes
+ * stored values whose fields no longer render anywhere (and were removed from
+ * the schema in the same deploy), plus IPP's invisible "More" section, which
+ * held only hidden stats blocks. Touches nothing the site displays. */
+const SCHEMA_SYNC_VERSION = 1;
+async function schemaSync(state) {
+  if ((state.schemaSyncVersion || 0) >= SCHEMA_SYNC_VERSION) {
+    console.log(`[sections] schema-sync up to date (v${state.schemaSyncVersion})`);
+    return;
+  }
+
+  // 1) About: opener headline (page section removed) + unused experience summaries
+  const aboutDocs = await client.fetch(`*[_type == "aboutPage"]{_id}`);
+  for (const d of aboutDocs) {
+    await client.patch(d._id).unset(["headline", "experience[].summary"]).commit();
+  }
+
+  // 2) Site settings: stale "Get to know me" label (pub + any draft)
+  const settingsDocs = await client.fetch(`*[_type == "siteSettings"]{_id}`);
+  for (const d of settingsDocs) {
+    await client.patch(d._id).unset(["labels.getToKnowMe"]).commit();
+  }
+
+  // 3) IPP: drop the "More" section if it still holds nothing visible
+  const ippDocs = await client.fetch(`*[_type == "project" && slug.current == "independent-pet-partners"]{_id, sections}`);
+  for (const d of ippDocs) {
+    if (!d.sections) continue;
+    const pruned = d.sections.filter(
+      (s) => !(s.title === "More" && (s.blocks || []).every((b) => b._type === "statsRow"))
+    );
+    if (pruned.length !== d.sections.length) {
+      await client.patch(d._id).set({ sections: pruned }).commit();
+      console.log(`[sections] schema-sync: removed invisible "More" section from ${d._id}`);
+    }
+  }
+
+  await client
+    .transaction()
+    .createIfNotExists({ _id: "sectionsMigration", _type: "migrationState" })
+    .patch("sectionsMigration", (p) => p.set({ schemaSyncVersion: SCHEMA_SYNC_VERSION }))
+    .commit();
+  console.log(`[sections] schema-sync v${SCHEMA_SYNC_VERSION} done (about: ${aboutDocs.length}, settings: ${settingsDocs.length})`);
 }
 
 /* Amanda (Sep 2026): homepage should read "Creative Direction and Design". */

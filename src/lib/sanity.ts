@@ -269,11 +269,10 @@ export async function getProject(slug: string): Promise<ProjectFull | null> {
 /* ---------- About ---------- */
 
 export type About = {
-  headline?: string;
   bio?: string;
   software?: string;
   portrait?: SanityImageSource;
-  experience?: { company?: string; role?: string; dates?: string; summary?: string }[];
+  experience?: { company?: string; role?: string; dates?: string }[];
   skills?: string[];
   recognition?: string[];
 };
@@ -281,10 +280,9 @@ export type About = {
 export async function getAbout(): Promise<About | null> {
   if (MOCK)
     return {
-      headline: "Catch me directing photo shoots where the talent has four legs or watching Gilmore Girls or something silly like that.",
       bio: "I'm Nicole — a Senior Designer and Brand Strategist with nine years of experience.\n\nMy background is in consumer brands, with a growing focus on health, wellness, and lifestyle.",
       experience: [
-        { company: "Independent Pet Partners", role: "Senior Designer", dates: "2019 – Present", summary: "Sole in-house designer." },
+        { company: "Independent Pet Partners", role: "Senior Designer", dates: "2019 – Present" },
         { company: "Let's Talk, Peaches", role: "Co-Founder & Designer", dates: "2020 – 2023" },
       ],
       skills: ["Brand Systems", "Campaign Design", "Art Direction", "Packaging"],

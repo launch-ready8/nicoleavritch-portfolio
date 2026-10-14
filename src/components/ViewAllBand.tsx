@@ -10,7 +10,7 @@ export default function ViewAllBand({ text = "View all work" }: { text?: string 
       className="view-all-band group flex items-center justify-center gap-5 border-y rule py-6 md:gap-8 md:py-8"
     >
       <span aria-hidden className="text-2xl md:text-4xl">
-        ✳
+        {"\u2733\uFE0E"}
       </span>
       <span className="display text-4xl md:text-6xl">{text}</span>
       <span
