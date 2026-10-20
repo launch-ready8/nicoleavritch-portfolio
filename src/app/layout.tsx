@@ -32,6 +32,13 @@ function fontFormat(url: string) {
   return "truetype";
 }
 
+/* Serve CMS-uploaded fonts from our own origin (see the rewrite in
+   next.config.ts) — fonts are CORS-restricted and Sanity's file CDN
+   doesn't send the needed header, so a direct CDN URL never applies. */
+function sameOriginFont(url: string) {
+  return url.replace(/^https:\/\/cdn\.sanity\.io\/files\/[^/]+\/[^/]+\//, "/fonts/custom/");
+}
+
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const s = await getSettings();
   const t = s.theme;
@@ -45,7 +52,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   if (t.headlineFontUrl) {
     fontFaces.push(
-      `@font-face{font-family:'NA Custom Headline';src:url('${t.headlineFontUrl}') format('${fontFormat(t.headlineFontUrl)}');font-display:swap;}`
+      `@font-face{font-family:'NA Custom Headline';src:url('${sameOriginFont(t.headlineFontUrl)}') format('${fontFormat(t.headlineFontUrl)}');font-display:swap;}`
     );
     displayFamily = "'NA Custom Headline'";
   } else if (t.headlineGoogleFont) {
@@ -55,7 +62,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   if (t.bodyFontUrl) {
     fontFaces.push(
-      `@font-face{font-family:'NA Custom Body';src:url('${t.bodyFontUrl}') format('${fontFormat(t.bodyFontUrl)}');font-display:swap;}`
+      `@font-face{font-family:'NA Custom Body';src:url('${sameOriginFont(t.bodyFontUrl)}') format('${fontFormat(t.bodyFontUrl)}');font-display:swap;}`
     );
     bodyFamily = "'NA Custom Body'";
   } else if (t.bodyGoogleFont) {
