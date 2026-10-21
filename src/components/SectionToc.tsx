@@ -35,7 +35,7 @@ export default function SectionToc({ items, label = "What I made" }: { items: To
       {/* desktop rail */}
       <nav className="sticky top-24 hidden self-start lg:block" aria-label="Sections">
         <p className="label mb-6 opacity-60">{label}</p>
-        <ol className="grid gap-3">
+        <ol className="grid gap-3.5">
           {items.map((it, i) => {
             const on = it.id === active;
             return (
@@ -51,8 +51,8 @@ export default function SectionToc({ items, label = "What I made" }: { items: To
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <span
-                    className={`display text-[1.45rem] leading-[1.15] tracking-[0.11em] transition-opacity duration-200 ${
-                      on ? "opacity-100" : "opacity-45 group-hover:opacity-80"
+                    className={`text-[0.95rem] font-semibold uppercase leading-snug tracking-[0.1em] transition-opacity duration-200 ${
+                      on ? "opacity-100" : "opacity-50 group-hover:opacity-80"
                     }`}
                   >
                     {it.title}
@@ -73,7 +73,7 @@ export default function SectionToc({ items, label = "What I made" }: { items: To
               <a
                 key={it.id}
                 href={`#${it.id}`}
-                className="display whitespace-nowrap border px-3.5 py-2 text-lg tracking-[0.1em] transition-colors"
+                className="whitespace-nowrap border px-3.5 py-2.5 text-[0.8rem] font-semibold uppercase tracking-[0.08em] transition-colors"
                 style={{
                   borderColor: "color-mix(in srgb, var(--ink) 30%, transparent)",
                   background: on ? "var(--ink)" : "transparent",
