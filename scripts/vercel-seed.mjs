@@ -44,7 +44,7 @@ async function main() {
   }
 
   /* CORS for the studio */
-  const origins = ["http://localhost:3000"];
+  const origins = ["http://localhost:3000", "https://nicoleavritch.com", "https://www.nicoleavritch.com"];
   if (process.env.VERCEL_PROJECT_PRODUCTION_URL) origins.push(`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`);
   if (process.env.VERCEL_URL) origins.push(`https://${process.env.VERCEL_URL}`);
   for (const origin of [...new Set(origins)]) {

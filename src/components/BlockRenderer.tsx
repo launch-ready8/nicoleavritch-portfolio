@@ -22,13 +22,18 @@ function textWithLinks(text: string) {
 function videoSrc(url: string): { embed?: string; mp4?: string } {
   const yt = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/);
   if (yt) return { embed: `https://www.youtube.com/embed/${yt[1]}?rel=0&modestbranding=1` };
-  const vimeo = url.match(/vimeo\.com\/(\d+)/);
-  if (vimeo)
+  const vimeo = url.match(/vimeo\.com\/(?:video\/)?(\d+)(?:\/([a-zA-Z0-9]+))?/);
+  if (vimeo) {
+    /* unlisted videos need their privacy hash (the second part of the share
+       link, vimeo.com/ID/HASH) passed as h= or the player refuses to load */
+    const hash = vimeo[2] || url.match(/[?&]h=([a-zA-Z0-9]+)/)?.[1];
+    const h = hash ? `h=${hash}&` : "";
     return {
       /* background mode = seamless: autoplay, muted, loop, no player chrome.
          Vimeo honors these only on paid plans; free accounts keep controls. */
-      embed: `https://player.vimeo.com/video/${vimeo[1]}?background=1&autoplay=1&loop=1&muted=1&title=0&byline=0&portrait=0&dnt=1`,
+      embed: `https://player.vimeo.com/video/${vimeo[1]}?${h}background=1&autoplay=1&loop=1&muted=1&title=0&byline=0&portrait=0&dnt=1`,
     };
+  }
   if (/\.mp4($|\?)/.test(url)) return { mp4: url };
   return { embed: url };
 }
