@@ -95,9 +95,9 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       {chaptered && gallery ? (
         <GalleryProvider images={gallery.images}>
           <div className="mx-auto max-w-[1500px] px-5 pt-8 pb-10 md:px-10 md:pt-10 md:pb-14">
-            <div className="grid gap-8 md:grid-cols-[300px_minmax(0,1fr)] md:gap-14 lg:gap-20">
+            <div className="grid gap-8 lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-16 xl:gap-20">
               {/* left rail: project blurb + section index — frees the fold for imagery */}
-              <div>
+              <div className="min-w-0">
                 {project.intro && (
                   <p className="mb-8 max-w-[34ch] text-[0.95rem] leading-relaxed opacity-90 md:mb-10">
                     {project.intro}
@@ -105,7 +105,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
                 )}
                 <SectionToc items={tocItems} label={L.tocLabel || "What I made"} />
               </div>
-              <div className="grid gap-16 md:gap-24">
+              <div className="min-w-0 grid gap-16 md:gap-24">
                 {sections.map((s, i) => (
                   <section key={s._key} id={tocItems[i].id} className={`scroll-mt-28 border-t rule pt-8 md:pt-10 ${i === 0 ? "md:border-t-0 md:pt-0" : ""}`}>
                     <Reveal>

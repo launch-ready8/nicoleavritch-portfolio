@@ -163,6 +163,11 @@ body {
     cursor: none !important;
   }
 }
+@media (pointer: coarse), (hover: none) {
+  .cursor-dot {
+    display: none !important;
+  }
+}
 .cursor-dot {
   position: fixed;
   left: 0;

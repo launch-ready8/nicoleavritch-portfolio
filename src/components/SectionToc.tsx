@@ -33,7 +33,7 @@ export default function SectionToc({ items, label = "What I made" }: { items: To
   return (
     <>
       {/* desktop rail */}
-      <nav className="sticky top-24 hidden self-start md:block" aria-label="Sections">
+      <nav className="sticky top-24 hidden self-start lg:block" aria-label="Sections">
         <p className="label mb-6 opacity-60">{label}</p>
         <ol className="grid gap-3">
           {items.map((it, i) => {
@@ -51,8 +51,8 @@ export default function SectionToc({ items, label = "What I made" }: { items: To
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <span
-                    className={`display text-[1.5rem] leading-[1.1] tracking-[0.06em] transition-opacity duration-200 ${
-                      on ? "opacity-100" : "opacity-30 group-hover:opacity-70"
+                    className={`display text-[1.45rem] leading-[1.15] tracking-[0.11em] transition-opacity duration-200 ${
+                      on ? "opacity-100" : "opacity-45 group-hover:opacity-80"
                     }`}
                   >
                     {it.title}
@@ -65,7 +65,7 @@ export default function SectionToc({ items, label = "What I made" }: { items: To
       </nav>
 
       {/* mobile chip row */}
-      <nav className="-mx-5 overflow-x-auto px-5 md:hidden" aria-label="Sections">
+      <nav className="-mx-5 overflow-x-auto px-5 lg:hidden" aria-label="Sections">
         <div className="flex w-max gap-2 pb-1">
           {items.map((it) => {
             const on = it.id === active;
@@ -73,7 +73,7 @@ export default function SectionToc({ items, label = "What I made" }: { items: To
               <a
                 key={it.id}
                 href={`#${it.id}`}
-                className="display whitespace-nowrap border px-3.5 py-2 text-lg tracking-[0.06em] transition-colors"
+                className="display whitespace-nowrap border px-3.5 py-2 text-lg tracking-[0.1em] transition-colors"
                 style={{
                   borderColor: "color-mix(in srgb, var(--ink) 30%, transparent)",
                   background: on ? "var(--ink)" : "transparent",
