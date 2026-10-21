@@ -7,7 +7,7 @@ export type TocItem = { id: string; title: string };
 /** Typographic index for sectioned case studies: Anton entries, numbered,
  *  the active chapter in full ink with an accent number. Sticky on desktop,
  *  a horizontal chip row on mobile. */
-export default function SectionToc({ items, label = "Index" }: { items: TocItem[]; label?: string }) {
+export default function SectionToc({ items, label = "What I made" }: { items: TocItem[]; label?: string }) {
   const [active, setActive] = useState<string>(items[0]?.id || "");
 
   useEffect(() => {
@@ -51,7 +51,7 @@ export default function SectionToc({ items, label = "Index" }: { items: TocItem[
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <span
-                    className={`display text-[1.6rem] leading-[1.05] transition-opacity duration-200 ${
+                    className={`display text-[1.5rem] leading-[1.1] tracking-[0.06em] transition-opacity duration-200 ${
                       on ? "opacity-100" : "opacity-30 group-hover:opacity-70"
                     }`}
                   >
@@ -73,7 +73,7 @@ export default function SectionToc({ items, label = "Index" }: { items: TocItem[
               <a
                 key={it.id}
                 href={`#${it.id}`}
-                className="display whitespace-nowrap border px-3.5 py-2 text-lg transition-colors"
+                className="display whitespace-nowrap border px-3.5 py-2 text-lg tracking-[0.06em] transition-colors"
                 style={{
                   borderColor: "color-mix(in srgb, var(--ink) 30%, transparent)",
                   background: on ? "var(--ink)" : "transparent",

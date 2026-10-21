@@ -58,13 +58,6 @@ export default function Footer({ settings }: { settings: SiteSettings }) {
             ))}
           </div>
         </div>
-
-        {/* massive wordmark at the base */}
-        <div className="overflow-hidden">
-          <p className="display -mb-[1.5vw] text-center text-[12.5vw] leading-[0.8] opacity-95">
-            {settings.siteTitle}
-          </p>
-        </div>
       </div>
 
       {/* utility bar */}

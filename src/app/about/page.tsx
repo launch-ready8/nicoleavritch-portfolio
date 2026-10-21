@@ -17,13 +17,15 @@ export default async function AboutPage() {
         <div>
           {about?.portrait && (
             <Reveal>
+              <div className="w-2/3 md:w-full">
               <SmartImage image={about.portrait} alt={settings.siteTitle} sizes="(min-width: 768px) 40vw, 95vw" maxWidth={2000} />
+              </div>
             </Reveal>
           )}
         </div>
         <div className="grid content-start gap-10">
           <div>
-            <h2 className="display mb-4 text-3xl md:text-4xl">{L.aboutHeading || "About"}</h2>
+            <h2 className="display mb-4 text-3xl tracking-[0.05em] md:text-4xl">{L.aboutHeading || "About"}</h2>
             <div className="grid max-w-xl gap-4 text-base leading-relaxed md:text-lg">
               {about?.bio?.split(/\n\s*\n/).map((p, i) => (
                 <Reveal key={i} delay={i * 0.07}>
@@ -33,7 +35,7 @@ export default async function AboutPage() {
             </div>
           </div>
           <div>
-            <h2 className="display mb-4 text-3xl md:text-4xl">{L.contactHeading || "Contact"}</h2>
+            <h2 className="display mb-4 text-3xl tracking-[0.05em] md:text-4xl">{L.contactHeading || "Contact"}</h2>
             {settings.email && (
               <a href={`mailto:${settings.email}`} className="text-link block text-lg">
                 {settings.email.replace("@", " [at] ")}

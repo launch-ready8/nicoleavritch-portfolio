@@ -96,15 +96,18 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         <GalleryProvider images={gallery.images}>
           <div className="mx-auto max-w-[1500px] px-5 pt-8 pb-10 md:px-10 md:pt-10 md:pb-14">
             <div className="grid gap-8 md:grid-cols-[300px_minmax(0,1fr)] md:gap-14 lg:gap-20">
-              <SectionToc items={tocItems} />
-              <div className="grid gap-16 md:gap-24">
+              {/* left rail: project blurb + section index — frees the fold for imagery */}
+              <div>
                 {project.intro && (
-                  <div className="max-w-2xl">
-                    <WordReveal text={project.intro} className="text-xl leading-snug md:text-2xl" />
-                  </div>
+                  <p className="mb-8 max-w-[34ch] text-[0.95rem] leading-relaxed opacity-90 md:mb-10">
+                    {project.intro}
+                  </p>
                 )}
+                <SectionToc items={tocItems} label={L.tocLabel || "What I made"} />
+              </div>
+              <div className="grid gap-16 md:gap-24">
                 {sections.map((s, i) => (
-                  <section key={s._key} id={tocItems[i].id} className="scroll-mt-28 border-t rule pt-8 md:pt-10">
+                  <section key={s._key} id={tocItems[i].id} className={`scroll-mt-28 border-t rule pt-8 md:pt-10 ${i === 0 ? "md:border-t-0 md:pt-0" : ""}`}>
                     <Reveal>
                       <div className="mb-8 flex items-baseline gap-4 md:mb-10">
                         <span className="num">{String(i + 1).padStart(2, "0")}</span>

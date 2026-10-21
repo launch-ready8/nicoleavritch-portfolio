@@ -9,16 +9,7 @@ export default function ViewAllBand({ text = "View all work" }: { text?: string 
       aria-label={text}
       className="view-all-band group flex items-center justify-center gap-5 border-y rule py-6 md:gap-8 md:py-8"
     >
-      <span aria-hidden className="text-2xl md:text-4xl">
-        {"\u2733\uFE0E"}
-      </span>
-      <span className="display text-4xl md:text-6xl">{text}</span>
-      <span
-        aria-hidden
-        className="text-3xl transition-transform duration-300 group-hover:translate-x-2 md:text-5xl"
-      >
-        →
-      </span>
+      <span className="display text-4xl tracking-[0.02em] md:text-6xl">{text}</span>
     </Link>
   );
 }

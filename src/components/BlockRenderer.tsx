@@ -21,10 +21,15 @@ function textWithLinks(text: string) {
 
 function videoSrc(url: string): { embed?: string; mp4?: string } {
   const yt = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/);
-  if (yt) return { embed: `https://www.youtube.com/embed/${yt[1]}` };
+  if (yt) return { embed: `https://www.youtube.com/embed/${yt[1]}?rel=0&modestbranding=1` };
   const vimeo = url.match(/vimeo\.com\/(\d+)/);
-  if (vimeo) return { embed: `https://player.vimeo.com/video/${vimeo[1]}` };
-  if (url.endsWith(".mp4")) return { mp4: url };
+  if (vimeo)
+    return {
+      /* background mode = seamless: autoplay, muted, loop, no player chrome.
+         Vimeo honors these only on paid plans; free accounts keep controls. */
+      embed: `https://player.vimeo.com/video/${vimeo[1]}?background=1&autoplay=1&loop=1&muted=1&title=0&byline=0&portrait=0&dnt=1`,
+    };
+  if (/\.mp4($|\?)/.test(url)) return { mp4: url };
   return { embed: url };
 }
 
@@ -150,7 +155,7 @@ export function Blocks({ blocks, indexOf }: { blocks: Block[]; indexOf: Map<stri
                 <figure>
                   <div className="relative aspect-video w-full overflow-hidden bg-ink">
                     {src.mp4 ? (
-                      <video src={src.mp4} controls playsInline className="h-full w-full" />
+                      <video src={src.mp4} autoPlay muted loop playsInline className="h-full w-full object-cover" />
                     ) : (
                       <iframe
                         src={src.embed}

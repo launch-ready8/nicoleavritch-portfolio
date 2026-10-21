@@ -7,6 +7,7 @@ import "@fontsource-variable/space-grotesk";
 import { getProjects, getSettings } from "@/lib/sanity";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import CursorDot from "@/components/CursorDot";
 import "./globals.css";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -104,6 +105,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           workItems={(await getProjects()).slice(0, 3).map((p) => ({ title: p.title, slug: p.slug }))}
         />
         <main className="flex-1">{children}</main>
+        <CursorDot />
         <Footer settings={s} />
       </body>
     </html>

@@ -156,6 +156,41 @@ body {
 .thumb-track.right { animation: drift-r 60s linear infinite; }
 .thumb-track:hover { animation-play-state: paused; }
 
+/* custom round cursor (mouse/trackpad only) */
+@media (pointer: fine) {
+  .cursor-dot-on,
+  .cursor-dot-on * {
+    cursor: none !important;
+  }
+}
+.cursor-dot {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: difference;
+}
+.cursor-dot span {
+  display: block;
+  width: 16px;
+  height: 16px;
+  margin: -8px 0 0 -8px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 0.18s ease;
+}
+.cursor-dot.is-link span {
+  transform: scale(1.9);
+}
+.cursor-dot.is-down span {
+  transform: scale(0.7);
+}
+.cursor-dot.is-link.is-down span {
+  transform: scale(1.4);
+}
+
 /* hide scrollbars on carousel tracks */
 .no-scrollbar {
   scrollbar-width: none;
