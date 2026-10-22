@@ -32,8 +32,6 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   const idx = all.findIndex((p) => p.slug === slug);
   const next = all.length > 1 ? all[(idx + 1) % all.length] : null;
 
-  const meta = [project.client, project.role, project.year].filter(Boolean).join("  ·  ");
-
   // sections with actual VISIBLE content drive the chaptered layout + table of
   // contents (statsRow renders nothing on the live site, so it doesn't count)
   const sections: ProjectSection[] = (project.sections || []).filter(
@@ -57,28 +55,22 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           <>
             {/* chaptered opening (per Nicole's layout): title left, project
                 description top-right, meta line underneath across the width */}
-            <div className="grid gap-5 md:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] md:items-start md:gap-14 lg:gap-20">
-              <h1 className="display text-[11vw] leading-[0.9] md:text-[5.5vw]">{project.title}</h1>
+            {/* title with the description tucked right beside it, top-aligned
+                to the cap height (per Nicole's mockup) */}
+            <div className="flex flex-col gap-5 md:flex-row md:items-start md:gap-10 lg:gap-12">
+              <h1 className="display text-[11vw] leading-[0.9] md:text-[5.5vw] lg:shrink-0 lg:whitespace-nowrap">
+                {project.title}
+              </h1>
               {project.intro && (
-                <p className="max-w-xl text-base leading-snug md:text-lg md:leading-relaxed">
+                <p className="max-w-xl text-base leading-snug md:pt-[0.45vw] md:text-lg md:leading-relaxed">
                   {textWithLinks(project.intro)}
                 </p>
-              )}
-            </div>
-            <div className="mt-4 flex flex-wrap gap-x-6 gap-y-1 md:mt-6">
-              {meta && <p className="label opacity-60">{meta}</p>}
-              {project.tags && project.tags.length > 0 && (
-                <p className="label opacity-60">{project.tags.join("  /  ")}</p>
               )}
             </div>
           </>
         ) : (
           <>
             <h1 className="display text-[13vw] md:text-[9vw]">{project.title}</h1>
-            {meta && <p className="label mt-5 opacity-60">{meta}</p>}
-            {project.tags && project.tags.length > 0 && (
-              <p className="label mt-1.5 opacity-60">{project.tags.join("  /  ")}</p>
-            )}
             {project.intro && (
               <div className="max-w-3xl py-10 md:py-14">
                 <WordReveal text={project.intro} className="text-2xl leading-snug md:text-3xl" />
