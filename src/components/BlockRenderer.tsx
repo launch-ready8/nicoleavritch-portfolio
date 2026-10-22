@@ -19,6 +19,21 @@ export function textWithLinks(text: string) {
   });
 }
 
+/** Vimeo tells us a video's true width/height via oEmbed — so the frame can
+ *  match the video exactly (no letterbox bars). Cached for a day. */
+async function vimeoAspect(url: string): Promise<string | null> {
+  try {
+    const r = await fetch(`https://vimeo.com/api/oembed.json?url=${encodeURIComponent(url)}`, {
+      next: { revalidate: 86400 },
+    });
+    if (!r.ok) return null;
+    const j = (await r.json()) as { width?: number; height?: number };
+    return j.width && j.height ? `${j.width} / ${j.height}` : null;
+  } catch {
+    return null;
+  }
+}
+
 function videoSrc(url: string, withSound = false): { embed?: string; mp4?: string } {
   const yt = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/);
   if (yt) return { embed: `https://www.youtube.com/embed/${yt[1]}?rel=0&modestbranding=1` };
@@ -65,8 +80,25 @@ export function collectGalleryImages(blockGroups: Block[][]) {
 
 /** Renders blocks WITHOUT a gallery provider — the caller supplies one
  *  (used by the sectioned project layout, which shares a single lightbox). */
-export function Blocks({ blocks, indexOf }: { blocks: Block[]; indexOf: Map<string, number> }) {
+export async function Blocks({ blocks, indexOf }: { blocks: Block[]; indexOf: Map<string, number> }) {
   const indexOfBlockImage = indexOf;
+
+  /* video frames: manual aspect from the CMS wins; otherwise ask Vimeo */
+  const aspects = new Map<string, string>();
+  await Promise.all(
+    blocks
+      .filter((b): b is Extract<Block, { _type: "videoEmbed" }> => b._type === "videoEmbed")
+      .map(async (b) => {
+        if (b.aspect) {
+          aspects.set(b._key, b.aspect.replace(":", " / "));
+          return;
+        }
+        if (b.url && /vimeo\.com/.test(b.url)) {
+          const a = await vimeoAspect(b.url);
+          if (a) aspects.set(b._key, a);
+        }
+      })
+  );
   return (
     <div className="grid gap-12 md:gap-20">
       {blocks.map((block) => {
@@ -161,12 +193,15 @@ export function Blocks({ blocks, indexOf }: { blocks: Block[]; indexOf: Map<stri
             return (
               <Reveal key={block._key}>
                 <figure>
-                  <div className="relative aspect-video w-full overflow-hidden bg-ink">
+                  <div
+                    className="relative w-full overflow-hidden"
+                    style={src.mp4 && !aspects.get(block._key) ? undefined : { aspectRatio: aspects.get(block._key) || "16 / 9" }}
+                  >
                     {src.mp4 ? (
                       block.withSound ? (
-                        <video src={src.mp4} controls playsInline className="h-full w-full" />
+                        <video src={src.mp4} controls playsInline className="block h-auto w-full" />
                       ) : (
-                        <video src={src.mp4} autoPlay muted loop playsInline className="h-full w-full object-cover" />
+                        <video src={src.mp4} autoPlay muted loop playsInline className="block h-auto w-full" />
                       )
                     ) : (
                       <iframe

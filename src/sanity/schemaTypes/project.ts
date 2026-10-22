@@ -108,6 +108,23 @@ const blockMembers = () => [
               type: "boolean",
               initialValue: false,
             }),
+            defineField({
+              name: "aspect",
+              title: "Frame shape (optional)",
+              description:
+                "Leave empty and the frame matches the video automatically (Vimeo). Set it only if a video shows bars or gets cropped.",
+              type: "string",
+              options: {
+                list: [
+                  { title: "16:9 — widescreen", value: "16:9" },
+                  { title: "1:1 — square", value: "1:1" },
+                  { title: "4:5 — portrait (Instagram)", value: "4:5" },
+                  { title: "9:16 — vertical (Reels / Stories)", value: "9:16" },
+                  { title: "4:3 — classic", value: "4:3" },
+                  { title: "21:9 — cinematic", value: "21:9" },
+                ],
+              },
+            }),
             defineField({ name: "caption", title: "Caption (optional)", type: "string" }),
           ],
           preview: {
