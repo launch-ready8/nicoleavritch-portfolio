@@ -88,7 +88,6 @@ export const siteSettings = defineType({
         defineField({ name: "workIndexLabel", title: "Work page: top label", type: "string", placeholder: "Selected projects" }),
         defineField({ name: "backToWork", title: "Project page: back link", type: "string", placeholder: "← Work" }),
         defineField({ name: "nextProject", title: "Project page: next-project label", type: "string", placeholder: "Next project" }),
-        defineField({ name: "tocLabel", title: "Project page: section-list label (left rail)", type: "string", placeholder: "What I made" }),
         defineField({ name: "aboutHeading", title: "About: bio heading", type: "string", placeholder: "About" }),
         defineField({ name: "contactHeading", title: "About: contact heading", type: "string", placeholder: "Contact" }),
         defineField({ name: "experienceLabel", title: "About: experience label", type: "string", placeholder: "Experience" }),

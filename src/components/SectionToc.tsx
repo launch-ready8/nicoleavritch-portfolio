@@ -7,7 +7,7 @@ export type TocItem = { id: string; title: string };
 /** Typographic index for sectioned case studies: Anton entries, numbered,
  *  the active chapter in full ink with an accent number. Sticky on desktop,
  *  a horizontal chip row on mobile. */
-export default function SectionToc({ items, label = "What I made" }: { items: TocItem[]; label?: string }) {
+export default function SectionToc({ items, label }: { items: TocItem[]; label?: string }) {
   const [active, setActive] = useState<string>(items[0]?.id || "");
 
   useEffect(() => {
@@ -33,8 +33,8 @@ export default function SectionToc({ items, label = "What I made" }: { items: To
   return (
     <>
       {/* desktop rail */}
-      <nav className="sticky top-24 hidden self-start lg:block" aria-label="Sections">
-        <p className="label mb-6 opacity-60">{label}</p>
+      <nav className="sticky top-24 hidden self-start pt-1 lg:block" aria-label="Sections">
+        {label && <p className="label mb-6 opacity-60">{label}</p>}
         <ol className="grid gap-3.5">
           {items.map((it, i) => {
             const on = it.id === active;

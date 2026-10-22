@@ -55,8 +55,8 @@ export default async function Home() {
           </p>
         )}
         <h1 className="display relative mt-5 md:mt-2">
-          <span className="block text-right text-[26vw] leading-[0.82] tracking-[-0.015em] md:text-[20vw]">{first}</span>
-          <span className="block text-[26vw] leading-[0.82] tracking-[-0.015em] md:text-[20vw]">{last}</span>
+          <span className="block text-right text-[30vw] leading-[0.8] tracking-[-0.015em] md:text-[24vw]">{first}</span>
+          <span className="-mt-[0.12em] block text-[30vw] leading-[0.8] tracking-[-0.015em] md:-mt-[0.42em] md:text-[24vw]">{last}</span>
         </h1>
         <div className="mt-4 md:mt-6">
           <p className="text-[7.5vw] leading-[1.08] tracking-tight md:text-[3.4vw]">

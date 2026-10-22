@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getProject, getProjects, getSettings, type ProjectSection } from "@/lib/sanity";
 import SmartImage from "@/components/SmartImage";
-import BlockRenderer, { Blocks, collectGalleryImages } from "@/components/BlockRenderer";
+import BlockRenderer, { Blocks, collectGalleryImages, textWithLinks } from "@/components/BlockRenderer";
 import GalleryProvider from "@/components/Gallery";
 import SectionToc from "@/components/SectionToc";
 import Reveal from "@/components/Reveal";
@@ -56,10 +56,17 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
         {chaptered ? (
           <>
-            {/* chaptered opening: name + intro + index all above the fold,
-                first chapter already peeking underneath */}
-            <h1 className="display text-[11vw] leading-[0.9] md:text-[7vw]">{project.title}</h1>
-            <div className="mt-3 flex flex-wrap gap-x-6 gap-y-1 md:mt-4">
+            {/* chaptered opening (per Nicole's layout): title left, project
+                description top-right, meta line underneath across the width */}
+            <div className="grid gap-5 md:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] md:items-start md:gap-14 lg:gap-20">
+              <h1 className="display text-[11vw] leading-[0.9] md:text-[5.5vw]">{project.title}</h1>
+              {project.intro && (
+                <p className="max-w-xl text-base leading-relaxed md:pt-2 md:text-lg">
+                  {textWithLinks(project.intro)}
+                </p>
+              )}
+            </div>
+            <div className="mt-4 flex flex-wrap gap-x-6 gap-y-1 md:mt-6">
               {meta && <p className="label opacity-60">{meta}</p>}
               {project.tags && project.tags.length > 0 && (
                 <p className="label opacity-60">{project.tags.join("  /  ")}</p>
@@ -96,14 +103,9 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         <GalleryProvider images={gallery.images}>
           <div className="mx-auto max-w-[1500px] px-5 pt-8 pb-10 md:px-10 md:pt-10 md:pb-14">
             <div className="grid gap-8 lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-16 xl:gap-20">
-              {/* left rail: project blurb + section index — frees the fold for imagery */}
+              {/* left rail: just the index, top-aligned with the first chapter */}
               <div className="min-w-0">
-                {project.intro && (
-                  <p className="mb-8 max-w-[34ch] text-[0.95rem] leading-relaxed opacity-90 md:mb-10">
-                    {project.intro}
-                  </p>
-                )}
-                <SectionToc items={tocItems} label={L.tocLabel || "What I made"} />
+                <SectionToc items={tocItems} />
               </div>
               <div className="min-w-0 grid gap-16 md:gap-24">
                 {sections.map((s, i) => (

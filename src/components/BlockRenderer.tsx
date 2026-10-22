@@ -6,7 +6,7 @@ import Carousel from "@/components/Carousel";
 
 /** Renders plain text with lightweight [label](url) links, so editors can link
  *  phrases (e.g. podcast episodes) inside any text block from the Studio. */
-function textWithLinks(text: string) {
+export function textWithLinks(text: string) {
   return text.split(/(\[[^\]]+\]\([^)\s]+\))/g).map((part, i) => {
     const m = part.match(/^\[([^\]]+)\]\(([^)\s]+)\)$/);
     return m ? (
@@ -19,7 +19,7 @@ function textWithLinks(text: string) {
   });
 }
 
-function videoSrc(url: string): { embed?: string; mp4?: string } {
+function videoSrc(url: string, withSound = false): { embed?: string; mp4?: string } {
   const yt = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/);
   if (yt) return { embed: `https://www.youtube.com/embed/${yt[1]}?rel=0&modestbranding=1` };
   const vimeo = url.match(/vimeo\.com\/(?:video\/)?(\d+)(?:\/([a-zA-Z0-9]+))?/);
@@ -28,11 +28,14 @@ function videoSrc(url: string): { embed?: string; mp4?: string } {
        link, vimeo.com/ID/HASH) passed as h= or the player refuses to load */
     const hash = vimeo[2] || url.match(/[?&]h=([a-zA-Z0-9]+)/)?.[1];
     const h = hash ? `h=${hash}&` : "";
-    return {
-      /* background mode = seamless: autoplay, muted, loop, no player chrome.
-         Vimeo honors these only on paid plans; free accounts keep controls. */
-      embed: `https://player.vimeo.com/video/${vimeo[1]}?${h}background=1&autoplay=1&loop=1&muted=1&title=0&byline=0&portrait=0&dnt=1`,
-    };
+    return withSound
+      ? /* standard player: controls visible, viewer can hear it */
+        { embed: `https://player.vimeo.com/video/${vimeo[1]}?${h}title=0&byline=0&portrait=0&dnt=1` }
+      : {
+          /* background mode = seamless: autoplay, muted, loop, no chrome.
+             Vimeo honors these only on paid plans; free accounts keep controls. */
+          embed: `https://player.vimeo.com/video/${vimeo[1]}?${h}background=1&autoplay=1&loop=1&muted=1&title=0&byline=0&portrait=0&dnt=1`,
+        };
   }
   if (/\.mp4($|\?)/.test(url)) return { mp4: url };
   return { embed: url };
@@ -154,13 +157,17 @@ export function Blocks({ blocks, indexOf }: { blocks: Block[]; indexOf: Map<stri
           }
           case "videoEmbed": {
             if (!block.url) return null;
-            const src = videoSrc(block.url);
+            const src = videoSrc(block.url, block.withSound);
             return (
               <Reveal key={block._key}>
                 <figure>
                   <div className="relative aspect-video w-full overflow-hidden bg-ink">
                     {src.mp4 ? (
-                      <video src={src.mp4} autoPlay muted loop playsInline className="h-full w-full object-cover" />
+                      block.withSound ? (
+                        <video src={src.mp4} controls playsInline className="h-full w-full" />
+                      ) : (
+                        <video src={src.mp4} autoPlay muted loop playsInline className="h-full w-full object-cover" />
+                      )
                     ) : (
                       <iframe
                         src={src.embed}

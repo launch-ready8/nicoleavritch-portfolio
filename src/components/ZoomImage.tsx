@@ -11,12 +11,14 @@ export default function ZoomImage({
   sizes = "(min-width: 768px) 46vw, 95vw",
   maxWidth = 2600,
   galleryIndex = 0,
+  fitHeight = false,
 }: {
   image: SanityImageSource;
   alt?: string;
   sizes?: string;
   maxWidth?: number;
   galleryIndex?: number;
+  fitHeight?: boolean;
 }) {
   const gallery = useGallery();
 
@@ -31,7 +33,7 @@ export default function ZoomImage({
     <button
       type="button"
       onClick={() => gallery?.openAt(galleryIndex)}
-      className="block w-full cursor-zoom-in border-0 bg-transparent p-0 text-left"
+      className={`block cursor-zoom-in border-0 bg-transparent p-0 text-left ${fitHeight ? "h-full w-auto" : "w-full"}`}
       aria-label={alt ? `View larger: ${alt}` : "View image larger"}
     >
       <Image
@@ -42,7 +44,7 @@ export default function ZoomImage({
         sizes={sizes}
         quality={90}
         unoptimized={isGif}
-        className="h-auto w-full"
+        className={fitHeight ? "h-full w-auto" : "h-auto w-full"}
       />
     </button>
   );

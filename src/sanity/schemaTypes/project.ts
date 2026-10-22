@@ -100,6 +100,14 @@ const blockMembers = () => [
               description: "YouTube or Vimeo link, or a direct .mp4 link.",
               type: "url",
             }),
+            defineField({
+              name: "withSound",
+              title: "Show player controls + sound?",
+              description:
+                "Off = seamless background loop (autoplays muted, no controls). On = a normal player with controls, so viewers can hear it — use for CTV spots and anything with audio.",
+              type: "boolean",
+              initialValue: false,
+            }),
             defineField({ name: "caption", title: "Caption (optional)", type: "string" }),
           ],
           preview: {

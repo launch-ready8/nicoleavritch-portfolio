@@ -48,13 +48,16 @@ export default function Carousel({
         ref={track}
         className="no-scrollbar -mx-5 flex snap-x snap-mandatory items-start gap-5 overflow-x-auto px-5 md:mx-0 md:px-0"
       >
+        {/* every slide shares one height — portrait and landscape sit level;
+            clicking any slide still opens it full-size in the lightbox */}
         {images.map((img, i) => (
-          <div key={i} className="w-[86%] shrink-0 snap-start md:w-[72%]">
+          <div key={i} className="h-[300px] shrink-0 snap-start md:h-[440px] lg:h-[520px]">
             <ZoomImage
               image={img}
-              sizes="(min-width: 768px) 70vw, 86vw"
+              sizes="(min-width: 768px) 60vw, 86vw"
               maxWidth={2400}
               galleryIndex={indexes[i] || 0}
+              fitHeight
             />
           </div>
         ))}
