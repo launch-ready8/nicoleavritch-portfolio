@@ -135,7 +135,6 @@ export type ProjectSection = {
 
 export type ProjectFull = ProjectCard & {
   role?: string;
-  hideHero?: boolean;
   credits?: string;
   sections?: ProjectSection[];
   blocks?: Block[];
@@ -257,7 +256,7 @@ export async function getProject(slug: string): Promise<ProjectFull | null> {
   if (MOCK) return mockProjects.find((p) => p.slug === slug) || null;
   try {
     return await client.fetch(
-      `*[_type == "project" && slug.current == $slug][0]{${cardFields}, role, intro, credits, blocks, sections, hideHero}`,
+      `*[_type == "project" && slug.current == $slug][0]{${cardFields}, role, intro, credits, blocks, sections}`,
       { slug },
       { next: { revalidate: 60 } }
     );

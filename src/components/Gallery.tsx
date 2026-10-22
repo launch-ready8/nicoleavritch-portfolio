@@ -15,7 +15,7 @@ function fullSrcOf(image: SanityImageSource) {
   if (ref.endsWith("-gif")) return urlFor(image).url();
   const dims = ref.match(/-(\d+)x(\d+)-/);
   const w = dims ? parseInt(dims[1]) : 2000;
-  return urlFor(image).width(Math.min(w, 3600)).fit("max").quality(90).url();
+  return urlFor(image).width(Math.min(w, 3000)).fit("max").auto("format").quality(82).url();
 }
 
 export default function GalleryProvider({
@@ -32,6 +32,15 @@ export default function GalleryProvider({
     (dir: 1 | -1) => setIndex((i) => (i === null ? i : (i + dir + count) % count)),
     [count]
   );
+
+  /* warm the previous/next full-size images while the current one is on screen */
+  useEffect(() => {
+    if (index === null || count < 2) return;
+    for (const n of [index + 1, index - 1]) {
+      const img = new Image();
+      img.src = fullSrcOf(images[(n + count) % count]);
+    }
+  }, [index, count, images]);
 
   useEffect(() => {
     if (index === null) return;

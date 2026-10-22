@@ -42,7 +42,7 @@ async function main() {
  * stored values whose fields no longer render anywhere (and were removed from
  * the schema in the same deploy), plus IPP's invisible "More" section, which
  * held only hidden stats blocks. Touches nothing the site displays. */
-const SCHEMA_SYNC_VERSION = 1;
+const SCHEMA_SYNC_VERSION = 2;
 async function schemaSync(state) {
   if ((state.schemaSyncVersion || 0) >= SCHEMA_SYNC_VERSION) {
     console.log(`[sections] schema-sync up to date (v${state.schemaSyncVersion})`);
@@ -59,6 +59,13 @@ async function schemaSync(state) {
   const settingsDocs = await client.fetch(`*[_type == "siteSettings"]{_id}`);
   for (const d of settingsDocs) {
     await client.patch(d._id).unset(["labels.getToKnowMe"]).commit();
+  }
+
+  // 2b) projects: the cover image no longer renders on project pages, so the
+  //     "hide cover" toggle is gone — clear its stored values everywhere
+  const projDocs = await client.fetch(`*[_type == "project" && defined(hideHero)]{_id}`);
+  for (const d of projDocs) {
+    await client.patch(d._id).unset(["hideHero"]).commit();
   }
 
   // 3) IPP: drop the "More" section if it still holds nothing visible

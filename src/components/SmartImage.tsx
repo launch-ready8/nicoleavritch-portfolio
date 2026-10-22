@@ -24,7 +24,7 @@ export default function SmartImage({
   const h = dims ? parseInt(dims[2]) : 1000;
   const isGif = ref.endsWith("-gif");
 
-  const src = isGif ? urlFor(image).url() : urlFor(image).width(Math.min(w, maxWidth)).fit("max").quality(90).url();
+  const src = isGif ? urlFor(image).url() : urlFor(image).width(Math.min(w, maxWidth)).fit("max").auto("format").quality(82).url();
 
   return (
     <Image
@@ -33,7 +33,7 @@ export default function SmartImage({
       width={w}
       height={h}
       sizes={sizes}
-        quality={90}
+        quality={82}
       priority={priority}
       unoptimized={isGif}
       className={`h-auto w-full ${className}`}

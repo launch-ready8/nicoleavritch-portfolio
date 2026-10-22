@@ -235,16 +235,9 @@ export const project = defineType({
       rows: 4,
     }),
     defineField({
-      name: "hideHero",
-      title: "Hide cover image on the project page?",
-      description: "The cover still shows on cards/tiles, but not at the top of the project page itself.",
-      type: "boolean",
-      initialValue: false,
-    }),
-    defineField({
       name: "heroImage",
       title: "Cover image",
-      description: "The main image — used on cards and at the top of the project page.",
+      description: "Used on the homepage, the Work page tiles, and hover previews — it is not shown on the project page itself.",
       type: "image",
       options: { hotspot: true },
     }),

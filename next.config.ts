@@ -4,7 +4,8 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [{ protocol: "https", hostname: "cdn.sanity.io" }],
-    qualities: [75, 90],
+    qualities: [75, 82, 90],
+    formats: ["image/avif", "image/webp"],
   },
 };
 

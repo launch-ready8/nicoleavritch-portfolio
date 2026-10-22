@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getProject, getProjects, getSettings, type ProjectSection } from "@/lib/sanity";
-import SmartImage from "@/components/SmartImage";
 import BlockRenderer, { Blocks, collectGalleryImages, textWithLinks } from "@/components/BlockRenderer";
 import GalleryProvider from "@/components/Gallery";
 import SectionToc from "@/components/SectionToc";
@@ -61,7 +60,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
             <div className="grid gap-5 md:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] md:items-start md:gap-14 lg:gap-20">
               <h1 className="display text-[11vw] leading-[0.9] md:text-[5.5vw]">{project.title}</h1>
               {project.intro && (
-                <p className="max-w-xl text-base leading-relaxed md:pt-2 md:text-lg">
+                <p className="max-w-xl text-base leading-snug md:text-lg md:leading-relaxed">
                   {textWithLinks(project.intro)}
                 </p>
               )}
@@ -88,16 +87,6 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           </>
         )}
       </header>
-
-      {!chaptered && project.heroImage && !project.hideHero && (
-        <div className="mx-auto max-w-[1500px] px-5 md:px-10">
-          <Reveal>
-            <div className="img-zoom overflow-hidden">
-              <SmartImage image={project.heroImage} alt={project.title} sizes="95vw" maxWidth={3200} priority />
-            </div>
-          </Reveal>
-        </div>
-      )}
 
       {chaptered && gallery ? (
         <GalleryProvider images={gallery.images}>
